@@ -1,0 +1,240 @@
+Helpers
+	firstnumber = ['1'..'9'];
+	follownumber 		= ['0'..'9'];
+	letter 		= (['a'..'z']|['A'..'Z']);
+	anynl		= [0..127];
+	any 		= [anynl - 10];
+	comment_start = '{';
+	comment_end	  =	'}';
+	comment_line  =	'//';
+
+	a 	= 	['a' + 'A'];
+	b 	= 	['b'+ 'B'];
+	c 	= 	['c'+'C'];
+	d 	= 	['d'+'D'];
+	e 	= 	['e'+'E'];
+	f 	= 	['f'+'F'];
+	g 	= 	['g'+'G'];
+	h 	= 	['h'+'H'];
+	i 	= 	['i'+'I'];
+	j 	= 	['j'+'J'];
+	k 	= 	['k'+'K'];
+	l 	= 	['l'+'L'];
+	m 	= 	['m'+'M'];
+	n 	= 	['n'+'N'];
+	o 	= 	['o'+'O'];
+	p 	= 	['p'+'P'];
+	q 	= 	['q'+'Q'];
+	r 	= 	['r'+'R'];
+	s 	= 	['s'+'S'];
+	t 	= 	['t'+'T'];
+	u 	= 	['u'+'U'];
+	v 	= 	['v'+'V'];
+	w 	= 	['w'+'W'];
+	x 	= 	['x'+'X'];
+	y 	= 	['y'+'Y'];
+	z 	= 	['z'+'Z'];
+
+
+	whitespace	= (' '| 10 | 13 | 9)+;
+	comment 	=	( '{'  ( [anynl - '}'] | ' '| 10 | 13 | 9 ) * '}' ) | ( '//' (any | 9) * 10);
+
+
+Tokens
+	// Datatypes
+	integer		= i n t e g e r;
+	boolean		= b o o l e a n;
+	var			= v a r;
+	number 		= (firstnumber follownumber*)| '0';
+	
+	// Commands
+	assign  	= ':=';
+	begin 		= b e g i n;
+	end 		= e n d;
+	program		= p r o g r a m;
+	if			= i f;
+	then		= t h e n;
+	else		= e l s e;
+	while		= w h i l e;
+	do			= d o;
+	writeln		= w r i t e l n;
+	break		= b r e a k;
+
+	// Operator
+	l_par		= '(';
+	r_par		= ')';
+	plus 		= '+';
+	minus 		= '-';
+	mult		= '*';
+	div 		= d i v;
+	mod 		= m o d;
+	equals		= '=';
+	smaller		= '<';
+	greater 	= '>';
+	smallereq	= '<=';
+	greatereq	= '>=';
+	notequals	= '<>';
+	and			= a n d;
+	or			= o r;
+	xor 		= x o r;
+	not 		= n o t;
+	true		= t r u e;
+	false		= f a l s e;
+
+	// Other
+	colon 		= ':';
+	semikolon	= ';';
+	underscore	= '_';
+	point		= '.';
+	comma 		= ',';	
+
+	identifier 	= (letter|'_')+(letter|follownumber|'_'|'$')*;
+
+	ignore = whitespace | comment;
+
+Ignored Tokens
+	ignore;
+
+Productions
+	start {-> expr} = {contains} program identifier semikolon declarations* begin struction_list end point 	{-> New expr.start( identifier, [declarations.expr], struction_list.expr ) };
+				//| {empty} program identifier semikolon begin end point 										{-> New expr.emptyprogram( identifier ) } ;
+
+	struction_list {-> expr} = {multi} struction_list semikolon structions?	{-> New expr.struction_list( struction_list.expr, [structions.expr] ) }
+							| {single} structions? 							{-> New expr.structions([structions.expr]) };
+
+	structions {-> expr} = {assignment} assignment 			{-> assignment.expr }
+				| {printl} printl 							{-> printl.expr}
+				| {break} break								{-> New expr.break(break)}
+			//	| {semikolon} semikolon						{-> New expr.semikolon(semikolon)}
+				| {nested} begin struction_list end 		{-> struction_list.expr }	// change
+				| {if_then_statement} ifthen 				{-> ifthen.expr }
+		 		| {if_then_else_statement} ifthenelse 		{-> ifthenelse.expr }
+		 		| {while} whileexpr 						{-> whileexpr.expr};
+
+
+
+	
+	printl {-> expr} = writeln l_par expression r_par {-> New expr.printl( expression.expr ) };
+
+	assignment {-> expr} = identifier assign expression {-> New expr.assign( identifier, expression.expr ) };
+
+	whileexpr {-> expr} =  while expression do structions {-> New expr.whileexpr( expression.expr, structions.expr ) };
+	
+	declarations {-> expr} = {integer} var identifier_list*  identifier colon integer semikolon 				{-> New expr.int_declaration( [identifier_list.expr], identifier ) }
+							| {boolean} var identifier_list* identifier colon boolean semikolon 			{-> New expr.bool_declaration( [identifier_list.expr] , identifier) }; 
+	
+
+
+	identifier_list {-> expr} = identifier comma 			{-> New expr.identifier( identifier) };
+
+
+	comparison {-> expr} = {greater} greater 					{-> New expr.greater(greater) } 
+				| {greatereq} greatereq 						{-> New expr.greatereq(greatereq) }
+				| {smaller} smaller 							{-> New expr.smaller(smaller) }
+				| {smallereq} smallereq 						{-> New expr.smallereq(smallereq) }
+				| {notequals} notequals 						{-> New expr.notequals(notequals) }
+				| {equals} equals 								{-> New expr.equals(equals) };
+
+	expression {-> expr}  = {comparison} expression  comparison exprssn 	{-> New expr.comparison( expression.expr, comparison.expr, exprssn.expr ) }
+				| {single} exprssn {-> exprssn.expr };
+
+	exprssn {-> expr} = {or} exprssn or term 				{-> New expr.or( exprssn.expr, term.expr ) }
+						| {xor} exprssn xor term 			{-> New expr.xor( exprssn.expr, term.expr ) }
+						| {plus} exprssn plus term 			{-> New expr.plus( exprssn.expr, term.expr ) }
+						| {minus} exprssn minus term 		{-> New expr.minus( exprssn.expr, term.expr ) }
+						| {term} term						{-> term.expr };		
+
+	term {-> expr} = {and} term and factor 					{-> New expr.and( term.expr, factor.expr ) }
+				| {mod} term mod factor 					{-> New expr.mod( term.expr, factor.expr ) }
+				| {mult} term mult factor 					{-> New expr.mult( term.expr, factor.expr ) }
+				| {div} term div factor 					{-> New expr.div( term.expr, factor.expr ) }
+				| {factor} factor 							{-> factor.expr };
+
+	factor {-> expr} =  {not_factor} not factor 			{-> New expr.not( factor.expr ) }				//changed 15.12
+						| {true} true 						{-> New expr.true(true) }
+						| {false} false 					{-> New expr.false(false) }
+						| {number} number 					{-> New expr.number(number) }
+						| {identifier} identifier 			{-> New expr.identifier(identifier) }		
+						| {unaryminus_identifier} minus factor {-> New expr.unary_minus( factor.expr ) }	
+						| {nested_braces} l_par expression r_par	{-> expression.expr }					
+						| {unaryplus_identifier} plus factor 		{-> factor.expr } ;
+
+
+////// if expressions shortened
+
+	
+	noshort_structions {-> expr} =  {assignment} assignment 						{-> assignment.expr }
+								| {printl} printl 									{-> printl.expr }
+								| {break} break										{-> New expr.break(break)}
+								| {semikolon} semikolon 							{-> New expr.semikolon(semikolon)}
+								| {nested} begin struction_list end 				{-> struction_list.expr }	// change
+				 				| {if_then_else_statement} noshort_ifthenelse 		{-> noshort_ifthenelse.expr }
+		 						| {while} noshort_whileexpr 						{-> noshort_whileexpr.expr};
+
+	noshort_whileexpr  {-> expr} = {while} while expression do noshort_structions 	{-> New expr.whileexpr( expression.expr, noshort_structions.expr ) };
+
+
+	ifthen {-> expr} =	 if expression then noshort_structions 						{-> New expr.ifthen( expression.expr, noshort_structions.expr ) };
+
+	ifthenelse {-> expr} = if expression then [ifthen]:noshort_structions else [ifelse]:noshort_structions 		{-> New expr.ifthenelse( expression.expr, ifthen.expr, ifelse.expr ) };
+
+	noshort_ifthenelse {-> expr} = if expression then [ifthen]:noshort_structions else [ifelse]:noshort_structions  { -> New expr.ifthenelse( expression.expr, ifthen.expr, ifelse.expr ) };
+
+
+Abstract Syntax Tree
+	
+	expr = 	{start} identifier [declarations]:expr* [structions]:expr
+			| {emptyprogram} identifier
+			| {structions} expr*
+			| {struction_list} [left]:expr [right]:expr*
+			| {int_declaration} expr* identifier
+			| {bool_declaration} expr* identifier
+			| {break} break
+			| {semikolon} semikolon
+			| {assign} identifier expr
+			| {printl} expr
+			| {boolean} boolean
+			| {integer} integer
+			| {number} number
+			| {ifthen} [left]: expr [right]: expr
+			| {ifthenelse} [left]: expr [middle]: expr [right]: expr
+			| {whileexpr} [left]: expr [right]: expr
+			| {nested} expr
+			| {comparison} [left]: expr [middle]: expr [right]: expr
+			| {or} [left]: expr [right]: expr
+			| {xor} [left]: expr [right]: expr
+			| {plus} [left]: expr [right]: expr
+			| {minus} [left]: expr [right]: expr
+			| {and} [left]: expr [right]: expr
+			| {mod} [left]: expr [right]: expr
+			| {mult} [left]: expr [right]: expr
+			| {div} [left]: expr [right]: expr
+			| {not} expr
+			| {identifier} identifier
+			| {greater} greater
+			| {greatereq} greatereq
+			| {smaller} smaller
+			| {smallereq} smallereq
+			| {notequals} notequals
+			| {equals} equals
+			| {true} true
+			| {false} false
+			| {factor} expr
+			| {unary_minus_identifier} identifier
+			| {unary_minus_number} number
+			| {nested_unary_minus} expr
+			| {unary_minus} expr
+			| {identifier_list} identifier;
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+Helpers
+	
+	letter 		= (['a'..'z']|['A'..'Z']);
+	doc_start_comment = '/**';
+	doc_end_comment	  =	'*/';
+
+	at 	= 	64;
+	a 	= 	['a' + 'A'];
+	b 	= 	['b'+ 'B'];
+	c 	= 	['c'+'C'];
+	d 	= 	['d'+'D'];
+	e 	= 	['e'+'E'];
+	f 	= 	['f'+'F'];
+	g 	= 	['g'+'G'];
+	h 	= 	['h'+'H'];
+	i 	= 	['i'+'I'];
+	j 	= 	['j'+'J'];
+	k 	= 	['k'+'K'];
+	l 	= 	['l'+'L'];
+	m 	= 	['m'+'M'];
+	n 	= 	['n'+'N'];
+	o 	= 	['o'+'O'];
+	p 	= 	['p'+'P'];
+	q 	= 	['q'+'Q'];
+	r 	= 	['r'+'R'];
+	s 	= 	['s'+'S'];
+	t 	= 	['t'+'T'];
+	u 	= 	['u'+'U'];
+	v 	= 	['v'+'V'];
+	w 	= 	['w'+'W'];
+	x 	= 	['x'+'X'];
+	y 	= 	['y'+'Y'];
+	z 	= 	['z'+'Z'];
+
+	whitespace		= (' '| 10 | 13 | 9)+;
+	ops				= (' '| 10 | 13 | 9)*;
+
+	anynl		 = 	[0..237];
+	string_outer = 	[ [ [ [anynl - 10] - 64 ] - 47] - 42];	// so comment tokens won't be eaten
+	string_inner =	[ [anynl - 10] - 64 ];
+
+//	any 		= [ [ [ [anynl - 10] - 64 ] - '/**'] - '*/'];
+
+Tokens
+	
+	//ignore 		= whitespace;
+	doc_start 	= ops doc_start_comment ops;
+	doc_end		= ops doc_end_comment ops;
+	descr		= ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
+	date		= ops at d a t e whitespace;
+	author		= ops at a u t h o r whitespace;
+	atdoc		= ops at letter+ whitespace;
+	string 		= ops (string_outer (string_inner* string_outer)* )* ops;
+
+//Ignored Tokens
+//	ignore;	
+
+Productions
+	start {-> ast} = 	{single} 	doc_start doc doc_end {-> New ast.start_single( doc.ast ) }
+					|	{programm} 	start string {-> start.ast} 
+					| 	{doc} 		start doc_start doc doc_end {-> New ast.start( start.ast, doc.ast ) };
+
+
+	doc {-> ast} = 		{authordatedescr} author [aut]:string date [dat]:string descr [des]:string+	{-> New ast.doc( aut, dat, [des] ) };
+					
+/* 
+	doc {-> ast} = 		{multiple_author} 		doc author string	{-> New ast.m_author(doc.ast, string.ast) }
+					|	{mutliple_date}			doc date string		{-> New ast.m_date(doc.ast, string.ast) }
+					|	{multiple_descr}		doc descr 	string*	{-> New ast.m_descr(doc.ast, [string]) }
+					| 	{multiple_statement}	doc atDoc string*	{-> New ast.m_atDoc(doc.ast, atDoc, [string]) }
+
+					|	{author} 	author string 	{-> New ast.m_author(doc.ast, string.ast) }	
+					|	{date}		date string		{-> New ast.m_date(doc.ast, string.ast) }
+					|	{descr}		descr 	string*	{-> New ast.m_descr(doc.ast, [string]) }		
+					| 	{statement} atDoc string*	{-> New ast.m_atDoc(doc.ast, atDoc, [string]) }		
+					| 	{string}	string			{-> New ast.m_atDoc( [string] ) }		;
+*/
+
+
+Abstract Syntax Tree
+	ast = 	{start_single}  ast
+		|	{start}  [left]:ast [right]:ast
+		|	{doc} [aut]:string [dat]: string [des]: string*;
+	
+
+
+
+
+
