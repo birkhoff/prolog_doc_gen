@@ -1,8 +1,10 @@
 Helpers
 	
-	letter 		= (['a'..'z']|['A'..'Z']);
+	letter 		= (['a'..'z']|['A'..'Z']| '_');
+	
 	doc_start_comment = '/**';
-	doc_end_comment	  =	'*/';
+	normal_comment = '/*';
+	end_comment	  =	'*/';
 
 	at 	= 	64;
 	a 	= 	['a' + 'A'];
@@ -34,37 +36,70 @@ Helpers
 
 	whitespace		= (' '| 10 | 13 | 9)+;
 	ops				= (' '| 10 | 13 | 9)*;
+	nl 				= ('10');
 
 	anynl		 = 	[0..237];
-	string_outer = 	[ [ [ [anynl - 10] - 64 ] - 47] - 42];	// so comment tokens won't be eaten
-	string_inner =	[ [anynl - 10] - 64 ];
+	any			 = [anynl -10];
+	any_no_at	= [anynl -64];
+	chars 		 = letter+;
+	star 		= (42)*; 
+	string_no_slash = 	[ [ [anynl - 10] - 64 ] - 47];	// so comment tokens won't be eaten and the
+	string_no_star 	= 	[ [ [anynl - 10] - 64 ] - 42];	// pattern /* and */ won't be tokenized as string
+	string_inner 	=	[any -64];
+
 
 //	any 		= [ [ [ [anynl - 10] - 64 ] - '/**'] - '*/'];
-
-Tokens
+States
+	pl, doc;
 	
-	//ignore 		= whitespace;
-	doc_start 	= ops doc_start_comment ops;
-	doc_end		= ops doc_end_comment ops;
-	descr		= ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
-	date		= ops at d a t e whitespace;
-	author		= ops at a u t h o r whitespace;
-	atdoc		= ops at letter+ whitespace;
-	string 		= ops (string_outer (string_inner* string_outer)* )* ops;
+Tokens
+	 
+		{pl}ignore 				= 	whitespace;
+	 	{pl->doc} doc_start		= 	ops doc_start_comment (star| ops) ;
+	 	{doc->pl}doc_end		= 	ops star end_comment (star | ops) ;
+		{pl}comment_start 		= 	ops normal_comment ops;
+	 	{pl}comment_end			= 	ops end_comment ops;
+	 	//string 			=	 ops (string_outer (string_inner* string_outer)* )* ops;
+	 	{doc}doc_descr			= 	ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
+	 	{doc}doc_date			= 	ops at d a t e whitespace;
+	 	{doc}doc_author			= 	ops at a u t h o r whitespace;
+	 	{doc}doc_atdoc			= 	ops at letter+ whitespace;
+	 	{doc}doc_identifier		= 	chars;
+	 	{pl} programm			= 	ops  ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star?)* ops; //ops (string_outer (string_inner* string_outer)* )* ops;
+		{doc}string				= 	ops ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star? )* ops;//ops (string_outer (string_inner* string_outer)* )* ops;//chars ops;
+		
+Ignored Tokens
+	programm, comment_start, comment_end;
 
+			
 //Ignored Tokens
 //	ignore;	
 
 Productions
-	start {-> ast} = 	{single} 	doc_start doc doc_end {-> New ast.start_single( doc.ast ) }
+	
+	start {-> ast} = 	{single_doc} 	doc_start doc doc_end {-> New ast.start_single( doc.ast ) }
+					//| 	{single_pl}		string* {-> New ast.nothing() } 
+					//	|	{normal_com}		comment_start string* comment_end
 					|	{programm} 	start string {-> start.ast} 
 					| 	{doc} 		start doc_start doc doc_end {-> New ast.start( start.ast, doc.ast ) };
 
+	
+	doc {-> ast}	 = 	{optional_rules} entries*	{-> New ast.doc( [entries.ast] ) };					
+					//{optional_rules} author? date? descr?	{-> New ast.doc( [author.ast], [date.ast], [descr.ast] ) }
 
-	doc {-> ast} = 		{authordatedescr} author [aut]:string date [dat]:string descr [des]:string+	{-> New ast.doc( aut, dat, [des] ) };
-					
+	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
+						| {date}	date 		{-> date.ast}
+						| {descr}	descr 		{-> descr.ast}
+						| {atdoc}	doc_atdoc string* {-> New ast.at_doc( doc_atdoc, [string] ) };
+	
+	author 	{-> ast} =	{author} doc_author string 	{-> New ast.author( string)};
+	date 	{-> ast} =	{date} doc_date string 		{-> New ast.date(string)};
+	descr 	{-> ast} = 	{descr} doc_descr string+ 	{->New ast.descr( [string] ) };			
 /* 
-	doc {-> ast} = 		{multiple_author} 		doc author string	{-> New ast.m_author(doc.ast, string.ast) }
+	doc {-> ast} = 	{authordatedescr} author [aut]:string date [dat]:string descr [des]:string+	{-> New ast.doc( aut, dat, [des] ) }	
+
+
+					{multiple_author} 		doc author string	{-> New ast.m_author(doc.ast, string.ast) }
 					|	{mutliple_date}			doc date string		{-> New ast.m_date(doc.ast, string.ast) }
 					|	{multiple_descr}		doc descr 	string*	{-> New ast.m_descr(doc.ast, [string]) }
 					| 	{multiple_statement}	doc atDoc string*	{-> New ast.m_atDoc(doc.ast, atDoc, [string]) }
@@ -79,9 +114,13 @@ Productions
 
 Abstract Syntax Tree
 	ast = 	{start_single}  ast
+	//	|	{nothing}
 		|	{start}  [left]:ast [right]:ast
-		|	{doc} [aut]:string [dat]: string [des]: string*;
-	
+		|	{doc} ast*
+		|	{author} string
+		|	{date} string
+		| 	{descr} string+
+		|	{at_doc} [identifier]: doc_atdoc [description]:string* ;
 
 
 
