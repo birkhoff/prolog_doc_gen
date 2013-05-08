@@ -8,7 +8,7 @@ import analysis.*;
 @SuppressWarnings("nls")
 public final class ADescrAst extends PAst
 {
-    private final LinkedList<TString> _string_ = new LinkedList<TString>();
+    private final LinkedList<PAst> _ast_ = new LinkedList<PAst>();
 
     public ADescrAst()
     {
@@ -16,10 +16,10 @@ public final class ADescrAst extends PAst
     }
 
     public ADescrAst(
-        @SuppressWarnings("hiding") List<?> _string_)
+        @SuppressWarnings("hiding") List<?> _ast_)
     {
         // Constructor
-        setString(_string_);
+        setAst(_ast_);
 
     }
 
@@ -27,7 +27,7 @@ public final class ADescrAst extends PAst
     public Object clone()
     {
         return new ADescrAst(
-            cloneList(this._string_));
+            cloneList(this._ast_));
     }
 
     @Override
@@ -36,29 +36,29 @@ public final class ADescrAst extends PAst
         ((Analysis) sw).caseADescrAst(this);
     }
 
-    public LinkedList<TString> getString()
+    public LinkedList<PAst> getAst()
     {
-        return this._string_;
+        return this._ast_;
     }
 
-    public void setString(List<?> list)
+    public void setAst(List<?> list)
     {
-        for(TString e : this._string_)
+        for(PAst e : this._ast_)
         {
             e.parent(null);
         }
-        this._string_.clear();
+        this._ast_.clear();
 
         for(Object obj_e : list)
         {
-            TString e = (TString) obj_e;
+            PAst e = (PAst) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._string_.add(e);
+            this._ast_.add(e);
         }
     }
 
@@ -66,14 +66,14 @@ public final class ADescrAst extends PAst
     public String toString()
     {
         return ""
-            + toString(this._string_);
+            + toString(this._ast_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._string_.remove(child))
+        if(this._ast_.remove(child))
         {
             return;
         }
@@ -85,13 +85,13 @@ public final class ADescrAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<TString> i = this._string_.listIterator(); i.hasNext();)
+        for(ListIterator<PAst> i = this._ast_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TString) newChild);
+                    i.set((PAst) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

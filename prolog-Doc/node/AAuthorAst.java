@@ -2,12 +2,13 @@
 
 package node;
 
+import java.util.*;
 import analysis.*;
 
 @SuppressWarnings("nls")
 public final class AAuthorAst extends PAst
 {
-    private TString _string_;
+    private final LinkedList<PAst> _ast_ = new LinkedList<PAst>();
 
     public AAuthorAst()
     {
@@ -15,10 +16,10 @@ public final class AAuthorAst extends PAst
     }
 
     public AAuthorAst(
-        @SuppressWarnings("hiding") TString _string_)
+        @SuppressWarnings("hiding") List<?> _ast_)
     {
         // Constructor
-        setString(_string_);
+        setAst(_ast_);
 
     }
 
@@ -26,7 +27,7 @@ public final class AAuthorAst extends PAst
     public Object clone()
     {
         return new AAuthorAst(
-            cloneNode(this._string_));
+            cloneList(this._ast_));
     }
 
     @Override
@@ -35,45 +36,45 @@ public final class AAuthorAst extends PAst
         ((Analysis) sw).caseAAuthorAst(this);
     }
 
-    public TString getString()
+    public LinkedList<PAst> getAst()
     {
-        return this._string_;
+        return this._ast_;
     }
 
-    public void setString(TString node)
+    public void setAst(List<?> list)
     {
-        if(this._string_ != null)
+        for(PAst e : this._ast_)
         {
-            this._string_.parent(null);
+            e.parent(null);
         }
+        this._ast_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PAst e = (PAst) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._ast_.add(e);
         }
-
-        this._string_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._string_);
+            + toString(this._ast_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._string_ == child)
+        if(this._ast_.remove(child))
         {
-            this._string_ = null;
             return;
         }
 
@@ -84,10 +85,22 @@ public final class AAuthorAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._string_ == oldChild)
+        for(ListIterator<PAst> i = this._ast_.listIterator(); i.hasNext();)
         {
-            setString((TString) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PAst) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

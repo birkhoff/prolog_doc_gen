@@ -119,9 +119,12 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAuthorAst(AAuthorAst node)
     {
         inAAuthorAst(node);
-        if(node.getString() != null)
         {
-            node.getString().apply(this);
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
         }
         outAAuthorAst(node);
     }
@@ -140,9 +143,12 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseADateAst(ADateAst node)
     {
         inADateAst(node);
-        if(node.getString() != null)
         {
-            node.getString().apply(this);
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
         }
         outADateAst(node);
     }
@@ -162,8 +168,8 @@ public class DepthFirstAdapter extends AnalysisAdapter
     {
         inADescrAst(node);
         {
-            List<TString> copy = new ArrayList<TString>(node.getString());
-            for(TString e : copy)
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
             {
                 e.apply(this);
             }
@@ -190,12 +196,75 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getIdentifier().apply(this);
         }
         {
-            List<TString> copy = new ArrayList<TString>(node.getDescription());
-            for(TString e : copy)
+            List<PAst> copy = new ArrayList<PAst>(node.getDescription());
+            for(PAst e : copy)
             {
                 e.apply(this);
             }
         }
         outAAtDocAst(node);
+    }
+
+    public void inAStringAAst(AStringAAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringAAst(AStringAAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringAAst(AStringAAst node)
+    {
+        inAStringAAst(node);
+        if(node.getStringDocString() != null)
+        {
+            node.getStringDocString().apply(this);
+        }
+        outAStringAAst(node);
+    }
+
+    public void inAStringBAst(AStringBAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringBAst(AStringBAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringBAst(AStringBAst node)
+    {
+        inAStringBAst(node);
+        if(node.getStringDocStar() != null)
+        {
+            node.getStringDocStar().apply(this);
+        }
+        outAStringBAst(node);
+    }
+
+    public void inAStringCAst(AStringCAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringCAst(AStringCAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringCAst(AStringCAst node)
+    {
+        inAStringCAst(node);
+        if(node.getStringStarString() != null)
+        {
+            node.getStringStarString().apply(this);
+        }
+        outAStringCAst(node);
     }
 }

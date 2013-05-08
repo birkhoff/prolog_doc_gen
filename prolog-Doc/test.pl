@@ -1,13 +1,14 @@
-/** @author spaghetti yolonese
+/** 
+@author spaghetti yolonese
 	@date /Jan Wielemaker
 	@TimLippold  yolo
 	swagelicious
-	@descr /* GPL
+	@descr /* GPL 
 
 */
 
-/*/*/
-element(E, [E|_T]).
+
+element(E,[E|_T]).
 element(E, [_H|T]):-
 	element( E, T ).
 

@@ -117,31 +117,19 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTIgnore(TIgnore node)
+    public void caseAStringAAst(AStringAAst node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTDocStart(TDocStart node)
+    public void caseAStringBAst(AStringBAst node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTDocEnd(TDocEnd node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTCommentStart(TCommentStart node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTCommentEnd(TCommentEnd node)
+    public void caseAStringCAst(AStringCAst node)
     {
         defaultCase(node);
     }
@@ -177,13 +165,109 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTProgramm(TProgramm node)
+    public void caseTStringDocString(TStringDocString node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTString(TString node)
+    public void caseTStringDocStar(TStringDocStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTStringStarString(TStringStarString node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTStringStarStar(TStringStarStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocEnd(TDocEnd node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammNoSlash(TProgrammNoSlash node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProrgrammSlash(TProrgrammSlash node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammSingleTicks(TProgrammSingleTicks node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammDoubleTicks(TProgrammDoubleTicks node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammSlashSlash(TProgrammSlashSlash node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammToStar(TProgrammToStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammSlashAny(TProgrammSlashAny node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammStarAny(TProgrammStarAny node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocStart(TDocStart node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammSingleString(TProgrammSingleString node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammSingleStringEnd(TProgrammSingleStringEnd node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammDoubleString(TProgrammDoubleString node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammDoubleStringEnd(TProgrammDoubleStringEnd node)
     {
         defaultCase(node);
     }

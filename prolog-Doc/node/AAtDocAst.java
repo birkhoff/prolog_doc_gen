@@ -9,7 +9,7 @@ import analysis.*;
 public final class AAtDocAst extends PAst
 {
     private TDocAtdoc _identifier_;
-    private final LinkedList<TString> _description_ = new LinkedList<TString>();
+    private final LinkedList<PAst> _description_ = new LinkedList<PAst>();
 
     public AAtDocAst()
     {
@@ -66,14 +66,14 @@ public final class AAtDocAst extends PAst
         this._identifier_ = node;
     }
 
-    public LinkedList<TString> getDescription()
+    public LinkedList<PAst> getDescription()
     {
         return this._description_;
     }
 
     public void setDescription(List<?> list)
     {
-        for(TString e : this._description_)
+        for(PAst e : this._description_)
         {
             e.parent(null);
         }
@@ -81,7 +81,7 @@ public final class AAtDocAst extends PAst
 
         for(Object obj_e : list)
         {
-            TString e = (TString) obj_e;
+            PAst e = (PAst) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
@@ -128,13 +128,13 @@ public final class AAtDocAst extends PAst
             return;
         }
 
-        for(ListIterator<TString> i = this._description_.listIterator(); i.hasNext();)
+        for(ListIterator<PAst> i = this._description_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TString) newChild);
+                    i.set((PAst) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;
