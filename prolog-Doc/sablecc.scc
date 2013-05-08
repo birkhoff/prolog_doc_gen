@@ -41,35 +41,71 @@ Helpers
 	anynl		 = 	[0..237];
 	any			 = [anynl -10];
 	any_no_at	= [anynl -64];
+	
+	any_no_single_tick = [ [anynl -64] - 34];
+	any_no_double_tick = [ [anynl -64] - 37];
+	single_tick			= 39;
+	
 	chars 		 = letter+;
-	star 		= (42)*; 
-	string_no_slash = 	[ [ [anynl - 10] - 64 ] - 47];	// so comment tokens won't be eaten and the
-	string_no_star 	= 	[ [ [anynl - 10] - 64 ] - 42];	// pattern /* and */ won't be tokenized as string
-	string_inner 	=	[any -64];
+	star 		= (42); 
+	string_no_slash = 	[ [ anynl - 64 ] - 47];	// so comment tokens won't be eaten and the
+	string_no_star 	= 	[ [ anynl - 64 ] - 42];	// pattern /* and */ won't be tokenized as string
+	string_inner 	=	[ [ [ anynl - 64 ] - 42] - 47];
+	
+	prog_no_slash 	= 	[ [ [ anynl - 47] -34] -39 ];	// so comment tokens won't be eaten and the
+	prog_no_star 	= 	[ [ [ anynl - 42] -34] -39 ];	// pattern /* and */ won't be tokenized as string
+	prog_inner 		=	[ [ [ [ anynl  - 42] - 47] -34] -39 ];
 
 
 //	any 		= [ [ [ [anynl - 10] - 64 ] - '/**'] - '*/'];
 States
-	pl, doc;
+	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star;
 	
 Tokens
 	 
-		{pl}ignore 				= 	whitespace;
-	 	{pl->doc} doc_start		= 	ops doc_start_comment (star| ops) ;
-	 	{doc->pl}doc_end		= 	ops star end_comment (star | ops) ;
-		{pl}comment_start 		= 	ops normal_comment ops;
-	 	{pl}comment_end			= 	ops end_comment ops;
+		//{pl}ignore 				= 	whitespace;
+	 	//{pl->doc} doc_start		= 	ops doc_start_comment (star| ops) ;
+	 	//{doc->pl}doc_end		= 	ops star end_comment (star | ops) ;
+		//{pl}comment_start 		= 	ops normal_comment ops;
+	 	//{pl}comment_end			= 	ops end_comment ops;
 	 	//string 			=	 ops (string_outer (string_inner* string_outer)* )* ops;
 	 	{doc}doc_descr			= 	ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
 	 	{doc}doc_date			= 	ops at d a t e whitespace;
 	 	{doc}doc_author			= 	ops at a u t h o r whitespace;
 	 	{doc}doc_atdoc			= 	ops at letter+ whitespace;
 	 	{doc}doc_identifier		= 	chars;
-	 	{pl} programm			= 	ops  ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star?)* ops; //ops (string_outer (string_inner* string_outer)* )* ops;
-		{doc}string				= 	ops ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star? )* ops;//ops (string_outer (string_inner* string_outer)* )* ops;//chars ops;
+	 	//{pl} programm			= 	ops  ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star?)* ops; //ops (string_outer (string_inner* string_outer)* )* ops;
+		//{doc}string				= 	ops ( any_no_at? any_no_at? ) | (string_no_star? string_no_slash string_no_star? )* ops;//ops (string_outer (string_inner* string_outer)* )* ops;//chars ops;
+		
+		//{doc} doc_end = end_comment; // return to state 'normal' is done in Lexer
+		{doc} string_doc_string = string_no_star*;
+		{doc->doc_star} string_doc_star = '*';
+		
+		{doc_star-> doc} string_star_string = string_inner;
+		{doc_star}	string_star_star = star*;
+		{doc_star-> pl}	doc_end = '/' ops;
+		
+		{pl}					programm_no_slash = prog_no_slash;
+		{pl -> pl_slash} 		prorgramm_slash = '/';
+		{pl -> pl_single_ticks}	programm_single_ticks = single_tick;
+		{pl -> pl_double_ticks}	programm_double_ticks = '"';
+		
+		{pl_slash} 		programm_slash_slash = '/';
+		{pl_slash->pl_star} programm_to_star = star;
+		{pl_slash->pl}	programm_slash_any = prog_inner;
+
+		
+		{pl_star->pl}		programm_star_any = prog_inner;
+		{pl_star->doc} 		doc_start = star (star | whitespace)*;
+		
+		{pl_single_ticks} programm_single_string = any_no_single_tick*;
+		{pl_single_ticks->pl} programm_single_string_end = single_tick;
+		
+		{pl_double_ticks} programm_double_string = any_no_double_tick*;
+		{pl_double_ticks->pl} programm_double_string_end ='"';
 		
 Ignored Tokens
-	programm, comment_start, comment_end;
+	string_star_star,	programm_to_star, programm_star_any, programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
 
 
 
@@ -85,22 +121,27 @@ Productions
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
 						| {descr}	descr 		{-> descr.ast}
-						| {atdoc}	doc_atdoc string* {-> New ast.at_doc( doc_atdoc, [string] ) };
+						| {atdoc}	doc_atdoc string+ {-> New ast.at_doc( doc_atdoc, [string.ast] ) };
 	
-	author 	{-> ast} =	{author} doc_author string 	{-> New ast.author( string)};
-	date 	{-> ast} =	{date} doc_date string 		{-> New ast.date(string)};
-	descr 	{-> ast} = 	{descr} doc_descr string+ 	{->New ast.descr( [string] ) };			
+	author 	{-> ast} =	{author} doc_author string+ 	{-> New ast.author( [string.ast] )};
+	date 	{-> ast} =	{date} doc_date string+ 		{-> New ast.date( [string.ast] )};
+	descr 	{-> ast} = 	{descr} doc_descr string+ 	{->New ast.descr( [string.ast] ) };			
 
+	string{-> ast} = 	{simple} 		string_doc_string {-> New ast.string_a(string_doc_string) }
+					|	{star}			string_doc_star {-> New ast.string_b(string_doc_star) }
+					|	{after_star} 	string_star_string {-> New ast.string_c(string_star_string)};
 
 Abstract Syntax Tree
 	ast = 	{start}  ast*
 		|	{doc}	ast
 		|	{entries} ast*
-		|	{author} string
-		|	{date} string
-		| 	{descr} string+
-		|	{at_doc} [identifier]: doc_atdoc [description]:string* ;
-
+		|	{author} ast*
+		|	{date} ast*
+		| 	{descr} ast+
+		|	{at_doc} [identifier]: doc_atdoc [description]:ast* 
+		|	{string_a} 	string_doc_string 
+		| 	{string_b}	string_doc_star
+		|	{string_c}	string_star_string;
 
 
 
