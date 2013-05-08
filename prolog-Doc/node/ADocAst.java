@@ -2,15 +2,12 @@
 
 package node;
 
-import java.util.*;
 import analysis.*;
 
 @SuppressWarnings("nls")
 public final class ADocAst extends PAst
 {
-    private TString _aut_;
-    private TString _dat_;
-    private final LinkedList<TString> _des_ = new LinkedList<TString>();
+    private PAst _ast_;
 
     public ADocAst()
     {
@@ -18,16 +15,10 @@ public final class ADocAst extends PAst
     }
 
     public ADocAst(
-        @SuppressWarnings("hiding") TString _aut_,
-        @SuppressWarnings("hiding") TString _dat_,
-        @SuppressWarnings("hiding") List<?> _des_)
+        @SuppressWarnings("hiding") PAst _ast_)
     {
         // Constructor
-        setAut(_aut_);
-
-        setDat(_dat_);
-
-        setDes(_des_);
+        setAst(_ast_);
 
     }
 
@@ -35,9 +26,7 @@ public final class ADocAst extends PAst
     public Object clone()
     {
         return new ADocAst(
-            cloneNode(this._aut_),
-            cloneNode(this._dat_),
-            cloneList(this._des_));
+            cloneNode(this._ast_));
     }
 
     @Override
@@ -46,16 +35,16 @@ public final class ADocAst extends PAst
         ((Analysis) sw).caseADocAst(this);
     }
 
-    public TString getAut()
+    public PAst getAst()
     {
-        return this._aut_;
+        return this._ast_;
     }
 
-    public void setAut(TString node)
+    public void setAst(PAst node)
     {
-        if(this._aut_ != null)
+        if(this._ast_ != null)
         {
-            this._aut_.parent(null);
+            this._ast_.parent(null);
         }
 
         if(node != null)
@@ -68,87 +57,23 @@ public final class ADocAst extends PAst
             node.parent(this);
         }
 
-        this._aut_ = node;
-    }
-
-    public TString getDat()
-    {
-        return this._dat_;
-    }
-
-    public void setDat(TString node)
-    {
-        if(this._dat_ != null)
-        {
-            this._dat_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._dat_ = node;
-    }
-
-    public LinkedList<TString> getDes()
-    {
-        return this._des_;
-    }
-
-    public void setDes(List<?> list)
-    {
-        for(TString e : this._des_)
-        {
-            e.parent(null);
-        }
-        this._des_.clear();
-
-        for(Object obj_e : list)
-        {
-            TString e = (TString) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._des_.add(e);
-        }
+        this._ast_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._aut_)
-            + toString(this._dat_)
-            + toString(this._des_);
+            + toString(this._ast_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._aut_ == child)
+        if(this._ast_ == child)
         {
-            this._aut_ = null;
-            return;
-        }
-
-        if(this._dat_ == child)
-        {
-            this._dat_ = null;
-            return;
-        }
-
-        if(this._des_.remove(child))
-        {
+            this._ast_ = null;
             return;
         }
 
@@ -159,34 +84,10 @@ public final class ADocAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._aut_ == oldChild)
+        if(this._ast_ == oldChild)
         {
-            setAut((TString) newChild);
+            setAst((PAst) newChild);
             return;
-        }
-
-        if(this._dat_ == oldChild)
-        {
-            setDat((TString) newChild);
-            return;
-        }
-
-        for(ListIterator<TString> i = this._des_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((TString) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
         }
 
         throw new RuntimeException("Not a child.");

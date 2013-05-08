@@ -25,3 +25,15 @@ is_not_visited( H, [H|_T] ):-
 is_not_visited( A, [H|T] ):-
 	A \= H,
 	is_not_visited(A, T).
+	
+/** @author Prolog documentation processor
+	@descr descr
+*/
+
+istrue( true).
+
+/** 
+	@date 2.1.3
+	@descr descr
+	@author Prolog documentation processor
+*/

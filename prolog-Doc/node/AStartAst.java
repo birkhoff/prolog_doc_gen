@@ -2,13 +2,13 @@
 
 package node;
 
+import java.util.*;
 import analysis.*;
 
 @SuppressWarnings("nls")
 public final class AStartAst extends PAst
 {
-    private PAst _left_;
-    private PAst _right_;
+    private final LinkedList<PAst> _ast_ = new LinkedList<PAst>();
 
     public AStartAst()
     {
@@ -16,13 +16,10 @@ public final class AStartAst extends PAst
     }
 
     public AStartAst(
-        @SuppressWarnings("hiding") PAst _left_,
-        @SuppressWarnings("hiding") PAst _right_)
+        @SuppressWarnings("hiding") List<?> _ast_)
     {
         // Constructor
-        setLeft(_left_);
-
-        setRight(_right_);
+        setAst(_ast_);
 
     }
 
@@ -30,8 +27,7 @@ public final class AStartAst extends PAst
     public Object clone()
     {
         return new AStartAst(
-            cloneNode(this._left_),
-            cloneNode(this._right_));
+            cloneList(this._ast_));
     }
 
     @Override
@@ -40,77 +36,45 @@ public final class AStartAst extends PAst
         ((Analysis) sw).caseAStartAst(this);
     }
 
-    public PAst getLeft()
+    public LinkedList<PAst> getAst()
     {
-        return this._left_;
+        return this._ast_;
     }
 
-    public void setLeft(PAst node)
+    public void setAst(List<?> list)
     {
-        if(this._left_ != null)
+        for(PAst e : this._ast_)
         {
-            this._left_.parent(null);
+            e.parent(null);
         }
+        this._ast_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PAst e = (PAst) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._ast_.add(e);
         }
-
-        this._left_ = node;
-    }
-
-    public PAst getRight()
-    {
-        return this._right_;
-    }
-
-    public void setRight(PAst node)
-    {
-        if(this._right_ != null)
-        {
-            this._right_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._left_)
-            + toString(this._right_);
+            + toString(this._ast_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._left_ == child)
+        if(this._ast_.remove(child))
         {
-            this._left_ = null;
-            return;
-        }
-
-        if(this._right_ == child)
-        {
-            this._right_ = null;
             return;
         }
 
@@ -121,16 +85,22 @@ public final class AStartAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._left_ == oldChild)
+        for(ListIterator<PAst> i = this._ast_.listIterator(); i.hasNext();)
         {
-            setLeft((PAst) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PAst) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._right_ == oldChild)
-        {
-            setRight((PAst) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

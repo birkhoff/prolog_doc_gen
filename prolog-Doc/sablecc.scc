@@ -71,21 +71,16 @@ Tokens
 Ignored Tokens
 	programm, comment_start, comment_end;
 
-			
-//Ignored Tokens
-//	ignore;	
+
 
 Productions
 	
-	start {-> ast} = 	{single_doc} 	doc_start doc doc_end {-> New ast.start_single( doc.ast ) }
-					//| 	{single_pl}		string* {-> New ast.nothing() } 
-					//	|	{normal_com}		comment_start string* comment_end
-					|	{programm} 	start string {-> start.ast} 
-					| 	{doc} 		start doc_start doc doc_end {-> New ast.start( start.ast, doc.ast ) };
+	start{-> ast} =		{start} docs* 		{-> New ast.start( [docs.ast]) };
+	
+	docs {-> ast} = 	{doc} 	doc_start doc doc_end {-> doc.ast };
 
 	
-	doc {-> ast}	 = 	{optional_rules} entries*	{-> New ast.doc( [entries.ast] ) };					
-					//{optional_rules} author? date? descr?	{-> New ast.doc( [author.ast], [date.ast], [descr.ast] ) }
+	doc {-> ast}	 = 	{optional_rules} entries*	{-> New ast.entries( [entries.ast] ) };					
 
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
@@ -95,28 +90,12 @@ Productions
 	author 	{-> ast} =	{author} doc_author string 	{-> New ast.author( string)};
 	date 	{-> ast} =	{date} doc_date string 		{-> New ast.date(string)};
 	descr 	{-> ast} = 	{descr} doc_descr string+ 	{->New ast.descr( [string] ) };			
-/* 
-	doc {-> ast} = 	{authordatedescr} author [aut]:string date [dat]:string descr [des]:string+	{-> New ast.doc( aut, dat, [des] ) }	
-
-
-					{multiple_author} 		doc author string	{-> New ast.m_author(doc.ast, string.ast) }
-					|	{mutliple_date}			doc date string		{-> New ast.m_date(doc.ast, string.ast) }
-					|	{multiple_descr}		doc descr 	string*	{-> New ast.m_descr(doc.ast, [string]) }
-					| 	{multiple_statement}	doc atDoc string*	{-> New ast.m_atDoc(doc.ast, atDoc, [string]) }
-
-					|	{author} 	author string 	{-> New ast.m_author(doc.ast, string.ast) }	
-					|	{date}		date string		{-> New ast.m_date(doc.ast, string.ast) }
-					|	{descr}		descr 	string*	{-> New ast.m_descr(doc.ast, [string]) }		
-					| 	{statement} atDoc string*	{-> New ast.m_atDoc(doc.ast, atDoc, [string]) }		
-					| 	{string}	string			{-> New ast.m_atDoc( [string] ) }		;
-*/
 
 
 Abstract Syntax Tree
-	ast = 	{start_single}  ast
-	//	|	{nothing}
-		|	{start}  [left]:ast [right]:ast
-		|	{doc} ast*
+	ast = 	{start}  ast*
+		|	{doc}	ast
+		|	{entries} ast*
 		|	{author} string
 		|	{date} string
 		| 	{descr} string+

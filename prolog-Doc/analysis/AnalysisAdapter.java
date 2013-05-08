@@ -75,12 +75,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAStartSingleAst(AStartSingleAst node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAStartAst(AStartAst node)
     {
         defaultCase(node);
@@ -88,6 +82,42 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseADocAst(ADocAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAEntriesAst(AEntriesAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAuthorAst(AAuthorAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADateAst(ADateAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADescrAst(ADescrAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAtDocAst(AAtDocAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTIgnore(TIgnore node)
     {
         defaultCase(node);
     }
@@ -105,25 +135,49 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTDescr(TDescr node)
+    public void caseTCommentStart(TCommentStart node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTDate(TDate node)
+    public void caseTCommentEnd(TCommentEnd node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTAuthor(TAuthor node)
+    public void caseTDocDescr(TDocDescr node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTAtdoc(TAtdoc node)
+    public void caseTDocDate(TDocDate node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocAuthor(TDocAuthor node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocAtdoc(TDocAtdoc node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocIdentifier(TDocIdentifier node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgramm(TProgramm node)
     {
         defaultCase(node);
     }

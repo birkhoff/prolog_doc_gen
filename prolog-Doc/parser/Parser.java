@@ -167,40 +167,118 @@ public class Parser
                 case REDUCE:
                     switch(this.action[1])
                     {
-                    case 0: /* reduce ASingleStart */
+                    case 0: /* reduce AAstartstart1Start */
 		    {
 			ArrayList<Object> list = new0();
 			push(goTo(0), list);
 		    }
 		    break;
-                    case 1: /* reduce AProgrammStart */
+                    case 1: /* reduce AAstartstart2Start */
 		    {
 			ArrayList<Object> list = new1();
 			push(goTo(0), list);
 		    }
 		    break;
-                    case 2: /* reduce ADocStart */
+                    case 2: /* reduce ADocDocs */
 		    {
 			ArrayList<Object> list = new2();
-			push(goTo(0), list);
-		    }
-		    break;
-                    case 3: /* reduce AAuthordatedescrDoc */
-		    {
-			ArrayList<Object> list = new3();
 			push(goTo(1), list);
 		    }
 		    break;
-                    case 4: /* reduce ATerminal$String */
+                    case 3: /* reduce AAoptionalrulesdoc1Doc */
+		    {
+			ArrayList<Object> list = new3();
+			push(goTo(2), list);
+		    }
+		    break;
+                    case 4: /* reduce AAoptionalrulesdoc2Doc */
 		    {
 			ArrayList<Object> list = new4();
 			push(goTo(2), list);
 		    }
 		    break;
-                    case 5: /* reduce ANonTerminal$String */
+                    case 5: /* reduce AAuthorEntries */
 		    {
 			ArrayList<Object> list = new5();
-			push(goTo(2), list);
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 6: /* reduce ADateEntries */
+		    {
+			ArrayList<Object> list = new6();
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 7: /* reduce ADescrEntries */
+		    {
+			ArrayList<Object> list = new7();
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 8: /* reduce AAatdocentries1Entries */
+		    {
+			ArrayList<Object> list = new8();
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 9: /* reduce AAatdocentries2Entries */
+		    {
+			ArrayList<Object> list = new9();
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 10: /* reduce AAuthorAuthor */
+		    {
+			ArrayList<Object> list = new10();
+			push(goTo(4), list);
+		    }
+		    break;
+                    case 11: /* reduce ADateDate */
+		    {
+			ArrayList<Object> list = new11();
+			push(goTo(5), list);
+		    }
+		    break;
+                    case 12: /* reduce ADescrDescr */
+		    {
+			ArrayList<Object> list = new12();
+			push(goTo(6), list);
+		    }
+		    break;
+                    case 13: /* reduce ATerminal$Docs */
+		    {
+			ArrayList<Object> list = new13();
+			push(goTo(7), list);
+		    }
+		    break;
+                    case 14: /* reduce ANonTerminal$Docs */
+		    {
+			ArrayList<Object> list = new14();
+			push(goTo(7), list);
+		    }
+		    break;
+                    case 15: /* reduce ATerminal$Entries */
+		    {
+			ArrayList<Object> list = new15();
+			push(goTo(8), list);
+		    }
+		    break;
+                    case 16: /* reduce ANonTerminal$Entries */
+		    {
+			ArrayList<Object> list = new16();
+			push(goTo(8), list);
+		    }
+		    break;
+                    case 17: /* reduce ATerminal$String */
+		    {
+			ArrayList<Object> list = new17();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 18: /* reduce ANonTerminal$String */
+		    {
+			ArrayList<Object> list = new18();
+			push(goTo(9), list);
 		    }
 		    break;
                     }
@@ -223,20 +301,19 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new0() /* reduce ASingleStart */
+    ArrayList<Object> new0() /* reduce AAstartstart1Start */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAst pastNode1;
         {
             // Block
-        PAst pastNode2;
-        pastNode2 = (PAst)nodeArrayList2.get(0);
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        {
+            // Block
+        }
 
-        pastNode1 = new AStartSingleAst(pastNode2);
+        pastNode1 = new AStartAst(listNode2);
         }
 	nodeList.add(pastNode1);
         return nodeList;
@@ -245,11 +322,103 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new1() /* reduce AProgrammStart */
+    ArrayList<Object> new1() /* reduce AAstartstart2Start */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList1.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new AStartAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new2() /* reduce ADocDocs */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList2.get(0);
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new3() /* reduce AAoptionalrulesdoc1Doc */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        {
+            // Block
+        }
+
+        pastNode1 = new AEntriesAst(listNode2);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new4() /* reduce AAoptionalrulesdoc2Doc */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList1.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new AEntriesAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new5() /* reduce AAuthorEntries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAst pastNode1;
         pastNode1 = (PAst)nodeArrayList1.get(0);
@@ -260,23 +429,50 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new2() /* reduce ADocStart */
+    ArrayList<Object> new6() /* reduce ADateEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList1.get(0);
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new7() /* reduce ADescrEntries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList1.get(0);
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new8() /* reduce AAatdocentries1Entries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAst pastNode1;
         {
             // Block
-        PAst pastNode2;
-        PAst pastNode3;
-        pastNode2 = (PAst)nodeArrayList1.get(0);
-        pastNode3 = (PAst)nodeArrayList3.get(0);
+        TDocAtdoc tdocatdocNode2;
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        tdocatdocNode2 = (TDocAtdoc)nodeArrayList1.get(0);
+        {
+            // Block
+        }
 
-        pastNode1 = new AStartAst(pastNode2, pastNode3);
+        pastNode1 = new AAtDocAst(tdocatdocNode2, listNode3);
         }
 	nodeList.add(pastNode1);
         return nodeList;
@@ -285,35 +481,50 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new3() /* reduce AAuthordatedescrDoc */
+    ArrayList<Object> new9() /* reduce AAatdocentries2Entries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        TDocAtdoc tdocatdocNode2;
+        LinkedList<Object> listNode4 = new LinkedList<Object>();
+        tdocatdocNode2 = (TDocAtdoc)nodeArrayList1.get(0);
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        listNode3 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode3 != null)
+	{
+	  listNode4.addAll(listNode3);
+	}
+        }
+
+        pastNode1 = new AAtDocAst(tdocatdocNode2, listNode4);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new10() /* reduce AAuthorAuthor */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAst pastNode1;
         {
             // Block
         TString tstringNode2;
-        TString tstringNode3;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
         tstringNode2 = (TString)nodeArrayList2.get(0);
-        tstringNode3 = (TString)nodeArrayList4.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList6.get(0);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
 
-        pastNode1 = new ADocAst(tstringNode2, tstringNode3, listNode5);
+        pastNode1 = new AAuthorAst(tstringNode2);
         }
 	nodeList.add(pastNode1);
         return nodeList;
@@ -322,7 +533,159 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new4() /* reduce ATerminal$String */
+    ArrayList<Object> new11() /* reduce ADateDate */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        TString tstringNode2;
+        tstringNode2 = (TString)nodeArrayList2.get(0);
+
+        pastNode1 = new ADateAst(tstringNode2);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new12() /* reduce ADescrDescr */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new ADescrAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new13() /* reduce ATerminal$Docs */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        {
+            // Block
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList1.get(0);
+	if(pastNode1 != null)
+	{
+	  listNode2.add(pastNode1);
+	}
+        }
+	nodeList.add(listNode2);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new14() /* reduce ANonTerminal$Docs */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode1 = new LinkedList<Object>();
+        PAst pastNode2;
+        listNode1 = (LinkedList)nodeArrayList1.get(0);
+        pastNode2 = (PAst)nodeArrayList2.get(0);
+	if(listNode1 != null)
+	{
+	  listNode3.addAll(listNode1);
+	}
+	if(pastNode2 != null)
+	{
+	  listNode3.add(pastNode2);
+	}
+        }
+	nodeList.add(listNode3);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new15() /* reduce ATerminal$Entries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        {
+            // Block
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList1.get(0);
+	if(pastNode1 != null)
+	{
+	  listNode2.add(pastNode1);
+	}
+        }
+	nodeList.add(listNode2);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new16() /* reduce ANonTerminal$Entries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode1 = new LinkedList<Object>();
+        PAst pastNode2;
+        listNode1 = (LinkedList)nodeArrayList1.get(0);
+        pastNode2 = (PAst)nodeArrayList2.get(0);
+	if(listNode1 != null)
+	{
+	  listNode3.addAll(listNode1);
+	}
+	if(pastNode2 != null)
+	{
+	  listNode3.add(pastNode2);
+	}
+        }
+	nodeList.add(listNode3);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new17() /* reduce ATerminal$String */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -344,7 +707,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new5() /* reduce ANonTerminal$String */
+    ArrayList<Object> new18() /* reduce ANonTerminal$String */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -374,44 +737,56 @@ public class Parser
 
     private static int[][][] actionTable;
 /*      {
-			{{-1, ERROR, 0}, {0, SHIFT, 1}, },
-			{{-1, ERROR, 1}, {4, SHIFT, 3}, },
-			{{-1, ERROR, 2}, {0, SHIFT, 5}, {6, SHIFT, 6}, {7, ACCEPT, -1}, },
-			{{-1, ERROR, 3}, {6, SHIFT, 7}, },
-			{{-1, ERROR, 4}, {1, SHIFT, 8}, },
-			{{-1, ERROR, 5}, {4, SHIFT, 3}, },
-			{{-1, REDUCE, 1}, },
-			{{-1, ERROR, 7}, {3, SHIFT, 10}, },
-			{{-1, REDUCE, 0}, },
-			{{-1, ERROR, 9}, {1, SHIFT, 11}, },
-			{{-1, ERROR, 10}, {6, SHIFT, 12}, },
-			{{-1, REDUCE, 2}, },
-			{{-1, ERROR, 12}, {2, SHIFT, 13}, },
-			{{-1, ERROR, 13}, {6, SHIFT, 14}, },
-			{{-1, REDUCE, 4}, },
-			{{-1, REDUCE, 3}, {6, SHIFT, 16}, },
+			{{-1, REDUCE, 0}, {1, SHIFT, 1}, },
+			{{-1, REDUCE, 3}, {3, SHIFT, 5}, {4, SHIFT, 6}, {5, SHIFT, 7}, {6, SHIFT, 8}, },
+			{{-1, ERROR, 2}, {9, ACCEPT, -1}, },
+			{{-1, REDUCE, 13}, },
+			{{-1, REDUCE, 1}, {1, SHIFT, 1}, },
+			{{-1, ERROR, 5}, {8, SHIFT, 16}, },
+			{{-1, ERROR, 6}, {8, SHIFT, 18}, },
+			{{-1, ERROR, 7}, {8, SHIFT, 19}, },
+			{{-1, REDUCE, 8}, {8, SHIFT, 16}, },
+			{{-1, ERROR, 9}, {2, SHIFT, 21}, },
+			{{-1, REDUCE, 15}, },
 			{{-1, REDUCE, 5}, },
+			{{-1, REDUCE, 6}, },
+			{{-1, REDUCE, 7}, },
+			{{-1, REDUCE, 4}, {3, SHIFT, 5}, {4, SHIFT, 6}, {5, SHIFT, 7}, {6, SHIFT, 8}, },
+			{{-1, REDUCE, 14}, },
+			{{-1, REDUCE, 17}, },
+			{{-1, REDUCE, 12}, {8, SHIFT, 23}, },
+			{{-1, REDUCE, 11}, },
+			{{-1, REDUCE, 10}, },
+			{{-1, REDUCE, 9}, {8, SHIFT, 23}, },
+			{{-1, REDUCE, 2}, },
+			{{-1, REDUCE, 16}, },
+			{{-1, REDUCE, 18}, },
         };*/
     private static int[][][] gotoTable;
 /*      {
 			{{-1, 2}, },
-			{{-1, 4}, {5, 9}, },
-			{{-1, 15}, },
+			{{-1, 3}, {4, 15}, },
+			{{-1, 9}, },
+			{{-1, 10}, {14, 22}, },
+			{{-1, 11}, },
+			{{-1, 12}, },
+			{{-1, 13}, },
+			{{-1, 4}, },
+			{{-1, 14}, },
+			{{-1, 17}, {8, 20}, },
         };*/
     private static String[] errorMessages;
 /*      {
-			"expecting: doc start",
-			"expecting: author",
-			"expecting: doc start, string, EOF",
+			"expecting: doc start, EOF",
+			"expecting: doc end, doc descr, doc date, doc author, doc atdoc",
+			"expecting: EOF",
 			"expecting: string",
+			"expecting: doc end, doc descr, doc date, doc author, doc atdoc, string",
 			"expecting: doc end",
-			"expecting: date",
-			"expecting: descr",
-			"expecting: doc end, string",
         };*/
     private static int[] errors;
 /*      {
-			0, 1, 2, 3, 4, 1, 2, 5, 2, 4, 3, 2, 6, 3, 7, 7, 7, 
+			0, 1, 2, 0, 0, 3, 3, 3, 4, 5, 1, 1, 1, 1, 1, 0, 4, 4, 1, 1, 4, 0, 1, 4, 
         };*/
 
     static 

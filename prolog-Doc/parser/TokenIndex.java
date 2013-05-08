@@ -10,50 +10,62 @@ class TokenIndex extends AnalysisAdapter
     int index;
 
     @Override
-    public void caseTDocStart(@SuppressWarnings("unused") TDocStart node)
+    public void caseTIgnore(@SuppressWarnings("unused") TIgnore node)
     {
         this.index = 0;
     }
 
     @Override
-    public void caseTDocEnd(@SuppressWarnings("unused") TDocEnd node)
+    public void caseTDocStart(@SuppressWarnings("unused") TDocStart node)
     {
         this.index = 1;
     }
 
     @Override
-    public void caseTDescr(@SuppressWarnings("unused") TDescr node)
+    public void caseTDocEnd(@SuppressWarnings("unused") TDocEnd node)
     {
         this.index = 2;
     }
 
     @Override
-    public void caseTDate(@SuppressWarnings("unused") TDate node)
+    public void caseTDocDescr(@SuppressWarnings("unused") TDocDescr node)
     {
         this.index = 3;
     }
 
     @Override
-    public void caseTAuthor(@SuppressWarnings("unused") TAuthor node)
+    public void caseTDocDate(@SuppressWarnings("unused") TDocDate node)
     {
         this.index = 4;
     }
 
     @Override
-    public void caseTAtdoc(@SuppressWarnings("unused") TAtdoc node)
+    public void caseTDocAuthor(@SuppressWarnings("unused") TDocAuthor node)
     {
         this.index = 5;
     }
 
     @Override
-    public void caseTString(@SuppressWarnings("unused") TString node)
+    public void caseTDocAtdoc(@SuppressWarnings("unused") TDocAtdoc node)
     {
         this.index = 6;
     }
 
     @Override
-    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    public void caseTDocIdentifier(@SuppressWarnings("unused") TDocIdentifier node)
     {
         this.index = 7;
+    }
+
+    @Override
+    public void caseTString(@SuppressWarnings("unused") TString node)
+    {
+        this.index = 8;
+    }
+
+    @Override
+    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    {
+        this.index = 9;
     }
 }

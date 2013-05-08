@@ -36,27 +36,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outStart(node);
     }
 
-    public void inAStartSingleAst(AStartSingleAst node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAStartSingleAst(AStartSingleAst node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAStartSingleAst(AStartSingleAst node)
-    {
-        inAStartSingleAst(node);
-        if(node.getAst() != null)
-        {
-            node.getAst().apply(this);
-        }
-        outAStartSingleAst(node);
-    }
-
     public void inAStartAst(AStartAst node)
     {
         defaultIn(node);
@@ -71,13 +50,12 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAStartAst(AStartAst node)
     {
         inAStartAst(node);
-        if(node.getLeft() != null)
         {
-            node.getLeft().apply(this);
-        }
-        if(node.getRight() != null)
-        {
-            node.getRight().apply(this);
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
         }
         outAStartAst(node);
     }
@@ -96,21 +74,128 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseADocAst(ADocAst node)
     {
         inADocAst(node);
-        if(node.getAut() != null)
+        if(node.getAst() != null)
         {
-            node.getAut().apply(this);
+            node.getAst().apply(this);
         }
-        if(node.getDat() != null)
+        outADocAst(node);
+    }
+
+    public void inAEntriesAst(AEntriesAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAEntriesAst(AEntriesAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAEntriesAst(AEntriesAst node)
+    {
+        inAEntriesAst(node);
         {
-            node.getDat().apply(this);
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
         }
+        outAEntriesAst(node);
+    }
+
+    public void inAAuthorAst(AAuthorAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAuthorAst(AAuthorAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAuthorAst(AAuthorAst node)
+    {
+        inAAuthorAst(node);
+        if(node.getString() != null)
         {
-            List<TString> copy = new ArrayList<TString>(node.getDes());
+            node.getString().apply(this);
+        }
+        outAAuthorAst(node);
+    }
+
+    public void inADateAst(ADateAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADateAst(ADateAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADateAst(ADateAst node)
+    {
+        inADateAst(node);
+        if(node.getString() != null)
+        {
+            node.getString().apply(this);
+        }
+        outADateAst(node);
+    }
+
+    public void inADescrAst(ADescrAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADescrAst(ADescrAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADescrAst(ADescrAst node)
+    {
+        inADescrAst(node);
+        {
+            List<TString> copy = new ArrayList<TString>(node.getString());
             for(TString e : copy)
             {
                 e.apply(this);
             }
         }
-        outADocAst(node);
+        outADescrAst(node);
+    }
+
+    public void inAAtDocAst(AAtDocAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAtDocAst(AAtDocAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAtDocAst(AAtDocAst node)
+    {
+        inAAtDocAst(node);
+        if(node.getIdentifier() != null)
+        {
+            node.getIdentifier().apply(this);
+        }
+        {
+            List<TString> copy = new ArrayList<TString>(node.getDescription());
+            for(TString e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outAAtDocAst(node);
     }
 }

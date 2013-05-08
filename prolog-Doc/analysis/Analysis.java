@@ -12,16 +12,25 @@ public interface Analysis extends Switch
     void setOut(Node node, Object o);
 
     void caseStart(Start node);
-    void caseAStartSingleAst(AStartSingleAst node);
     void caseAStartAst(AStartAst node);
     void caseADocAst(ADocAst node);
+    void caseAEntriesAst(AEntriesAst node);
+    void caseAAuthorAst(AAuthorAst node);
+    void caseADateAst(ADateAst node);
+    void caseADescrAst(ADescrAst node);
+    void caseAAtDocAst(AAtDocAst node);
 
+    void caseTIgnore(TIgnore node);
     void caseTDocStart(TDocStart node);
     void caseTDocEnd(TDocEnd node);
-    void caseTDescr(TDescr node);
-    void caseTDate(TDate node);
-    void caseTAuthor(TAuthor node);
-    void caseTAtdoc(TAtdoc node);
+    void caseTCommentStart(TCommentStart node);
+    void caseTCommentEnd(TCommentEnd node);
+    void caseTDocDescr(TDocDescr node);
+    void caseTDocDate(TDocDate node);
+    void caseTDocAuthor(TDocAuthor node);
+    void caseTDocAtdoc(TDocAtdoc node);
+    void caseTDocIdentifier(TDocIdentifier node);
+    void caseTProgramm(TProgramm node);
     void caseTString(TString node);
     void caseEOF(EOF node);
 }
