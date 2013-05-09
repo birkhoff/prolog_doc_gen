@@ -42,9 +42,10 @@ Helpers
 	any			 = [anynl -10];
 	any_no_at	= [anynl -64];
 	
-	any_no_single_tick = [ [anynl -64] - 34];
-	any_no_double_tick = [ [anynl -64] - 37];
+	any_no_single_tick = [ [anynl -64] - 39];
+	any_no_double_tick = [ [anynl -64] - 34];
 	single_tick			= 39;
+	double_tick			= 34;
 	
 	chars 		 = letter+;
 	star 		= (42); 
@@ -88,7 +89,7 @@ Tokens
 		{pl}					programm_no_slash = prog_no_slash;
 		{pl -> pl_slash} 		prorgramm_slash = '/';
 		{pl -> pl_single_ticks}	programm_single_ticks = single_tick;
-		{pl -> pl_double_ticks}	programm_double_ticks = '"';
+		{pl -> pl_double_ticks}	programm_double_ticks = double_tick;
 		
 		{pl_slash} 		programm_slash_slash = '/';
 		{pl_slash->pl_star} programm_to_star = star;
@@ -101,8 +102,8 @@ Tokens
 		{pl_single_ticks} programm_single_string = any_no_single_tick*;
 		{pl_single_ticks->pl} programm_single_string_end = single_tick;
 		
-		{pl_double_ticks} programm_double_string = any_no_double_tick*;
-		{pl_double_ticks->pl} programm_double_string_end ='"';
+		{pl_double_ticks} programm_double_string 			= any_no_double_tick*;
+		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
 Ignored Tokens
 	string_star_star,	programm_to_star, programm_star_any, programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
