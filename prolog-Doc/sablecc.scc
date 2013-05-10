@@ -96,7 +96,7 @@ Tokens
 		{pl_slash->pl}	programm_slash_any = prog_inner;
 
 		
-		{pl_star->pl}		programm_star_any = prog_inner;
+		{pl_star->pl}		programm_star_any = prog_no_star;
 		{pl_star->doc} 		doc_start = star (star | whitespace)*;
 		
 		{pl_single_ticks} programm_single_string = any_no_single_tick*;
