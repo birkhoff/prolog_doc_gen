@@ -78,7 +78,7 @@ write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,_VNC) :-
     is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta),
     escaping_format('{ :name "~w" :arity ~w :code "~w" :startlines ~w :endlines ~w ~w ~w :calls [',[Name,Ar,Code,StartLines,EndLines,Dynamic,Meta]),
     write_calls(Calls),
-    write(']}'),nl.
+    write(']}'). %,nl.
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
@@ -87,17 +87,17 @@ write_calls([call(Module,Name,Ar)|Calls]) :-
 
 write_clj_representation :-
     update_calls_all_preds,
-    write('{'), nl,
+    write('<programm>'), nl,
     in_module(Module),
     module_pos(StartLine,EndLine),
-    escaping_format(':module "~w"\n', [Module]),
-    escaping_format(':module_startline ~w\n', [StartLine]),
-    escaping_format(':module_endline ~w\n', [EndLine]),
-    write(':exports ['), write_exports, write(']'), nl,
-    write(':predicates ['), write_predicates, write(']'), nl,
-    write(':import_module ['), write_import1, write(']'), nl,
-    write(':import_predicates ['), write_import3, write(']'), nl,
-    write('}').
+    escaping_format('<module>"~w"</module>\n', [Module]),
+    escaping_format('<module_startline>~w</module_startline>\n', [StartLine]),
+    escaping_format('<module_endline>~w</module_endline>\n', [EndLine]),
+    write('<exports>['), write_exports, write(']</exports>'), nl,
+    write('<predicates>['), write_predicates, write(']</predicates>'), nl,
+    write('<import_module>['), write_import1, write(']</import_module>'), nl,
+    write('<import_predicates>['), write_import3, write(']</import_predicates>'), nl,
+    write('</programm>').
 
 update_calls_all_preds :-
     findall(pred(Name,Ar,Arguments,Body,Calls,Start,End),
