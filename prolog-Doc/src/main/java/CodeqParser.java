@@ -1,6 +1,9 @@
 package src.main.java;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -10,8 +13,97 @@ import org.w3c.dom.NodeList;
 
 public class CodeqParser {
 
+	
+	public List<Predicate> Predicates;
+	
+	public CodeqParser(){
+		
+		Predicates = new LinkedList<Predicate>();
+	}
+	
+	public void parseXML(String fileName){
+		
+		try {
+			
+			
+			File stocks = new File(fileName);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(stocks);
+			doc.getDocumentElement().normalize();
+			
+			System.out.println("root of xml file" + doc.getDocumentElement().getNodeName());
+			
+			//NodeList nodes = doc.getChildNodes();
+			NodeList nodes = doc.getElementsByTagName("predicate");
+	
+			
+			for (int i = 0; i < nodes.getLength(); i++) {
+				Node node = nodes.item(i);
+			
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+						
+					Element element = (Element) node;
+					
+					Predicate predicate = new Predicate( this.getValue("name", element), Integer.parseInt( this.getValue("arity", element) ) );
+					
+					predicate.setStartLines( this.getLineValue("startlines", element));
+					predicate.setEndLines(this.getLineValue("endlines", element));
+					
+					Boolean dynamic = false;
+					if( this.getValue("dynamic", element).toLowerCase().contains("true")) dynamic = true;
+					predicate.setDynamic(dynamic);
+					
+					Boolean meta = false;
+					if( this.getValue("meta", element).toLowerCase().contains("true")) meta = true;
+					predicate.setDynamic(meta);
+					
+					NodeList calls = element.getElementsByTagName("call");
+										
+					for (int j = 0; j <calls.getLength(); j++) {
+						
+						Node call = calls.item(j);
+						Element call_element = (Element) call;
+						if (call.getNodeType() == Node.ELEMENT_NODE) {
+							predicate.addNameOfCall(this.getValue("name", call_element));
+							
+						}
+						
+					}
+					Predicates.add(predicate);
+				}
+				
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+	
+	public String getValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
+		Node node = (Node) nodes.item(0);
+		return node.getNodeValue();
+	}
+	
+	
+	public int[] getLineValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
+		Node node = (Node) nodes.item(0);
+		
+		String[] values= ((node.getNodeValue().replaceAll("\\[", "")).replaceAll("\\]", "")).split(",");
+		int intArray[] = new int[values.length];
+		for(int i = 0; i < values.length; i ++){
+			intArray[i] = Integer.parseInt(values[i]);
+		}
+		return intArray;
+		
+	}
+	
+	/*
 	public static void main(String args[]) {
 		try {
+			
 	
 			File stocks = new File(args[0]);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -30,23 +122,7 @@ public class CodeqParser {
 				Node node = nodes.item(i);
 			
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					/*
-					 * <arity>2</arity>
-		<code>[[v2,[v3|v4]],element(v2,v4),[v0,[v0|v1]],]</code>
-		<startlines>[12,11]</startlines>
-		<endlines>[13,11]</endlines>
-		<dynamic>false</dynamic>
-		<meta>false</meta>
-		<calls>
-			<call>
-				<module>"user"</module>
-				<name>"element"</name>
-				<arity>2</arity>
-			</call>
-		</calls>
-	</predicate>
-					 */
-					
+						
 					Element element = (Element) node;
 					System.out.println("-----Predicate------");
 					
@@ -90,5 +166,6 @@ public class CodeqParser {
 		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
-	}
+	}*/
+	
 }
