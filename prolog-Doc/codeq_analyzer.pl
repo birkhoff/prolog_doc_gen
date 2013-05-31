@@ -8,10 +8,9 @@
 :- use_module(library(file_systems)).
 
 :- use_module(escaper).
+:- include(prob_search_paths).
 
 :- op(300, fy, ~~).
-
-%:- include(prob_search_paths).
 
 
 :- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/1, in_module/1, in_clause/2, module_pos/2. 
@@ -87,7 +86,8 @@ write_calls([call(Module,Name,Ar)|Calls]) :-
 
 write_clj_representation :-
     update_calls_all_preds,
-    write('<programm>'), nl,
+    write('<?xml version="1.0" encoding="UTF-8"?>'),nl,
+	write('<programm>'), nl,
     in_module(Module),
     module_pos(StartLine,EndLine),
     escaping_format('<module>"~w"</module>\n', [Module]),
