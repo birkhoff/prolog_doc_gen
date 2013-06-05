@@ -8,23 +8,31 @@ public class Predicate {
 	private String Author;
 	private String Date;
 	private String Description;
-	private HashMap<String, String> AdditionalEntries;
+	private List<AdditionalEntry> AdditionalEntries;
 	
-	private List<String> CallsNames;
+	//private List<String> CallsNames;
+	private List<Call> CallsNames;
 	private List<Predicate> Calls;
 	private boolean dynamic;
 	private boolean meta;
 	private int Arity;
 	private int[] StartLines;
 	private int[] EndLines;
+		
 	
+	public Predicate(){
+		
+		Calls = new LinkedList<Predicate>();
+		setCallsNames(new LinkedList<Call>());
+		AdditionalEntries = new LinkedList<AdditionalEntry>();
+	}
 	
 	public Predicate(String name){
 		
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
-		CallsNames = new LinkedList<String>();
-		AdditionalEntries = new HashMap<String, String>();
+		setCallsNames(new LinkedList<Call>());
+		AdditionalEntries = new LinkedList<AdditionalEntry>();
 	}
 
 	public Predicate( String name, int arity ){
@@ -32,14 +40,15 @@ public class Predicate {
 		this.Name = name;
 		this.Arity = arity;
 		Calls = new LinkedList<Predicate>();
-		CallsNames = new LinkedList<String>();
-		AdditionalEntries = new HashMap<String, String>();
+		setCallsNames(new LinkedList<Call>());
+		AdditionalEntries = new LinkedList<AdditionalEntry>();
 	}
 	
 
-	public void putEntry( String Key, String Entry){
+	public void addAdditionalEntry( String key, String entry){
 		
-		this.AdditionalEntries.put(Key, Entry);
+		AdditionalEntry newEntry = new AdditionalEntry(key, entry);
+		this.AdditionalEntries.add(newEntry);
 	}
 	
 	public void setName(String name) {
@@ -82,12 +91,12 @@ public class Predicate {
 	}
 
 
-	public void setAdditionalEntries(HashMap<String, String> additionalEntries) {
+	public void setAdditionalEntries(List<AdditionalEntry> additionalEntries) {
 		AdditionalEntries = additionalEntries;
 	}
 
 
-	public HashMap<String, String> getAdditionalEntries() {
+	public List<AdditionalEntry> getAdditionalEntries() {
 		return AdditionalEntries;
 	}
 
@@ -136,19 +145,6 @@ public class Predicate {
 	public int[] getEndLines() {
 		return EndLines;
 	}
-
-	public void setCallsNames(List<String> callsNames) {
-		CallsNames = callsNames;
-	}
-
-	public List<String> getCallsNames() {
-		return CallsNames;
-	}
-
-	
-	public void addNameOfCall(String call){
-		this.CallsNames.add(call);
-	}
 	
 	public void setCalls(List<Predicate> calls) {
 		Calls = calls;
@@ -162,5 +158,17 @@ public class Predicate {
 		this.Calls.add(call);
 	}
 
+	public void setCallsNames(List<Call> callsNames) {
+		CallsNames = callsNames;
+	}
+
+	public List<Call> getCallsNames() {
+		return CallsNames;
+	}
+	
+	public void addCallNames(String name, String module, String arity ){
+		Call addCall = new Call(name, module, arity);
+		this.CallsNames.add(addCall);
+	}
 
 }

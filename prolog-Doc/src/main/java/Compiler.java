@@ -14,6 +14,8 @@ import java.lang.* ;
 public class Compiler {
 	
 	public static String filename;
+	public static List<DocInformation> docInfos;
+	public static List<Predicate> Predicates;
 	
 	public static void main(String args[]) throws ParserException, LexerException, InterruptedException
 	{
@@ -31,10 +33,10 @@ public class Compiler {
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
 		  
-		  for(int i = 0; i < docCollector.Predicates.size(); i++){
-			  
-			  System.out.println ( docCollector.Predicates.get(i).toString() );
-		  }
+		  
+		  debugDocOutput( docCollector.DocInfo );
+		  docInfos = docCollector.DocInfo;
+		  
 		  /*
 		   *  [codeq_analyzer], tell('foo.clj'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('test.pl'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).
 		   */
@@ -60,10 +62,17 @@ public class Compiler {
 		  codeqParser.parseXML("foo.xml");
 		  debugOutput(codeqParser.Predicates);
 		  
+		  Predicates = codeqParser.Predicates;
+		  
 		 }catch( Exception e)
 		{
 			System.out.println( e.getMessage() );
 		}
+		 
+		  
+		  InformationMerger merger = new InformationMerger();
+		  merger.mergeModuleInformation(Predicates, docInfos);
+		  
 	}
 	
 	public static void debugOutput( List<Predicate> predicates){
@@ -75,12 +84,32 @@ public class Compiler {
 			System.out.println("\tDynmc: "+predicates.get(i).isDynamic());
 			System.out.println("\tMeta: "+predicates.get(i).isMeta());
 
-			List<String> calls = predicates.get(i).getCallsNames();
+			List<Call> calls = predicates.get(i).getCallsNames();
 			System.out.println("\tCalls:");
 			for(int k = 0; k < calls.size(); k++){
-				System.out.println("\t\t"+calls.get(k).toString());
+				System.out.println("\t\tname: "+calls.get(k).getName());
+				System.out.println("\t\tmodule: "+calls.get(k).getModule());
+				System.out.println("\t\tarity: "+calls.get(k).getArity() + "\n");
 			}
 			System.out.println("--------\n");
 		}
+	}
+	
+	public static void debugDocOutput( List<DocInformation> info){
+		
+		System.out.println("_______ DocInfo ___________\n");
+		for (int i = 0; i< info.size(); i++) {
+			
+			System.out.println("--------------");
+			System.out.println( "Author: " + info.get(i).getAuthor());
+			System.out.println( "Date: " + info.get(i).getDate());
+			System.out.println( "Descr: " + info.get(i).getDescription());
+			System.out.println( "Line: " + info.get(i).getLine());
+			for(int k = 0; k < info.get(i).getAdditionalEntries().size(); k ++){
+				System.out.println ( info.get(i).getAdditionalEntries().get(k).getIdentifier()+": "+info.get(i).getAdditionalEntries().get(k).getDescription());
+			}
+				System.out.println("----------\n");
+		}
+		System.out.println("\n______________________\n\n");
 	}
 }

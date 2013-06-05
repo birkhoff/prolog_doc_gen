@@ -9,7 +9,7 @@ public class DocInformation {
 		private String Author;
 		private String Date;
 		private String Description;
-		private HashMap<String, String> AdditionalEntries;
+		private List<AdditionalEntry> AdditionalEntries;
 		
 		private int line;
 		
@@ -17,7 +17,7 @@ public class DocInformation {
 		public DocInformation(){
 			
 
-			setAdditionalEntries(new HashMap<String, String>());
+			setAdditionalEntries(new LinkedList<AdditionalEntry>());
 		}
 
 
@@ -51,19 +51,6 @@ public class DocInformation {
 		}
 
 
-		public void setAdditionalEntries(HashMap<String, String> additionalEntries) {
-			AdditionalEntries = additionalEntries;
-		}
-
-
-		public HashMap<String, String> getAdditionalEntries() {
-			return AdditionalEntries;
-		}
-
-		public void addAdditionalEntry(String key, String value ){
-			this.AdditionalEntries.put(key, value);
-		}
-
 		public void setLine(int line) {
 			this.line = line;
 		}
@@ -72,5 +59,22 @@ public class DocInformation {
 		public int getLine() {
 			return line;
 		}
+
+
+		public void setAdditionalEntries(List<AdditionalEntry> additionalEntries) {
+			AdditionalEntries = additionalEntries;
+		}
+
+
+		public List<AdditionalEntry> getAdditionalEntries() {
+			return AdditionalEntries;
+		}
+		
+		
+		public void addAdditionalEntry(String key, String value ){
+			AdditionalEntry newEntry = new AdditionalEntry(key, value);
+			this.AdditionalEntries.add(newEntry);
+		}
+
 	
 }

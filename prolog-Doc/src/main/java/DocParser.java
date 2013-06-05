@@ -134,4 +134,12 @@ public class DocParser extends DepthFirstAdapter{
 		((HashMap) Predicates.get(currentPredicate)).put(entryKey, returnDescr);
 	}
 	
+	
+	
+	@Override
+	public void caseAStringBAst(AStringBAst token){
+		
+		((HashMap) Predicates.get(currentPredicate)).put(line, token.getStringDocStar().getLine());
+		DocInfo.get(currentPredicate).setLine(token.getStringDocStar().getLine());
+	}
 }

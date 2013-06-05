@@ -65,7 +65,10 @@ public class CodeqParser {
 						Node call = calls.item(j);
 						Element call_element = (Element) call;
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
-							predicate.addNameOfCall(this.getValue("name", call_element));
+							String callName = this.getValue("name", call_element);
+							String callModule = this.getValue("module", call_element);
+							String callArity = this.getValue("arity", call_element);
+							predicate.addCallNames(callName, callModule, callArity);
 							
 						}
 						
