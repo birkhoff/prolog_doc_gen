@@ -13,6 +13,7 @@ public class Call {
 	private String Name;
 	private int Arity;
 	private boolean Built_in;
+	private Predicate Predicate;
 	
 	public Call( String name, String module, int arity){
 		
@@ -64,5 +65,15 @@ public class Call {
 
 	public boolean isBuilt_in() {
 		return Built_in;
+	}
+
+
+	public Predicate getPredicate() {
+		return Predicate;
+	}
+
+
+	public void setPredicate(Predicate predicate) {
+		Predicate = predicate;
 	}
 }

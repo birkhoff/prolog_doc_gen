@@ -9,7 +9,7 @@ public class Predicate {
 	private String Date;
 	private String Description;
 	private List<AdditionalEntry> AdditionalEntries;
-	
+	private boolean attached;	
 	//private List<String> CallsNames;
 	private List<Call> CallsNames;
 	private List<Predicate> Calls;
@@ -18,6 +18,7 @@ public class Predicate {
 	private int Arity;
 	private int[] StartLines;
 	private int[] EndLines;
+	private String Module;
 		
 	
 	public Predicate(){
@@ -25,6 +26,7 @@ public class Predicate {
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
+		this.attached = false;
 	}
 	
 	public Predicate(String name){
@@ -33,6 +35,7 @@ public class Predicate {
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
+		this.attached = false;
 	}
 
 	public Predicate( String name, int arity ){
@@ -42,6 +45,7 @@ public class Predicate {
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
+		this.attached = false;
 	}
 	
 
@@ -169,6 +173,22 @@ public class Predicate {
 	public void addCallNames(String name, String module, String arity ){
 		Call addCall = new Call(name, module, arity);
 		this.CallsNames.add(addCall);
+	}
+
+	public boolean isAttached() {
+		return attached;
+	}
+
+	public void setAttached(boolean attached) {
+		this.attached = attached;
+	}
+
+	public String getModule() {
+		return Module;
+	}
+
+	public void setModule(String module) {
+		Module = module;
 	}
 
 }
