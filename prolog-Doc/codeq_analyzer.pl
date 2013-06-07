@@ -25,19 +25,19 @@ flatten1(NonList,Tail,[NonList|Tail]).
 
 write_exports :-
     exports(Module,Name,Arity),
-    escaping_format('\n\t<export>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</export>', [Module,Name,Arity]),
+    escaping_format('\n\t<export>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</export>\n\n', [Module,Name,Arity]),
     fail.
 write_exports.
 
 write_import1 :-
     imports(Name),
-    escaping_format('<name>"~w"</name>',[Name]),
+    escaping_format('\n\t<name>"~w"</name>\n',[Name]),
     fail.
 write_import1.
     
 write_import3 :-
     imports(Module,Name,Arity),
-    escaping_format('<module>"~w"</module>\n<name>"~w"</name>\n<arity>~w</arity>', [Module,Name,Arity]),
+    escaping_format('\n\t<import>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</import>\n\n', [Module,Name,Arity]),
     fail.
 write_import3.
 
@@ -90,13 +90,13 @@ write_clj_representation :-
 	write('<programm>'), nl,
     in_module(Module),
     module_pos(StartLine,EndLine),
-    escaping_format('<module>"~w"</module>\n', [Module]),
+    escaping_format('<module>"~w"</module>\n\n', [Module]),
     escaping_format('<module_startline>~w</module_startline>\n', [StartLine]),
     escaping_format('<module_endline>~w</module_endline>\n', [EndLine]),
-    write('<exports>'), write_exports, write('</exports>'), nl,
+    write('<exports>\n'), write_exports, write('</exports>'), nl,
     write('\n<predicates>\n\n'), write_predicates, write('</predicates>'), nl,
     write('<import_modules>'), write_import1, write('</import_modules>'), nl,
-    write('<import_predicates>'), write_import3, write('</import_predicates>'), nl,
+    write('<import_predicates>\n'), write_import3, write('</import_predicates>'), nl,
     write('</programm>').
 
 update_calls_all_preds :-
