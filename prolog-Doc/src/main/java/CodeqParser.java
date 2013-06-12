@@ -21,6 +21,7 @@ public class CodeqParser {
 	public List<Predicate> Predicates;
 	public Module Module;
 	private String ParsedFile;
+	private String NameOfFile;
 	
 	public CodeqParser(){
 		
@@ -31,6 +32,7 @@ public class CodeqParser {
 		
 		Predicates = new LinkedList<Predicate>();
 		ParsedFile = file;
+		this.NameOfFile = file;
 	}
 	
 	public void parseXML(String fileName){
@@ -80,8 +82,12 @@ public class CodeqParser {
 						Element call_element = (Element) call;
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
 							String callName = this.getValue("name", call_element);
-							String callModule = this.getValue("module", call_element);
+							String callModule = this.getValue("module", call_element).replace("\"", "");
 							String callArity = this.getValue("arity", call_element);
+							
+							if (callModule.equalsIgnoreCase("user")) {
+								callModule = this.NameOfFile;
+							}
 							predicate.addCallNames(callName, callModule, callArity);
 						
 						}
@@ -134,7 +140,11 @@ private String getCode(int starts[], int ends[]){
 	
 	private void parseModuleInformation(Document dc){
 		
-		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue();
+		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
+		
+		if(nameOfModule.equalsIgnoreCase("user")){
+			nameOfModule = this.NameOfFile;
+		}
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
@@ -145,20 +155,17 @@ private String getCode(int starts[], int ends[]){
 	}
 	
 	private void parseImports(NodeList nodes){
-		System.out.println("!!!!!!!\n: ");
+		
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node node = nodes.item(i);
 		
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element import_element = (Element) node;
 				String callName = this.getValue("name", import_element);
-				System.out.println("Name: "+callName);
+				
 				String callModule = this.getValue("module", import_element);
-				System.out.println("callModule: "+ callModule);
 				String callArity = this.getValue("arity", import_element);
-				System.out.println("callArity: "+ callArity);
 				Module.addImport(callName, callModule, callArity);
-				System.out.println();
 								
 			}
 		}

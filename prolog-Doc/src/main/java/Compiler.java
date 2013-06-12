@@ -13,20 +13,42 @@ import java.lang.* ;
 
 public class Compiler {
 	
-	public static String filename;
+	//public static String filename;
 	public static List<DocInformation> docInfos;
 	public static List<Predicate> Predicates;
 	public static Module Module;
 	public static List<Module> Modules;
 	
-	public static void main(String args[]) throws ParserException, LexerException, InterruptedException
+	public static void main(String args[]){
+		Modules = new LinkedList<Module>();
+		
+		for(int i = 0; i<args.length; i++){
+			try {
+				Compiler(args[i]);
+			} catch (ParserException e) {
+				
+				e.printStackTrace();
+			} catch (LexerException e) {
+				
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		HTML_Generator generator = new HTML_Generator();
+		generator.generateDoc(Modules);
+		
+	}
+	
+	public static void Compiler(String nameOfFile) throws ParserException, LexerException, InterruptedException
 	{
 		
-		Modules = new LinkedList<Module>();
+		
 	   try
 	   {
-		  filename = args[0];
-		  File file = new File(filename);
+		  File file = new File(nameOfFile);
 		  PushbackReader reader = new PushbackReader(new FileReader(file)); 
 		  Lexer lexer = new Lexer(reader); 
 		  Parser parser = new Parser(lexer); 
@@ -53,7 +75,7 @@ public class Compiler {
 
 	 
 		try {
-			 String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+filename+"'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
+			 String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
 			  
 			  Process p;
 			p = Runtime.getRuntime().exec(new String[] { 
@@ -69,8 +91,7 @@ public class Compiler {
 		  
 		try
 		{
-		  
-		  CodeqParser codeqParser = new CodeqParser(filename);
+		  CodeqParser codeqParser = new CodeqParser(nameOfFile);
 		  codeqParser.parseXML("foo.xml");
 		  debugOutput(codeqParser.Predicates);
 		  debugModuleOutput(codeqParser.Module);
@@ -80,7 +101,7 @@ public class Compiler {
 		  
 		 }catch( Exception e)
 		{
-			System.out.println( e.getMessage() );
+			System.out.println(e.getMessage() );
 		}
 		 
 		  
@@ -90,8 +111,7 @@ public class Compiler {
 		  Module.setPredicates(merger.MergedPredicates);
 		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
 		  Modules.add(Module);
-		  HTML_Generator generator = new HTML_Generator();
-		  generator.generateDoc(Modules);
+
 		  		  
 	}
 	

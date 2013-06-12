@@ -9,9 +9,21 @@ body { margin:0; padding:0; }
 
 #container {width:85%; margin:50px auto}
 #b1 {float: left; width: 100%; height: 100px; outline: 1px }
-#b2 {float: left; width: 17%; outline: 1px }
-#b3 {float: right; width: 75%; outline: 1px}
+#b2 {float: left; width: 12%; outline: 1px; top: Y%; position: fixed;
+left: X%;
+
+top: Y%;
+right: X%;
+
+bottom: Y%;
+left: X%;
+
+bottom: Y%;
+right: X%; }
+#b3 {float: right; width: 78%; outline: 1px}
 #b5 {float: left; width: 98%; height: 100px; outline: 1px }
+
+
 
 </style>
 

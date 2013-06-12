@@ -36,16 +36,19 @@ Helpers
 
 	whitespace		= (' '| 10 | 13 | 9)+;
 	ops				= (' '| 10 | 13 | 9)*;
-	nl 				= (10);
+	nl 				= 10;
 
 	anynl		 = 	[0..237];
 	any			 = [anynl -10];
 	any_no_at	= [anynl -64];
 	
-	any_no_single_tick = [ [anynl -64] - 39];
-	any_no_double_tick = [ [anynl -64] - 34];
+	any_no_single_tick = [ anynl - 39];
+	any_no_double_tick = [ anynl - 34];
+	any_no_star = [ anynl - 42];
+	any_no_slash_no_star = [ [ anynl -42]- 47];
 	single_tick			= 39;
 	double_tick			= 34;
+	percent				= 37;
 	
 	chars 		 = letter+;
 	star 		= (42); 
@@ -53,14 +56,14 @@ Helpers
 	string_no_star 	= 	[ [ anynl - 64 ] - 42];	// pattern /* and */ won't be tokenized as string
 	string_inner 	=	[ [ [ anynl - 64 ] - 42] - 47];
 	
-	prog_no_slash 	= 	[ [ [ anynl - 47] -34] -39 ];	// so comment tokens won't be eaten and the
-	prog_no_star 	= 	[ [ [ anynl - 42] -34] -39 ];	// pattern /* and */ won't be tokenized as string
+	prog_no_slash 	= 	[[ [ [ anynl - 47] -34] -39 ]- 37];	// so comment tokens won't be eaten and the
+	prog_no_star 	= 	[[ [ [ anynl - 42] -34] -39 ]- 37];	// pattern /* and */ won't be tokenized as string
 	prog_inner 		=	[ [ [ [ anynl  - 42] - 47] -34] -39 ];
 
 
 //	any 		= [ [ [ [anynl - 10] - 64 ] - '/**'] - '*/'];
 States
-	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star;
+	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star, pl_comment, pl_comment_star;
 	
 Tokens
 	 
@@ -87,6 +90,7 @@ Tokens
 		{doc_star-> pl}	doc_end = '/' ops;
 		
 		{pl}					programm_no_slash = prog_no_slash;
+		{pl}					programm_comment = percent+ any* nl;
 		{pl -> pl_slash} 		prorgramm_slash = '/';
 		{pl -> pl_single_ticks}	programm_single_ticks = single_tick;
 		{pl -> pl_double_ticks}	programm_double_ticks = double_tick;
@@ -96,8 +100,15 @@ Tokens
 		{pl_slash->pl}	programm_slash_any = prog_inner;
 
 		
-		{pl_star->pl}		programm_star_any = prog_no_star;
-		{pl_star->doc} 		doc_start = star (star | whitespace)*;
+		{pl_star->pl_comment}		programm_star_any = any_no_star;
+		{pl_star->doc} 				doc_start = star (star | whitespace)*;
+		
+		{pl_comment}				comment_no_star = any_no_star*;
+		{pl_comment->pl_comment_star}	comment_star = star+;
+		
+		{pl_comment_star}				comment_star_star = star+;
+		{pl_comment_star->pl_comment}	comment_star_no_slash = any_no_slash_no_star+;
+		{pl_comment_star->pl}			comment_star_slash = ('/')+;			
 		
 		{pl_single_ticks} programm_single_string = any_no_single_tick*;
 		{pl_single_ticks->pl} programm_single_string_end = single_tick;
@@ -106,7 +117,7 @@ Tokens
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
 Ignored Tokens
-	string_star_star,	programm_to_star, programm_star_any, programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
+		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, comment_no_star, programm_comment, string_star_star,	programm_to_star, programm_star_any, programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
 
 
 
