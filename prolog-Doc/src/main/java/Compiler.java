@@ -16,9 +16,13 @@ public class Compiler {
 	public static String filename;
 	public static List<DocInformation> docInfos;
 	public static List<Predicate> Predicates;
+	public static Module Module;
+	public static List<Module> Modules;
 	
 	public static void main(String args[]) throws ParserException, LexerException, InterruptedException
 	{
+		
+		Modules = new LinkedList<Module>();
 	   try
 	   {
 		  filename = args[0];
@@ -66,10 +70,11 @@ public class Compiler {
 		try
 		{
 		  
-		  CodeqParser codeqParser = new CodeqParser();
+		  CodeqParser codeqParser = new CodeqParser(filename);
 		  codeqParser.parseXML("foo.xml");
 		  debugOutput(codeqParser.Predicates);
 		  debugModuleOutput(codeqParser.Module);
+		  Module = codeqParser.Module;
 		  
 		  Predicates = codeqParser.Predicates;
 		  
@@ -82,8 +87,12 @@ public class Compiler {
 		  InformationMerger merger = new InformationMerger();
 		  merger.mergeModuleInformation(Predicates, docInfos);
 		  debugMergedOutput(merger.MergedPredicates);
-
-		  
+		  Module.setPredicates(merger.MergedPredicates);
+		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
+		  Modules.add(Module);
+		  HTML_Generator generator = new HTML_Generator();
+		  generator.generateDoc(Modules);
+		  		  
 	}
 	
 	
@@ -152,6 +161,8 @@ public class Compiler {
 					System.out.println("\tDynmc: "+predicates.get(i).isDynamic());
 					System.out.println("\tMeta: "+predicates.get(i).isMeta());
 		
+					System.out.println("\tCode:\n"+predicates.get(i).getCodeString());
+						
 					List<Call> calls = predicates.get(i).getCallsNames();
 					System.out.println("\tCalls:");
 					for(int k = 0; k < calls.size(); k++){
@@ -165,20 +176,21 @@ public class Compiler {
 	}
 	
 	public static void debugModuleOutput( Module m){
-		
+		System.out.println("Module: "+ m.getName());
 		System.out.println("Imports:");
 		for (int i=0; i<m.getImports().size(); i++) {
 			System.out.println("\tName:" + m.getImports().get(i).getName());
 			System.out.println("\tModule:" + m.getImports().get(i).getModule());
-			System.out.println("\tArity:" + m.getImports().get(i).getArity());
+			System.out.println("\tArity:" + m.getImports().get(i).getArity() + "\n");
 		}
 		
-		System.out.println("\nExports:");
+		System.out.println("\nExports: ");
 		for (int i=0; i<m.getExports().size(); i++) {
 			System.out.println("\tName:" + m.getExports().get(i).getName());
 			System.out.println("\tModule:" + m.getExports().get(i).getModule());
-			System.out.println("\tArity:" + m.getExports().get(i).getArity());
+			System.out.println("\tArity:" + m.getExports().get(i).getArity() + "\n");
 		}
+		System.out.println("\n");
 	}
 	
 }

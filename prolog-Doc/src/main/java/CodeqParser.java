@@ -1,6 +1,10 @@
 package src.main.java;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,10 +20,17 @@ public class CodeqParser {
 	
 	public List<Predicate> Predicates;
 	public Module Module;
+	private String ParsedFile;
 	
 	public CodeqParser(){
 		
 		Predicates = new LinkedList<Predicate>();
+	}
+	
+	public CodeqParser( String file){
+		
+		Predicates = new LinkedList<Predicate>();
+		ParsedFile = file;
 	}
 	
 	public void parseXML(String fileName){
@@ -51,6 +62,8 @@ public class CodeqParser {
 					predicate.setStartLines( this.getLineValue("startlines", element));
 					predicate.setEndLines(this.getLineValue("endlines", element));
 					
+					predicate.setCodeString(this.getCode(predicate.getStartLines(), predicate.getEndLines()));
+					
 					Boolean dynamic = false;
 					if( this.getValue("dynamic", element).toLowerCase().contains("true")) dynamic = true;
 					predicate.setDynamic(dynamic);
@@ -70,7 +83,7 @@ public class CodeqParser {
 							String callModule = this.getValue("module", call_element);
 							String callArity = this.getValue("arity", call_element);
 							predicate.addCallNames(callName, callModule, callArity);
-							
+						
 						}
 						
 					}
@@ -79,7 +92,7 @@ public class CodeqParser {
 				
 			}
 			
-			this.parseModuleInformation(Module, doc);
+			this.parseModuleInformation(doc);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -87,37 +100,72 @@ public class CodeqParser {
 		
 	}
 	
+private String getCode(int starts[], int ends[]){
+	
+	String returnCode = "";
+	
+	try{
+		  // Open the file that is the first 
+		  // command line parameter
+		  FileInputStream fstream = new FileInputStream(ParsedFile);
+		  // Get the object of DataInputStream
+		  DataInputStream in = new DataInputStream(fstream);
+		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		  String strLine;
+		  //Read File Line By Line
+		  for (int i = 1; (strLine = br.readLine()) != null; i++)   {
+		  // Print the content on the console
+			  for (int k = 0; k < starts.length; k++) {
+				  if(starts[k] <= i && ends[k] >= i ){
+					  returnCode += 	"<br>"+strLine;
+				  }
+			  }
+		  }
+		  //Close the input stream
+		  in.close();
+		    }catch (Exception e){//Catch exception if any
+		  System.err.println("Error: " + e.getMessage());
+		  }
+		  
 	
 	
-	private void parseModuleInformation(Module m, Document dc){
+	return returnCode;
+}
+	
+	private void parseModuleInformation(Document dc){
 		
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue();
-		m = new Module(nameOfModule);
+		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
 		
-		this.parseImports(m, importNodes);
-		this.parseExports(m, exportNodes);
+		this.parseImports(importNodes);
+		this.parseExports(exportNodes);
 			
 	}
 	
-	private void parseImports( Module m, NodeList nodes){
-		
+	private void parseImports(NodeList nodes){
+		System.out.println("!!!!!!!\n: ");
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node node = nodes.item(i);
 		
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element import_element = (Element) node;
 				String callName = this.getValue("name", import_element);
+				System.out.println("Name: "+callName);
 				String callModule = this.getValue("module", import_element);
+				System.out.println("callModule: "+ callModule);
 				String callArity = this.getValue("arity", import_element);
-				m.addImport(callName, callModule, callArity);
+				System.out.println("callArity: "+ callArity);
+				Module.addImport(callName, callModule, callArity);
+				System.out.println();
 								
 			}
 		}
+		System.out.println("Length:"+ Module.getImports().size());
 	}
 	
-	private void parseExports( Module m, NodeList nodes){
+	private void parseExports(NodeList nodes){
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node node = nodes.item(i);
@@ -127,10 +175,11 @@ public class CodeqParser {
 				String callName = this.getValue("name", import_element);
 				String callModule = this.getValue("module", import_element);
 				String callArity = this.getValue("arity", import_element);
-				m.addExport(callName, callModule, callArity);
+				Module.addExport(callName, callModule, callArity);
 								
 			}
 		}
+		System.out.println("Length:"+ Module.getExports().size());
 	}
 	
 	

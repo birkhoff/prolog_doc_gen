@@ -1,5 +1,6 @@
 package src.main.java;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,12 +8,14 @@ public class InformationMerger {
 
 	public List<Predicate> MergedPredicates;
 	//public List<DocInformation> DocInfos;
+	public HashMap<String, Predicate> PredicatesHashMap;
 	
 	
 	
 	public InformationMerger(){
 		
 		this.MergedPredicates = new LinkedList<Predicate>();
+		this.PredicatesHashMap = new HashMap<String, Predicate>();
 	}
 	
 	public void mergeModuleInformation( List<Predicate> predicates, List<DocInformation> docs){
@@ -44,11 +47,18 @@ public class InformationMerger {
 			
 			if(attach != null && currentDoc != null ){
 				attach.setAttached(true);
-				System.out.println("mergin " + attach.getName() + "with " + currentDoc.getAuthor());
-				MergedPredicates.add( this.mergePredicate(attach, currentDoc) );
-				System.out.println( attach.getName() );
+				System.out.println("mergin " + attach.getName() + " with " + currentDoc.getAuthor());
+				Predicate mergedPredicate = this.mergePredicate(attach, currentDoc);
+				MergedPredicates.add( mergedPredicate );
+				PredicatesHashMap.put(mergedPredicate.getName(), mergedPredicate);
 			}
 			
+		}
+		for(int i = 0; i < predicates.size(); i++){
+			if(!predicates.get(i).isAttached()){
+				MergedPredicates.add(predicates.get(i));
+				PredicatesHashMap.put(predicates.get(i).getName(), predicates.get(i));
+			}
 		}
 		
 	}
@@ -64,11 +74,12 @@ public class InformationMerger {
 		merged.setMeta(predicate.isMeta());
 		merged.setDynamic(predicate.isDynamic());
 		merged.setModule(predicate.getModule());
+		merged.setCodeString(predicate.getCodeString());
 		
 		merged.setDate(doc.getDate());
 		merged.setAuthor(doc.getAuthor());
 		merged.setDescription(doc.getDescription());
-		merged.setAdditionalEntries(predicate.getAdditionalEntries());
+		merged.setAdditionalEntries(doc.getAdditionalEntries());
 				
 		return merged;
 	}

@@ -19,10 +19,13 @@ public class Predicate {
 	private int[] StartLines;
 	private int[] EndLines;
 	private String Module;
+	private List<String> Code;
+	private String CodeString;
 		
 	
 	public Predicate(){
 		
+		Code = new LinkedList<String>();
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
@@ -31,6 +34,8 @@ public class Predicate {
 	
 	public Predicate(String name){
 		
+
+		Code = new LinkedList<String>();
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
@@ -40,6 +45,8 @@ public class Predicate {
 
 	public Predicate( String name, int arity ){
 		
+
+		Code = new LinkedList<String>();
 		this.Name = name;
 		this.Arity = arity;
 		Calls = new LinkedList<Predicate>();
@@ -189,6 +196,27 @@ public class Predicate {
 
 	public void setModule(String module) {
 		Module = module;
+	}
+
+	public List<String> getCode() {
+		return Code;
+	}
+
+	public void setCode(List<String> code) {
+		Code = code;
+	}
+	
+	public void addCode(String code) {
+		
+		this.Code.add(code);
+	}
+
+	public String getCodeString() {
+		return CodeString;
+	}
+
+	public void setCodeString(String codeString) {
+		CodeString = codeString;
 	}
 
 }

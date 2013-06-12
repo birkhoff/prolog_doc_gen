@@ -1,5 +1,6 @@
 package src.main.java;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,19 +11,20 @@ public class Module {
 	private List<Predicate> Predicates;
 	private List<Call> Exports;
 	private List<Call> Imports;
+	private HashMap<String, Predicate> PredicatesHashMap;
 	
 	public Module(){
 		
-		setExports(new LinkedList<Call>());
-		setImports(new LinkedList<Call>());
+		this.Exports = new LinkedList<Call>();
+		this.Imports = new LinkedList<Call>();
 	}
 
 	
 	public Module(String name){
 		
 		this.Name = name;
-		setExports(new LinkedList<Call>());
-		setImports(new LinkedList<Call>());
+		this.Exports = new LinkedList<Call>();
+		this.Imports = new LinkedList<Call>();
 	}
 	
 	public String getName() {
@@ -73,5 +75,15 @@ public class Module {
 	public void addExport(String name, String module, String arity ){
 		Call addCall = new Call(name, module, arity);
 		this.Exports.add(addCall);
+	}
+
+
+	public HashMap<String, Predicate> getPredicatesHashMap() {
+		return PredicatesHashMap;
+	}
+
+
+	public void setPredicatesHashMap(HashMap<String, Predicate> predicatesHashMap) {
+		PredicatesHashMap = predicatesHashMap;
 	}
 }
