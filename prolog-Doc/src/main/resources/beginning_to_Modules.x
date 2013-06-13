@@ -8,7 +8,7 @@ body { margin:0; padding:0; }
 #inner { position:relative; margin: 0px; background-color:#ffffff; }
 
 #container {width:85%; margin:50px auto}
-#b1 {float: right; width: 78%; height: 100px; outline: 1px }
+#b1 {float: left; margin-left: 18%; width: 78%; height: 100px; outline: 1px }
 #b2 {float: left; width: 12%; height:85%; outline: 1px; top: Y%; position: fixed;
 left: X%;
 
@@ -20,7 +20,7 @@ left: X%;
 
 bottom: Y%;
 right: X%; Georgia, Garamond, Serif;overflow:auto; }
-#b3 {float: right; width: 78%; outline: 1px}
+#b3 {float: left; margin-left: 18%; width: 78%; outline: 1px}
 #b5 {float: left; width: 98%; height: 100px; outline: 1px }
 
 
