@@ -151,7 +151,7 @@ private String getCode(int starts[], int ends[]){
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
 		
 		if(nameOfModule.equalsIgnoreCase("user")){
-			nameOfModule = this.NameOfFile;
+			nameOfModule = this.NameOfFile.replaceAll("/", ".");
 		}
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
