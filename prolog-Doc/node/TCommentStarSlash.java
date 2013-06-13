@@ -5,14 +5,14 @@ package node;
 import analysis.*;
 
 @SuppressWarnings("nls")
-public final class TProgrammDoubleTicks extends Token
+public final class TCommentStarSlash extends Token
 {
-    public TProgrammDoubleTicks(String text)
+    public TCommentStarSlash(String text)
     {
         setText(text);
     }
 
-    public TProgrammDoubleTicks(String text, int line, int pos)
+    public TCommentStarSlash(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -22,12 +22,12 @@ public final class TProgrammDoubleTicks extends Token
     @Override
     public Object clone()
     {
-      return new TProgrammDoubleTicks(getText(), getLine(), getPos());
+      return new TCommentStarSlash(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTProgrammDoubleTicks(this);
+        ((Analysis) sw).caseTCommentStarSlash(this);
     }
 }

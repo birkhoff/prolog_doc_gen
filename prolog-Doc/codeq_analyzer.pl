@@ -75,13 +75,13 @@ write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
     write_predicates2(Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2).
 write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,_VNC) :-
     is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta),
-    escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<code>~w</code>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w\n\t\t<calls>',[Name,Ar,Code,StartLines,EndLines,Dynamic,Meta]),
+    escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta]),
     write_calls(Calls),
     write('\n\t\t</calls>\n\t</predicate>\n'),nl.
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
-    escaping_format('\n\t\t\t<call>\n\t\t\t\t<module>"~w"</module>\n\t\t\t\t<name>"~w"</name>\n\t\t\t\t<arity>~w</arity>\n\t\t\t</call>', [Module,Name,Ar]),
+    escaping_format('\n\t\t\t<call>\n\t\t\t\t<module>"~w"</module>\n\t\t\t\t<name> <![CDATA[ ~w ]]> </name>\n\t\t\t\t<arity>~w</arity>\n\t\t\t</call>', [Module,Name,Ar]),
     write_calls(Calls).
 
 write_clj_representation :-

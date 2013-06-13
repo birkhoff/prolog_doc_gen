@@ -177,6 +177,30 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outADescrAst(node);
     }
 
+    public void inALabelAst(ALabelAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outALabelAst(ALabelAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseALabelAst(ALabelAst node)
+    {
+        inALabelAst(node);
+        {
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outALabelAst(node);
+    }
+
     public void inAAtDocAst(AAtDocAst node)
     {
         defaultIn(node);

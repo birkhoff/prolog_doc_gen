@@ -125,10 +125,11 @@ Productions
 	
 	start{-> ast} =		{start} docs* 		{-> New ast.start( [docs.ast]) };
 	
-	docs {-> ast} = 	{doc} 	doc_start doc doc_end {-> doc.ast };
+	docs {-> ast} = 	{doc} 	doc_start doc doc_end 		{-> doc.ast };
 
 	
-	doc {-> ast}	 = 	{optional_rules} entries*	{-> New ast.entries( [entries.ast] ) };					
+	doc {-> ast}	 = 	 {optional_rules} entries*	{-> New ast.entries( [entries.ast] ) }
+						|{entries} string+  		{-> New ast.entries( [string.ast] ) };					
 
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
@@ -150,6 +151,7 @@ Abstract Syntax Tree
 		|	{author} ast*
 		|	{date} ast*
 		| 	{descr} ast+
+		| 	{label} ast+
 		|	{at_doc} [identifier]: doc_atdoc [description]:ast* 
 		|	{string_a} 	string_doc_string 
 		| 	{string_b}	string_doc_star

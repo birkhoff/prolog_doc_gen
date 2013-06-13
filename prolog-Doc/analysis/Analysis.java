@@ -18,6 +18,7 @@ public interface Analysis extends Switch
     void caseAAuthorAst(AAuthorAst node);
     void caseADateAst(ADateAst node);
     void caseADescrAst(ADescrAst node);
+    void caseALabelAst(ALabelAst node);
     void caseAAtDocAst(AAtDocAst node);
     void caseAStringAAst(AStringAAst node);
     void caseAStringBAst(AStringBAst node);
@@ -30,10 +31,11 @@ public interface Analysis extends Switch
     void caseTDocIdentifier(TDocIdentifier node);
     void caseTStringDocString(TStringDocString node);
     void caseTStringDocStar(TStringDocStar node);
-    void caseTStringStarString(TStringStarString node);
     void caseTStringStarStar(TStringStarStar node);
+    void caseTStringStarString(TStringStarString node);
     void caseTDocEnd(TDocEnd node);
     void caseTProgrammNoSlash(TProgrammNoSlash node);
+    void caseTProgrammComment(TProgrammComment node);
     void caseTProrgrammSlash(TProrgrammSlash node);
     void caseTProgrammSingleTicks(TProgrammSingleTicks node);
     void caseTProgrammDoubleTicks(TProgrammDoubleTicks node);
@@ -42,6 +44,11 @@ public interface Analysis extends Switch
     void caseTProgrammSlashAny(TProgrammSlashAny node);
     void caseTProgrammStarAny(TProgrammStarAny node);
     void caseTDocStart(TDocStart node);
+    void caseTCommentNoStar(TCommentNoStar node);
+    void caseTCommentStar(TCommentStar node);
+    void caseTCommentStarStar(TCommentStarStar node);
+    void caseTCommentStarNoSlash(TCommentStarNoSlash node);
+    void caseTCommentStarSlash(TCommentStarSlash node);
     void caseTProgrammSingleString(TProgrammSingleString node);
     void caseTProgrammSingleStringEnd(TProgrammSingleStringEnd node);
     void caseTProgrammDoubleString(TProgrammDoubleString node);

@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -81,7 +83,7 @@ public class CodeqParser {
 						Node call = calls.item(j);
 						Element call_element = (Element) call;
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
-							String callName = this.getValue("name", call_element);
+							String callName = this.getCDataValue("name", call_element);
 							String callModule = this.getValue("module", call_element).replace("\"", "");
 							String callArity = this.getValue("arity", call_element);
 							
@@ -101,6 +103,7 @@ public class CodeqParser {
 			this.parseModuleInformation(doc);
 			
 		} catch (Exception ex) {
+			System.out.println("filename: "+ NameOfFile);
 			ex.printStackTrace();
 		}
 		
@@ -122,8 +125,13 @@ private String getCode(int starts[], int ends[]){
 		  for (int i = 1; (strLine = br.readLine()) != null; i++)   {
 		  // Print the content on the console
 			  for (int k = 0; k < starts.length; k++) {
-				  if(starts[k] <= i && ends[k] >= i ){
-					  returnCode += 	"<br>"+strLine;
+				  if (starts[k] <= i && ends[k] >= i ) {
+					  returnCode += 	"<br>";
+					  if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";
+					  
+					  returnCode += strLine;
+					  
+					  if (i == ends[k])		returnCode += "<br>";
 				  }
 			  }
 		  }
@@ -194,6 +202,26 @@ private String getCode(int starts[], int ends[]){
 		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
+	}
+	
+	
+	public String getCDataValue(String tag, Element element) {
+		
+		 NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
+		    String data;
+
+		    for(int index = 0; index < list.getLength(); index++){
+		        if(list.item(index) instanceof CharacterData){
+		            CharacterData child = (CharacterData) list.item(index);
+		            data = child.getData();
+
+		            if(data != null && data.trim().length() > 0)
+		                return child.getData();
+		        }
+		    }
+		    return "";
+            
+		
 	}
 	
 	

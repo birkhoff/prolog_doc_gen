@@ -7,12 +7,16 @@ public class HTML_Generator {
 
 	private String code = "";
 	private String moduleLinks ="";
+	private List<Module> Modules;
+	private HashMap<String, Boolean> ModuleNames;
 	public HTML_Generator(){
 		
 	}
 	
 	public void generateDoc( List<Module> modules){
 		
+		this.Modules = modules;
+		ModuleNames = this.setModuleNamestoHash(Modules);
 		this.setModuleLinks(modules);
 		for(int i = 0; i < modules.size(); i++){
 			try {
@@ -86,7 +90,7 @@ public class HTML_Generator {
 					int callArity = call.getArity();
 					code += "<div style=\"text-indent:30px;\">\n";
 					
-					if(callModule.equalsIgnoreCase("built_in")){
+					if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
 						code += "<p>"+"Module"+": \t"+callModule+"</p>\n";
 						code += "<p>"+"Name"+": \t"+callName+"</p>\n";
 					}else{
@@ -109,11 +113,20 @@ public class HTML_Generator {
 	}
 	
 	
+	private HashMap<String, Boolean> setModuleNamestoHash(List<Module> ms){
+		
+		HashMap<String, Boolean> returnMap = new HashMap<String, Boolean>();
+		for(int i = 0; i<ms.size(); i++){
+			returnMap.put(ms.get(i).getName(), true);
+		}
+		return returnMap;
+	}
+	
 	private void writeToFile(Module m){
 		BufferedWriter writer = null;
 		try
 		{
-			writer = new BufferedWriter( new FileWriter( m.getName().replaceAll("\"", "")+".html"));
+			writer = new BufferedWriter( new FileWriter("Doc/"+m.getName().replaceAll("\"", "")+".html"));
 			writer.write(code);
 
 		}

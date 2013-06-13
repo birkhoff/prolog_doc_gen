@@ -7,14 +7,14 @@ import analysis.*;
 @SuppressWarnings("nls")
 public final class TProgrammDoubleStringEnd extends Token
 {
-    public TProgrammDoubleStringEnd()
+    public TProgrammDoubleStringEnd(String text)
     {
-        super.setText("\"");
+        setText(text);
     }
 
-    public TProgrammDoubleStringEnd(int line, int pos)
+    public TProgrammDoubleStringEnd(String text, int line, int pos)
     {
-        super.setText("\"");
+        setText(text);
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,12 @@ public final class TProgrammDoubleStringEnd extends Token
     @Override
     public Object clone()
     {
-      return new TProgrammDoubleStringEnd(getLine(), getPos());
+      return new TProgrammDoubleStringEnd(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTProgrammDoubleStringEnd(this);
-    }
-
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TProgrammDoubleStringEnd text.");
     }
 }

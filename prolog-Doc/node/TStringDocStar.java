@@ -7,14 +7,14 @@ import analysis.*;
 @SuppressWarnings("nls")
 public final class TStringDocStar extends Token
 {
-    public TStringDocStar()
+    public TStringDocStar(String text)
     {
-        super.setText("*");
+        setText(text);
     }
 
-    public TStringDocStar(int line, int pos)
+    public TStringDocStar(String text, int line, int pos)
     {
-        super.setText("*");
+        setText(text);
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,12 @@ public final class TStringDocStar extends Token
     @Override
     public Object clone()
     {
-      return new TStringDocStar(getLine(), getPos());
+      return new TStringDocStar(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTStringDocStar(this);
-    }
-
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TStringDocStar text.");
     }
 }

@@ -111,6 +111,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseALabelAst(ALabelAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAAtDocAst(AAtDocAst node)
     {
         defaultCase(node);
@@ -177,13 +183,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTStringStarString(TStringStarString node)
+    public void caseTStringStarStar(TStringStarStar node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTStringStarStar(TStringStarStar node)
+    public void caseTStringStarString(TStringStarString node)
     {
         defaultCase(node);
     }
@@ -196,6 +202,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTProgrammNoSlash(TProgrammNoSlash node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammComment(TProgrammComment node)
     {
         defaultCase(node);
     }
@@ -244,6 +256,36 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTDocStart(TDocStart node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCommentNoStar(TCommentNoStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCommentStar(TCommentStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCommentStarStar(TCommentStarStar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCommentStarNoSlash(TCommentStarNoSlash node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCommentStarSlash(TCommentStarSlash node)
     {
         defaultCase(node);
     }
