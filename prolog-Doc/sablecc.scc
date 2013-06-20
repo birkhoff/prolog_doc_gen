@@ -129,7 +129,7 @@ Productions
 
 	
 	doc {-> ast}	 = 	 {optional_rules} entries*	{-> New ast.entries( [entries.ast] ) }
-						|{entries} string+  		{-> New ast.entries( [string.ast] ) };					
+						|{entries} string+  		{-> New ast.descr( [string.ast] ) };					
 
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
