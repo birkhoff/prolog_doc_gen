@@ -91,8 +91,8 @@ public class HTML_Generator {
 					code += "<div style=\"text-indent:30px;\">\n";
 					
 					if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-						code += "<p>"+"Module &nbsp;&nbsp;&nbsp;"+": \t"+callModule+"</p>\n";
-						code += "<p>"+"Name &nbsp;&nbsp;&nbsp;"+": \t"+callName+"</p>\n";
+						code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
+						code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</p>\n";
 					}else{
 						code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
 						code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
