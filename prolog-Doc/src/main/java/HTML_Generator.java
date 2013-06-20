@@ -91,14 +91,15 @@ public class HTML_Generator {
 					code += "<div style=\"text-indent:30px;\">\n";
 					
 					if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-						code += "<p>"+"Module"+": \t"+callModule+"</p>\n";
-						code += "<p>"+"Name"+": \t"+callName+"</p>\n";
+						code += "<p>"+"Module &nbsp;&nbsp;&nbsp;"+": \t"+callModule+"</p>\n";
+						code += "<p>"+"Name &nbsp;&nbsp;&nbsp;"+": \t"+callName+"</p>\n";
 					}else{
-						code += "<h4><a href=\""+callModule+".html#"+callName+callArity+"\">"+"Name"+": \t"+callName+"</a></h4>\n";
-						code += "<h4><a href=\""+callModule+".html\">"+"Module"+": \t"+callModule+"</a></h4>\n";
+						code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
+						code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
 					}
 					
-					code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>";
+					code += "</div><br>";
+					//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 				}
 				code += "<div class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#fffffa;\">\n";
 				code += "<p>"+ p.getCodeString() + "</p>\n";

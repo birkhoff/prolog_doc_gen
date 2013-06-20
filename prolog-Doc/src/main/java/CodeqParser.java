@@ -24,6 +24,7 @@ public class CodeqParser {
 	public Module Module;
 	private String ParsedFile;
 	private String NameOfFile;
+	private String[] File;
 	
 	public CodeqParser(){
 		
@@ -48,7 +49,7 @@ public class CodeqParser {
 			Document doc = dBuilder.parse(stocks);
 			doc.getDocumentElement().normalize();
 			
-			System.out.println("root of xml file" + doc.getDocumentElement().getNodeName());
+			//System.out.println("root of xml file" + doc.getDocumentElement().getNodeName());
 			
 			NodeList nodes = doc.getElementsByTagName("predicate");
 	
@@ -142,7 +143,8 @@ private String getCode(int starts[], int ends[]){
 		  }
 		  
 	
-	
+	  returnCode = returnCode.replaceAll("\t", "\t&nbsp;&nbsp;&nbsp;");
+	  returnCode = returnCode.replaceAll(" ", " &nbsp;");
 	return returnCode;
 }
 	
@@ -177,7 +179,7 @@ private String getCode(int starts[], int ends[]){
 								
 			}
 		}
-		System.out.println("Length:"+ Module.getImports().size());
+		//System.out.println("Length:"+ Module.getImports().size());
 	}
 	
 	private void parseExports(NodeList nodes){
@@ -194,7 +196,7 @@ private String getCode(int starts[], int ends[]){
 								
 			}
 		}
-		System.out.println("Length:"+ Module.getExports().size());
+		//System.out.println("Length:"+ Module.getExports().size());
 	}
 	
 	
