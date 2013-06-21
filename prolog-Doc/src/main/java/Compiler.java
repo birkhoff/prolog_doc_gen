@@ -54,7 +54,7 @@ public class Compiler {
 		  Parser parser = new Parser(lexer); 
 		  Start tree = parser.parse();
 		  ASTPrinter lala = new ASTPrinter();
-		  tree.apply(lala);
+		  //tree.apply(lala);
 		 
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);

@@ -24,7 +24,7 @@ public class CodeqParser {
 	public Module Module;
 	private String ParsedFile;
 	private String NameOfFile;
-	private String[] File;
+	private List<String> File;
 	
 	public CodeqParser(){
 		
@@ -40,20 +40,18 @@ public class CodeqParser {
 	
 	public void parseXML(String fileName){
 		
+		this.saveFileToArray();
+		
 		try {
-			
-			
+					
 			File stocks = new File(fileName);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(stocks);
 			doc.getDocumentElement().normalize();
 			
-			//System.out.println("root of xml file" + doc.getDocumentElement().getNodeName());
-			
 			NodeList nodes = doc.getElementsByTagName("predicate");
 	
-			
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Node node = nodes.item(i);
 			
@@ -110,41 +108,54 @@ public class CodeqParser {
 		
 	}
 	
+
+private void saveFileToArray(){
+	try{
+		
+		this.File = new LinkedList<String>();
+		this.File.add("Initialize");
+		
+		FileInputStream fstream = new FileInputStream(ParsedFile);
+		// Get object of DataInputStream
+		DataInputStream in = new DataInputStream(fstream);
+		BufferedReader buffread = new BufferedReader(new InputStreamReader(in));
+		String line;
+		//Read File Line By Line
+		while ( (line = buffread.readLine()) != null) {
+			
+			  this.File.add(line);
+		}
+		//Close the input stream
+		in.close();
+	}catch (Exception e){//Catch exception if any
+		System.err.println("Error: " + e.getMessage());
+	}
+	
+	//for(int i = 0; i < File.size(); i++)
+	//	System.out.println("\t"+i+": "+File.get(i));
+}
+	
 private String getCode(int starts[], int ends[]){
 	
 	String returnCode = "";
 	
-	try{
-		  // Open the file that is the first 
-		  // command line parameter
-		  FileInputStream fstream = new FileInputStream(ParsedFile);
-		  // Get the object of DataInputStream
-		  DataInputStream in = new DataInputStream(fstream);
-		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		  String strLine;
-		  //Read File Line By Line
-		  for (int i = 1; (strLine = br.readLine()) != null; i++)   {
-		  // Print the content on the console
-			  for (int k = 0; k < starts.length; k++) {
-				  if (starts[k] <= i && ends[k] >= i ) {
-					  returnCode += 	"<br>";
-					  if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";
+	for (int k = starts.length-1; k >=0 ; k--) {
+		
+		for(int i = starts[k]; i <= ends[k]; i ++){
+		
+			if (starts[k] <= i && ends[k] >= i ) {
+			returnCode += 	"<br>";
+			if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";
 					  
-					  returnCode += strLine;
+			returnCode += File.get(i);
 					  
-					  if (i == ends[k])		returnCode += "<br>";
-				  }
-			  }
-		  }
-		  //Close the input stream
-		  in.close();
-		    }catch (Exception e){//Catch exception if any
-		  System.err.println("Error: " + e.getMessage());
-		  }
-		  
+			if (i == ends[k])		returnCode += "<br>";
+			 }
+		}
+	}
 	
-	  returnCode = returnCode.replaceAll("\t", "\t&nbsp;&nbsp;&nbsp;");
-	  returnCode = returnCode.replaceAll(" ", " &nbsp;");
+	returnCode = returnCode.replaceAll("\t", "\t&nbsp;&nbsp;&nbsp;");
+	returnCode = returnCode.replaceAll(" ", " &nbsp;");
 	return returnCode;
 }
 	

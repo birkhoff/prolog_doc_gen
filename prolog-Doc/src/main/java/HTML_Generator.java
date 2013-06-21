@@ -58,13 +58,16 @@ public class HTML_Generator {
 		    }
 		    code += "</div>\n";
 		    
-		    code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n";
+		    this.generateModuleInformation(m);
 		    
+		    code +=   "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;\">\n";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	code += "<h4><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></h4>\n";
 		    }
 		    
 		    code += "</div><br><br>";
+		    
+	
 		    
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	Predicate p = m.getPredicates().get(i);
@@ -91,8 +94,10 @@ public class HTML_Generator {
 					code += "<div style=\"text-indent:30px;\">\n";
 					
 					if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-						code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
-						code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</p>\n";
+						if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"/ "+callArity+"</p>\n"; 
+						else				code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</p>\n"; 
+						if(!callModule.equalsIgnoreCase("built_in") ) code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
+						
 					}else{
 						code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
 						code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
@@ -121,6 +126,62 @@ public class HTML_Generator {
 			returnMap.put(ms.get(i).getName(), true);
 		}
 		return returnMap;
+	}
+	
+	
+	private void generateModuleInformation(Module m){
+		   
+		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n";
+			  
+		    this.code += "<h2 align=\"center\">Module Information</h2><br>";
+		    
+		    generateImports(m);
+		    generateExports(m);
+		    
+		    this.code += "</div><br>";
+		    
+		    
+	}
+	
+	private void generateImports(Module m){
+		 
+		if ( m.getImports().size()>0) this.code += "<h3>Imports</h3>";
+		
+		for(int i = 0; i < m.getImports().size(); i++){
+		    Call imp = m.getImports().get(i);
+			
+			String importName = imp.getName().replaceAll("\"", "");
+			String importModule = imp.getModule().replaceAll("\"", "");
+			int importArity = imp.getArity();
+		   
+			if(!ModuleNames.containsKey(importModule)){
+			
+				this.code += "<h4>"+  importName.replaceAll("\"", "")+"/"+ importArity +"</h4>\n";
+				this.code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+importName+"</p>\n";
+			}else{
+			
+				this.code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+importModule+".html#"+importName+importArity+"\">"+importName+"/"+importArity+"</a></p>\n";
+				this.code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+importModule+".html\">"+importModule+"</a></p>\n";
+			}
+			this.code += "<br>";
+		}
+		if ( m.getImports().size()>0) this.code += "<br>";
+	}
+	
+	private void generateExports(Module m){
+		 
+		if ( m.getExports().size()>0) this.code += "<h3>Exports</h3>";
+		
+		for(int i = 0; i < m.getExports().size(); i++){
+		    Call exp = m.getExports().get(i);
+			
+			String exportName = exp.getName().replaceAll("\"", "");
+			int exportArity = exp.getArity();
+	
+			this.code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\"#"+exportName+exportArity+"\">"+exportName+"/"+exportArity+"</a></p>\n";
+			this.code += "<br>";
+		}
+		if ( m.getExports().size()>0) this.code += "<br>";
 	}
 	
 	private void writeToFile(Module m){

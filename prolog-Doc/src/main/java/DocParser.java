@@ -97,19 +97,20 @@ public class DocParser extends DepthFirstAdapter{
 	public void caseADescrAst( ADescrAst entries){
 		
 		int entries_size = entries.getAst().size();
-		String returnDescr = "";
+		String returnDescr = "<br>";
 		for (int i = 0; i < entries_size; i ++) {
 			
 			String currentDescr = entries.getAst().get(i).toString();
-			//System.out.println( currentDescr );
+			currentDescr = currentDescr.substring(0, currentDescr.length()-1);
+			currentDescr = currentDescr.replaceAll("@@", "@");
 			returnDescr += currentDescr;
-			
-			//Node entry = (Node) entries.getAst().get(i).clone();
-			//System.out.println( ((Token) entry).getLine() );
-			
 			entries.getAst().get(i).apply(this);
 			
 		}
+		if(returnDescr.charAt(returnDescr.length()-1) == ' ') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		if(returnDescr.charAt(returnDescr.length()-1) == '*') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
+		
 		
 		((HashMap) Predicates.get(currentPredicate)).put(description, returnDescr);
 		DocInfo.get(currentPredicate).setDescription(returnDescr);
@@ -126,10 +127,15 @@ public class DocParser extends DepthFirstAdapter{
 		for (int i = 0; i < entry.getDescription().size(); i ++) {
 			
 			String currentDescr = entry.getDescription().get(i).toString();
+			currentDescr = currentDescr.replaceAll("@@", "@");
 			returnDescr += currentDescr;
 			entry.getDescription().get(i).apply(this);
 			
 		}
+		if(returnDescr.charAt(returnDescr.length()-1) == ' ') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		if(returnDescr.charAt(returnDescr.length()-1) == '*') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
+		
 		DocInfo.get(currentPredicate).addAdditionalEntry(entryKey, returnDescr); 
 		((HashMap) Predicates.get(currentPredicate)).put(entryKey, returnDescr);
 	}
@@ -142,4 +148,6 @@ public class DocParser extends DepthFirstAdapter{
 		((HashMap) Predicates.get(currentPredicate)).put(line, token.getStringDocStar().getLine());
 		DocInfo.get(currentPredicate).setLine(token.getStringDocStar().getLine());
 	}
+	
+	
 }

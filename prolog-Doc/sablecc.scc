@@ -122,8 +122,11 @@ Productions
 	docs {-> ast} = 	{doc} 	doc_start doc doc_end 		{-> doc.ast };
 
 	
-	doc {-> ast}	 = 	 {optional_rules} entries*	{-> New ast.entries( [entries.ast] ) }
-						|{no_rules} string+ 		{-> New ast.descr( [string.ast] ) };					
+	doc {-> ast}	 = 	  {optional_rules} entries*			{-> New ast.entries( [entries.ast] ) }
+						| {no_predefined} user entries* 	{-> New ast.user( user.ast, [entries.ast] ) };					
+	
+	user {->ast}	= 	{user} string+ 		{-> New ast.descr( [string.ast] ) };
+	
 
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
@@ -153,7 +156,8 @@ Abstract Syntax Tree
 		| 	{string_b}	string_doc_star
 		|	{string_c}	string_star_string
 		|	{string_d} 	doc_mail
-		|	{string_e} 	doc_at;
+		|	{string_e} 	doc_at
+		|	{user} [user]: ast [entries]: ast*;
 
 
 

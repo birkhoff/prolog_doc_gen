@@ -47,7 +47,7 @@ public class InformationMerger {
 			
 			if(attach != null && currentDoc != null ){
 				attach.setAttached(true);
-				System.out.println("mergin " + attach.getName() + " with " + currentDoc.getAuthor());
+				//System.out.println("mergin " + attach.getName() + " with " + currentDoc.getAuthor());
 				Predicate mergedPredicate = this.mergePredicate(attach, currentDoc);
 				MergedPredicates.add( mergedPredicate );
 				PredicatesHashMap.put(mergedPredicate.getName(), mergedPredicate);
