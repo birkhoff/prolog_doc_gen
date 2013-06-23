@@ -13,33 +13,94 @@ import java.lang.* ;
 
 public class Compiler {
 	
-	//public static String filename;
 	public static List<DocInformation> docInfos;
 	public static List<Predicate> Predicates;
 	public static Module Module;
 	public static List<Module> Modules;
+	public static String loadingString= "";
+	public static int NumberOfFiles;
+	public static int CurrentFileNumber;
 	
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
 		
-		for(int i = 0; i<args.length; i++){
-			try {
-				Compiler(args[i]);
-			} catch (ParserException e) {
-				
-				e.printStackTrace();
-			} catch (LexerException e) {
-				
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
+		
+		List<String> Files = new LinkedList<String>();
+		if(args[0].contains("-dir")){
+			Files = getFiles(args);
+		}else{
+			for (int i = 0; i < args.length; i++) {
+				Files.add(args[i]);
 			}
 		}
+
+		startLoadingScreen(Files.size());
 		
+		for (int i = 0; i< Files.size(); i++) {
+			try {
+				Compiler(Files.get(i));
+			} catch (ParserException e) {
+				System.out.println("Error in:"+  Files.get(i));
+				e.printStackTrace();
+			} catch (LexerException e) {
+				System.out.println("Error in:"+  Files.get(i));
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				System.out.println("Error in:"+  Files.get(i));
+				e.printStackTrace();
+			}
+			loadingScreen(Files.size(), i);
+			
+		}
+		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
 		generator.generateDoc(Modules);
+		System.out.println("\n");
+	
+	}
+	
+	public static void startLoadingScreen(int files){
+		NumberOfFiles = files;
+		CurrentFileNumber = 0;
+		System.out.print("\nGenerating Sicstus Prolog Doc:\n\t");
+	}
+	
+	public static void loadingScreen(int size, int current){
 		
+		for (int k = 0; k < loadingString.length(); k++) System.out.print("\b");
+		loadingString = "";
+		for (int k = 0; k <= current; k++) loadingString += "#";
+		current ++;
+		loadingString += " ("+current+"/"+size+") Files analyzed";
+		System.out.print(loadingString);
+	}
+	
+	public static List<String> getFiles(String args[]){
+		
+		// Starting at pos 1 so we skip the -dir
+        List<String> returnFiles = new LinkedList<String>();
+      
+        for (int i = 1; i < args.length; i ++) {
+			
+        	File current = new File(args[i]);
+	        for ( File f : current.listFiles()) {
+	            if (f.isDirectory()) {
+	            	List<String> additionalFiles = getFiles(f.getPath());
+	            	returnFiles.addAll(additionalFiles);
+	            } else if (f.getName().endsWith(".pl")) {
+	            	returnFiles.add(f.getPath());
+	            	//System.out.println(f.getPath());
+	            }
+	        }				
+		}
+		return returnFiles;
+	}
+	
+	public static List<String> getFiles(String dir){
+		// writing to Pos 2 because the getFiles skips the first argument
+		String args[] = new String[2];
+		args[1] = dir;
+		return getFiles(args);
 	}
 	
 	public static void Compiler(String nameOfFile) throws ParserException, LexerException, InterruptedException
