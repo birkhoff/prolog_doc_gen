@@ -39,7 +39,7 @@ public class CodeqParser {
 	}
 	
 	public void parseXML(String fileName){
-		
+		System.out.println("SaveToArray");
 		this.saveFileToArray();
 		
 		try {
@@ -73,7 +73,7 @@ public class CodeqParser {
 					
 					Boolean meta = false;
 					if( this.getValue("meta", element).toLowerCase().contains("true")) meta = true;
-					predicate.setDynamic(meta);
+					predicate.setMeta(meta);
 					
 					NodeList calls = element.getElementsByTagName("call");
 										
@@ -151,6 +151,7 @@ private String getCode(int starts[], int ends[]){
 					  
 			if (i == ends[k])		returnCode += "<br>";
 			 }
+			
 		}
 	}
 	
