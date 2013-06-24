@@ -6,15 +6,15 @@
 :- use_module(library(terms)).
 :- use_module(library(system)).
 :- use_module(library(file_systems)).
-:- use_module(library(codesio)).
 
 :- use_module(escaper).
-:- include(prob_search_paths).
 
 :- op(300, fy, ~~).
 
+:- include(prob_search_paths).
 
-:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, in_module/1, in_clause/2, module_pos/2, ops/3. 
+
+:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/1, in_module/1, in_clause/2, module_pos/2. 
 
 in_module('user').
 module_pos(1,1).
@@ -26,27 +26,21 @@ flatten1(NonList,Tail,[NonList|Tail]).
 
 write_exports :-
     exports(Module,Name,Arity),
-    escaping_format('\n\t<export>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</export>\n\n', [Module,Name,Arity]),
+    escaping_format('["~w" "~w" ~w]', [Module,Name,Arity]),
     fail.
 write_exports.
 
 write_import1 :-
     imports(Name),
-    escaping_format('\n\t<name>"~w"</name>\n',[Name]),
+    escaping_format('"~w"',[Name]),
     fail.
 write_import1.
     
 write_import3 :-
     imports(Module,Name,Arity),
-    escaping_format('\n\t<import>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</import>\n\n', [Module,Name,Arity]),
+    escaping_format('["~w" "~w" ~w]', [Module,Name,Arity]),
     fail.
 write_import3.
-
-write_ops3 :-
-    ops(Prio,Ass,Name),
-    escaping_format('\n\t<op>\n\t\t<priority>"~w"</priority>\n\t\t<ass>"~w"</ass>\n\t\t<name>~w</name>\n\t</op>\n\n', [Prio,Ass,Name]),
-    fail.
-write_ops3.
 
 write_predicates :-
     findall(pr(Name,Ar), predicates(Name,Ar,_,_,_,_,_), ListOfNames),
@@ -68,46 +62,42 @@ bind_args2([V|Vs],VC,VCN) :-
     VCNT is VC + 1,
     bind_args(Vs,VCNT,VCN).
 
-is_dynamic(Name,Ar,'<dynamic>true</dynamic>') :- dynamics(Name/Ar), !.
-is_dynamic(_Name,_Ar,'<dynamic>false</dynamic>').
-is_meta(Name,Ar,Return) :- metas(Name/Ar, Args), format_to_codes('<meta>true</meta>\n\t\t<meta_arg>~w</meta_arg>', [Args], Codes), atom_codes(Return, Codes), !.
-is_meta(_Name,_Ar,'<meta>false</meta>').
-
+is_dynamic(Name,Ar,':dynamic true') :- dynamics(Name/Ar), !.
+is_dynamic(_Name,_Ar,':dynamic false').
+is_meta(Name,Ar,':meta true') :- metas(Name/Ar), !.
+is_meta(_Name,_Ar,':meta false').
 
 write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
     retract(predicates(Name,Ar,Args1,Body1,Calls1,StartLine,EndLine)),
     bind_args(Args1,VC,VCN),
     bind_args(Body1,VCN,VCN2),
-    NewCode = [ Args1, Body1|Code],
+    NewCode = [Args1,Body1|Code],
     append(Calls,Calls1,NewCalls),
     write_predicates2(Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2).
 write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,_VNC) :-
     is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta),
-    escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta]),
+    escaping_format('{ :name "~w" :arity ~w :code "~w" :startlines ~w :endlines ~w ~w ~w :calls [',[Name,Ar,Code,StartLines,EndLines,Dynamic,Meta]),
     write_calls(Calls),
-    write('\n\t\t</calls>\n\t</predicate>\n'),nl.
+    write(']}'),nl.
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
-	escape_single_argument(Name, EscapedName),
-    escaping_format('\n\t\t\t<call>\n\t\t\t\t<module>"~w"</module>\n\t\t\t\t<name>~w</name>\n\t\t\t\t<arity>~w</arity>\n\t\t\t</call>', [Module,EscapedName,Ar]),
+    escaping_format('["~w" "~w" ~w]', [Module,Name,Ar]),
     write_calls(Calls).
 
 write_clj_representation :-
     update_calls_all_preds,
-    write('<?xml version="1.0" encoding="UTF-8"?>'),nl,
-	write('<programm>'), nl,
+    write('{'), nl,
     in_module(Module),
     module_pos(StartLine,EndLine),
-    escaping_format('<module>"~w"</module>\n\n', [Module]),
-    escaping_format('<module_startline>~w</module_startline>\n', [StartLine]),
-    escaping_format('<module_endline>~w</module_endline>\n', [EndLine]),
-    write('<exports>\n'), write_exports, write('</exports>'), nl,
-    write('\n<predicates>\n\n'), write_predicates, write('</predicates>'), nl,
-    write('<import_modules>'), write_import1, write('</import_modules>'), nl,
-    write('<import_predicates>\n'), write_import3, write('</import_predicates>'), nl,
-	write('\n<ops>\n'), write_ops3, write('</ops>\n'), nl,
-    write('</programm>').
+    escaping_format(':module "~w"\n', [Module]),
+    escaping_format(':module_startline ~w\n', [StartLine]),
+    escaping_format(':module_endline ~w\n', [EndLine]),
+    write(':exports ['), write_exports, write(']'), nl,
+    write(':predicates ['), write_predicates, write(']'), nl,
+    write(':import_module ['), write_import1, write(']'), nl,
+    write(':import_predicates ['), write_import3, write(']'), nl,
+    write('}').
 
 update_calls_all_preds :-
     findall(pred(Name,Ar,Arguments,Body,Calls,Start,End),
@@ -199,9 +189,8 @@ assert_dynamics(X) :-
 assert_metas((X,Y)) :-
     !, assert_metas(X), assert_metas(Y).
 assert_metas(Term) :-
-    !, functor(Term,Fun,Ar),
-	Term =..[_Fun|Args],
-    (metas(Fun/Ar, Args) -> true ; assert(metas(Fun/Ar, Args))).
+    !, functor(Term,Fun,Arg),
+    (metas(Fun/Arg) -> true ; assert(metas(Fun/Arg))).
 
 analyze((:- module(Name, ListOfExported)), _Layout, (:- module(Name,ListOfExported))) :-
     !, flatten(_Layout,[StartLine|FlatLayout]),
@@ -218,10 +207,7 @@ analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
     !, assert_dynamics(X).
 analyze((:- meta_predicate(X)), _Layout, (:- true)) :-
     !, assert_metas(X).
-
-analyze((:- op(P,T,N)), _Layout, (:- op(P,T,N))) :- 
-	assert( ops(P,T,N) ).
-	
+analyze((:- op(P,T,N)), _Layout, (:- op(P,T,N))) :- !.
 analyze((:- _),_Layout,(:- true)) :- !.
 analyze((?- X),_Layout,(?- X)) :- !.
 analyze(end_of_file,_Layout,end_of_file) :- !.
