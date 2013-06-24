@@ -14,7 +14,7 @@
 :- op(300, fy, ~~).
 
 
-:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, in_module/1, in_clause/2, module_pos/2, ops/3. 
+:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2. 
 
 in_module('user').
 module_pos(1,1).
@@ -48,6 +48,12 @@ write_ops3 :-
     fail.
 write_ops3.
 
+write_blocking(Name/Ar):-
+ 	blocking(Name/Ar, Args), 
+	escaping_format('\n\t\t<blocking>~w~w</blocking>', [Name, Args]),
+	fail.
+write_blocking(_Name/_Ar).
+
 write_predicates :-
     findall(pr(Name,Ar), predicates(Name,Ar,_,_,_,_,_), ListOfNames),
     remove_dups(ListOfNames,ListOfNames2),
@@ -73,6 +79,13 @@ is_dynamic(_Name,_Ar,'<dynamic>false</dynamic>').
 is_meta(Name,Ar,Return) :- metas(Name/Ar, Args), format_to_codes('<meta>true</meta>\n\t\t<meta_arg>~w</meta_arg>', [Args], Codes), atom_codes(Return, Codes), !.
 is_meta(_Name,_Ar,'<meta>false</meta>').
 
+%is_blocking
+/*
+is_blocking(X) :-
+	blocking(Name/Ar, Args), format_to_codes('\n\t\t<blocking>~w~w</blocking>', [Name,Args], Codes), atom_codes(Return, Codes), !.
+is_blocking(_Name,_Ar,'<blocking>false</blocking>').
+*/
+
 
 write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
     retract(predicates(Name,Ar,Args1,Body1,Calls1,StartLine,EndLine)),
@@ -81,11 +94,14 @@ write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
     NewCode = [ Args1, Body1|Code],
     append(Calls,Calls1,NewCalls),
     write_predicates2(Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2).
-write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,_VNC) :-
-    is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta),
+write_predicates2(Name,Ar,_Code,Calls,StartLines,EndLines,_VNC) :-
+    is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta), %is_blocking(Name,Ar,Blocking),
     escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta]),
-    write_calls(Calls),
-    write('\n\t\t</calls>\n\t</predicate>\n'),nl.
+    write_calls(Calls), write('\n\t\t</calls>'),
+	write('\n\t\t<block>'),
+	write_blocking(Name/Ar),
+	write('\n\t\t</block>'),
+    write('\n\t</predicate>\n'),nl.
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
@@ -196,12 +212,23 @@ assert_dynamics((X,Y)) :-
     !, assert(dynamics(X)), assert_dynamics(Y).
 assert_dynamics(X) :-
     !, assert(dynamics(X)).
+
 assert_metas((X,Y)) :-
     !, assert_metas(X), assert_metas(Y).
 assert_metas(Term) :-
     !, functor(Term,Fun,Ar),
 	Term =..[_Fun|Args],
     (metas(Fun/Ar, Args) -> true ; assert(metas(Fun/Ar, Args))).
+
+%assert each block
+
+assert_blocking((X,Y)) :-
+    !, assert_blocking(X), assert_blocking(Y).
+
+assert_blocking(Term) :-
+    !, functor(Term,Fun,Ar),
+	Term =..[_Fun|Args],
+    (blocking(Fun/Ar, Args) -> true ; assert(blocking(Fun/Ar, Args))).
 
 analyze((:- module(Name, ListOfExported)), _Layout, (:- module(Name,ListOfExported))) :-
     !, flatten(_Layout,[StartLine|FlatLayout]),
@@ -218,6 +245,11 @@ analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
     !, assert_dynamics(X).
 analyze((:- meta_predicate(X)), _Layout, (:- true)) :-
     !, assert_metas(X).
+
+%blocking
+
+analyze((:- block(X)), _Layout, (:- true)) :-
+    !, assert_blocking(X).
 
 analyze((:- op(P,T,N)), _Layout, (:- op(P,T,N))) :- 
 	assert( ops(P,T,N) ).
@@ -241,6 +273,16 @@ analyze(Fact, Layout, Fact) :-
     flatten(Layout,[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     assert(predicates(Fun,Ar,Args,'',[],StartLine,EndLine)).
+
+
+analyze_file(FileName):-
+	prolog_flag(redefine_warnings, _, off),
+	on_exception(X,(use_module(FileName),
+	write_clj_representation,told),
+	(
+		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
+	).
+
 
 user:term_expansion(Term1, Lay1, Tokens1, Term2, [], [codeq | Tokens1]) :-
     nonmember(codeq, Tokens1), % do not expand if already expanded
