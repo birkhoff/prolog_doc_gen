@@ -76,6 +76,7 @@ public class InformationMerger {
 		merged.setModule(predicate.getModule());
 		merged.setCodeString(predicate.getCodeString());
 		
+		merged.setMode(doc.getMode());
 		merged.setDate(doc.getDate());
 		merged.setAuthor(doc.getAuthor());
 		merged.setDescription(doc.getDescription());

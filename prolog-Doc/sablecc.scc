@@ -73,6 +73,7 @@ Tokens
 		{doc}doc_descr			= 	ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
 	 	{doc}doc_date			= 	ops at d a t e whitespace;
 	 	{doc}doc_author			= 	ops at a u t h o r whitespace;
+		{doc}doc_mode			= 	ops at m o d e whitespace;
 	 	{doc}doc_atdoc			= 	ops at letter+ whitespace;
 	 	{doc}doc_identifier		= 	chars;
 	 
@@ -130,11 +131,13 @@ Productions
 
 	entries	{-> ast} = 	  {author}	author 		{-> author.ast} 
 						| {date}	date 		{-> date.ast}
+						| {mode}	mode 		{-> mode.ast}
 						| {descr}	descr 		{-> descr.ast}
 						| {atdoc}	doc_atdoc string+ {-> New ast.at_doc( doc_atdoc, [string.ast] ) };
 	
 	author 	{-> ast} =	{author} doc_author string+ 	{-> New ast.author( [string.ast] )};
 	date 	{-> ast} =	{date} doc_date string+ 		{-> New ast.date( [string.ast] )};
+	mode 	{-> ast} =	{date} doc_mode string+ 		{-> New ast.mode( [string.ast] )};
 	descr 	{-> ast} = 	{descr} doc_descr string+ 		{->New ast.descr( [string.ast] ) };			
 
 	string{-> ast} = 	{simple} 		string_doc_string 	{-> New ast.string_a(string_doc_string) }
@@ -149,6 +152,7 @@ Abstract Syntax Tree
 		|	{entries} ast*
 		|	{author} ast*
 		|	{date} ast*
+		|	{mode} ast*
 		| 	{descr} ast+
 		| 	{label} ast+
 		|	{at_doc} [identifier]: doc_atdoc [description]:ast* 

@@ -18,6 +18,7 @@ public class DocParser extends DepthFirstAdapter{
 	private String description = "Description";
 	private String date = "Date";
 	private String line = "Line";
+	private String mode = "Mode";
 	private String currentEntryKey;
 	
 	
@@ -94,6 +95,24 @@ public class DocParser extends DepthFirstAdapter{
 	}
 	
 	@Override
+	public void caseAModeAst( AModeAst entries){
+		
+		int entries_size = entries.getAst().size();
+		String returnMode = "";
+		for (int i = 0; i < entries_size; i ++) {
+			
+			String currentMode = entries.getAst().get(i).toString();
+			//System.out.println( currentDate );
+			if (i>=entries_size-1 && !currentMode.contains("*") || i<entries_size-1)
+				returnMode += currentMode;
+			entries.getAst().get(i).apply(this);
+		}
+		
+		DocInfo.get(currentPredicate).setMode(returnMode);
+		
+	}
+	
+	@Override
 	public void caseADescrAst( ADescrAst entries){
 		
 		int entries_size = entries.getAst().size();
@@ -112,7 +131,6 @@ public class DocParser extends DepthFirstAdapter{
 		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
 		
 		
-		((HashMap) Predicates.get(currentPredicate)).put(description, returnDescr);
 		DocInfo.get(currentPredicate).setDescription(returnDescr);
 		
 		

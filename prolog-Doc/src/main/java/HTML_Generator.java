@@ -110,6 +110,7 @@ public class HTML_Generator {
 	    	Predicate p = m.getPredicates().get(i);
 	    	code += "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;\">\n";
 			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>";
+			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>";
 			if(p.getDate() != null)	code += "<p>"+"Date"+": "+p.getDate()+"</p>";
 			if(p.getDescription() != null)	code += "<p>"+"Description"+": "+p.getDescription()+"</p>";
@@ -131,7 +132,7 @@ public class HTML_Generator {
 				code += "<div style=\"text-indent:30px;\">\n";
 				
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-					if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"/ "+callArity+"</p>\n"; 
+					if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+" </p>\n"; 
 					else				code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</p>\n"; 
 					if(!callModule.equalsIgnoreCase("built_in") ) code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
 					
@@ -139,7 +140,7 @@ public class HTML_Generator {
 					code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
 					code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
 				}
-				
+				//System.out.println(p.getName());
 				code += "</div><br>";
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}

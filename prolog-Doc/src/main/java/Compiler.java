@@ -37,6 +37,8 @@ public class Compiler {
 		startLoadingScreen(Files.size());
 		
 		for (int i = 0; i< Files.size(); i++) {
+
+			System.out.println("\n"+Files.get(i));
 			try {
 				Compiler(Files.get(i));
 			} catch (ParserException e) {
@@ -115,7 +117,7 @@ public class Compiler {
 		  Parser parser = new Parser(lexer); 
 		  Start tree = parser.parse();
 		  ASTPrinter lala = new ASTPrinter();
-		  //tree.apply(lala);
+		  tree.apply(lala);
 		 
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
@@ -134,21 +136,29 @@ public class Compiler {
 		 System.out.println(e.getMessage());
 		}
 
-	 
+	 System.out.println("going sicstus");
 		try {
-			 String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
-			  
-			  Process p;
+			String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
+			
+			Process p;
 			p = Runtime.getRuntime().exec(new String[] { 
 			       "bash", "-c", 
 			       cmd });
-			  //Process p = Runtime.getRuntime().exec(cmd);
-			  p.waitFor();
+			 System.out.println("wait"); 
+			//Process p = Runtime.getRuntime().exec(cmd);
+			p.getOutputStream().close();
+			p.getInputStream().close();
+			 p.waitFor();
+			
+			
+			System.out.println("waited");
 		} catch (IOException e1) {
 			
 			System.out.println( e1.getMessage() );
 		}
 		 
+
+		 System.out.println("leaving sicstus");
 		  
 		try
 		{
@@ -172,6 +182,8 @@ public class Compiler {
 		  Module.setPredicates(merger.MergedPredicates);
 		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
 		  Modules.add(Module);
+		  File xml = new File("foo.xml");
+		  xml.delete();
 
 		  		  
 	}

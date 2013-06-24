@@ -9,6 +9,7 @@ public class DocInformation {
 		private String Author;
 		private String Date;
 		private String Description;
+		private String Mode;
 		private List<AdditionalEntry> AdditionalEntries;
 		
 		private int line;
@@ -74,6 +75,16 @@ public class DocInformation {
 		public void addAdditionalEntry(String key, String value ){
 			AdditionalEntry newEntry = new AdditionalEntry(key, value);
 			this.AdditionalEntries.add(newEntry);
+		}
+
+
+		public String getMode() {
+			return Mode;
+		}
+
+
+		public void setMode(String mode) {
+			Mode = mode;
 		}
 
 	

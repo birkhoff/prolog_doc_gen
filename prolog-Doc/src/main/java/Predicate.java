@@ -7,6 +7,7 @@ public class Predicate {
 	private String Name;
 	private String Author;
 	private String Date;
+	private String Mode;
 	private String Description;
 	private List<AdditionalEntry> AdditionalEntries;
 	private boolean attached;	
@@ -217,6 +218,14 @@ public class Predicate {
 
 	public void setCodeString(String codeString) {
 		CodeString = codeString;
+	}
+
+	public String getMode() {
+		return Mode;
+	}
+
+	public void setMode(String mode) {
+		Mode = mode;
 	}
 
 }

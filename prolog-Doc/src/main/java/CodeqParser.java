@@ -142,15 +142,19 @@ private String getCode(int starts[], int ends[]){
 	for (int k = starts.length-1; k >=0 ; k--) {
 		
 		for(int i = starts[k]; i <= ends[k]; i ++){
-		
-			if (starts[k] <= i && ends[k] >= i ) {
-			returnCode += 	"<br>";
-			if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";
-					  
-			returnCode += File.get(i);
-					  
-			if (i == ends[k])		returnCode += "<br>";
-			 }
+			
+			if (i>=1 && i<= File.size()){
+				if (starts[k] <= i && ends[k] >= i) {
+					returnCode += 	"<br>";
+					if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";	
+					
+					returnCode += File.get(i);
+						  
+					if (i == ends[k])	returnCode += "<br>";
+				}
+			}else{
+				System.out.println("\n FATAL ERROR TRYING TO READ PREDICATE FROM LINE "+i +"WITH A FILE LENGTH OF "+File.size());
+			}
 			
 		}
 	}
