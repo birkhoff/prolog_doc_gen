@@ -109,7 +109,7 @@ write_calls([call(Module,Name,Ar)|Calls]) :-
     escaping_format('\n\t\t\t<call>\n\t\t\t\t<module>"~w"</module>\n\t\t\t\t<name>~w</name>\n\t\t\t\t<arity>~w</arity>\n\t\t\t</call>', [Module,EscapedName,Ar]),
     write_calls(Calls).
 
-write_clj_representation :-
+write_xml_representation :-
     update_calls_all_preds,
     write('<?xml version="1.0" encoding="UTF-8"?>'),nl,
 	write('<programm>'), nl,
@@ -258,27 +258,33 @@ analyze((:- _),_Layout,(:- true)) :- !.
 analyze((?- X),_Layout,(?- X)) :- !.
 analyze(end_of_file,_Layout,end_of_file) :- !.
 
+
+
 analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
     !, layout_sub_term([LayoutHead|LayoutSub],3,SubLay),
     analyze_body(Body,SubLay,Calls),
     functor(Head,Fun,Ar),
     Head =.. [Fun|Args],
+	(atom_codes(Fun, "-->") -> Args=[DCG_Name,Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
     flatten([LayoutHead|LayoutSub],[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
-    assert(predicates(Fun,Ar,Args,Body,Calls,StartLine,EndLine)),
-    assert(in_clause(Fun,Ar)).
+    assert(predicates(Name,Ar,Args,Body,Calls,StartLine,EndLine)),
+    assert(in_clause(Name,Ar)).
+
+
 analyze(Fact, Layout, Fact) :-
     !, functor(Fact,Fun,Ar),
     Fact =.. [Fun|Args],
-    flatten(Layout,[StartLine|FlatLayout]),
+   	(atom_codes(Fun, "-->") -> Args=[DCG_Name,Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
+ 	flatten(Layout,[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
-    assert(predicates(Fun,Ar,Args,'',[],StartLine,EndLine)).
+    assert(predicates(Name,Ar,Args,'',[],StartLine,EndLine)).
 
 
 analyze_file(FileName):-
 	prolog_flag(redefine_warnings, _, off),
 	on_exception(X,(use_module(FileName),
-	write_clj_representation,told),
+	write_xml_representation,told),
 	(
 		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
 	).

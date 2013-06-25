@@ -138,7 +138,7 @@ public class Compiler {
 
 	 System.out.println("going sicstus");
 		try {
-			String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_clj_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
+			String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_xml_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
 			
 			Process p;
 			p = Runtime.getRuntime().exec(new String[] { 
