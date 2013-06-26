@@ -14,7 +14,7 @@
 :- op(300, fy, ~~).
 
 
-:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2. 
+:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, volatiles/1, multifiles/1,in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2. 
 
 in_module('user').
 module_pos(1,1).
@@ -54,6 +54,12 @@ write_blocking(Name/Ar):-
 	fail.
 write_blocking(_Name/_Ar).
 
+write_multifiles :-
+ 	multifiles(Name/Ar), 
+	escaping_format('\n\t<multifile>~w/~w</multifile>', [Name, Ar]),
+	fail.
+write_multifiles.
+
 write_predicates :-
     findall(pr(Name,Ar), predicates(Name,Ar,_,_,_,_,_), ListOfNames),
     remove_dups(ListOfNames,ListOfNames2),
@@ -79,12 +85,11 @@ is_dynamic(_Name,_Ar,'<dynamic>false</dynamic>').
 is_meta(Name,Ar,Return) :- metas(Name/Ar, Args), format_to_codes('<meta>true</meta>\n\t\t<meta_arg>~w</meta_arg>', [Args], Codes), atom_codes(Return, Codes), !.
 is_meta(_Name,_Ar,'<meta>false</meta>').
 
-%is_blocking
-/*
-is_blocking(X) :-
-	blocking(Name/Ar, Args), format_to_codes('\n\t\t<blocking>~w~w</blocking>', [Name,Args], Codes), atom_codes(Return, Codes), !.
-is_blocking(_Name,_Ar,'<blocking>false</blocking>').
-*/
+is_volatile(Name,Ar,'\n\t\t<volatile>true</volatile>') :- volatiles(Name/Ar), !.
+is_volatile(_Name,_Ar,'\n\t\t<volatile>false</volatile>').
+
+is_multifile(Name,Ar,'\n\t\t<multifile>true</multifile>') :- multifiles(Name/Ar), !.
+is_multifile(_Name,_Ar,'\n\t\t<multifile>false</multifile>').
 
 
 write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
@@ -95,8 +100,8 @@ write_predicates2(Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
     append(Calls,Calls1,NewCalls),
     write_predicates2(Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2).
 write_predicates2(Name,Ar,_Code,Calls,StartLines,EndLines,_VNC) :-
-    is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta), %is_blocking(Name,Ar,Blocking),
-    escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta]),
+    is_dynamic(Name,Ar,Dynamic), is_meta(Name,Ar,Meta), is_volatile(Name,Ar,Volatile), is_multifile(Name,Ar,Multifile),
+    escaping_format('\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w ~w ~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta, Volatile,Multifile]),
     write_calls(Calls), write('\n\t\t</calls>'),
 	write('\n\t\t<block>'),
 	write_blocking(Name/Ar),
@@ -119,6 +124,7 @@ write_xml_representation :-
     escaping_format('<module_startline>~w</module_startline>\n', [StartLine]),
     escaping_format('<module_endline>~w</module_endline>\n', [EndLine]),
     write('<exports>\n'), write_exports, write('</exports>'), nl,
+	write('\n<multifiles>\n'), write_multifiles, write('\n</multifiles>\n'),
     write('\n<predicates>\n\n'), write_predicates, write('</predicates>'), nl,
     write('<import_modules>'), write_import1, write('</import_modules>'), nl,
     write('<import_predicates>\n'), write_import3, write('</import_predicates>'), nl,
@@ -220,15 +226,30 @@ assert_metas(Term) :-
 	Term =..[_Fun|Args],
     (metas(Fun/Ar, Args) -> true ; assert(metas(Fun/Ar, Args))).
 
-%assert each block
+%assert block
 
 assert_blocking((X,Y)) :-
     !, assert_blocking(X), assert_blocking(Y).
-
 assert_blocking(Term) :-
     !, functor(Term,Fun,Ar),
 	Term =..[_Fun|Args],
     (blocking(Fun/Ar, Args) -> true ; assert(blocking(Fun/Ar, Args))).
+
+%assert volatile 
+
+assert_volatile((X,Y)) :-
+    !, assert(volatiles(X)), assert_volatile(Y).
+assert_volatile(X) :-
+    !, assert(volatiles(X)).
+
+%assert multifile 
+
+assert_multifile((X,Y)) :-
+    !, assert(multifiles(X)), assert_multifile(Y).
+assert_multifile(X) :-
+    !, assert(multifiles(X)).
+
+%% analyzing Prolog Code
 
 analyze((:- module(Name, ListOfExported)), _Layout, (:- module(Name,ListOfExported))) :-
     !, flatten(_Layout,[StartLine|FlatLayout]),
@@ -246,13 +267,16 @@ analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
 analyze((:- meta_predicate(X)), _Layout, (:- true)) :-
     !, assert_metas(X).
 
-%blocking
+%blocking, operator declarations, volatile, multifile
 
 analyze((:- block(X)), _Layout, (:- true)) :-
     !, assert_blocking(X).
-
 analyze((:- op(P,T,N)), _Layout, (:- op(P,T,N))) :- 
 	assert( ops(P,T,N) ).
+analyze((:- volatile(X)), _Layout, (:- volatile(X))) :-
+    !, assert_volatile(X).
+analyze((:- multifile(X)), _Layout, (:- multifile(X))) :-
+    !, assert_multifile(X).
 	
 analyze((:- _),_Layout,(:- true)) :- !.
 analyze((?- X),_Layout,(?- X)) :- !.
@@ -265,7 +289,7 @@ analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
     analyze_body(Body,SubLay,Calls),
     functor(Head,Fun,Ar),
     Head =.. [Fun|Args],
-	(atom_codes(Fun, "-->") -> Args=[DCG_Name,Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
+	(atom_codes(Fun, "-->") -> Args=[DCG_Name,_Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
     flatten([LayoutHead|LayoutSub],[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     assert(predicates(Name,Ar,Args,Body,Calls,StartLine,EndLine)),
@@ -275,7 +299,7 @@ analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
 analyze(Fact, Layout, Fact) :-
     !, functor(Fact,Fun,Ar),
     Fact =.. [Fun|Args],
-   	(atom_codes(Fun, "-->") -> Args=[DCG_Name,Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
+   	(atom_codes(Fun, "-->") -> Args=[DCG_Name,_Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
  	flatten(Layout,[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     assert(predicates(Name,Ar,Args,'',[],StartLine,EndLine)).
