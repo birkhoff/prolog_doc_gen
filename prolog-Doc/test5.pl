@@ -1,4 +1,4 @@
-:-module(test3, [foo/1]).
+:-module(test5, [foo/1]).
 
 /** 
 	@author swaghetti yolonese
@@ -6,13 +6,23 @@
 	@TimLippold  yolo
 	swagelicious
 	@descr /* GPL
+	@mode merge(+,+,-)
 
 */
 
 /* /*/
 
-foo(X):-
-	X = 1.
+:- multifile foo/1.
+
+foo(yam).
+
+:- block merge(-,?,-), merge(?,-,-).
+
+    merge([], Y, Y).
+    merge(X, [], X).
+    merge([H|X], [E|Y], [H|Z]) :- H @< E,  merge(X, [E|Y], Z).
+    merge([H|X], [E|Y], [E|Z]) :- H @>= E, merge([H|X], Y, Z).
+
 
 
 /** 
@@ -24,6 +34,9 @@ foo(X):-
 	mode declarations from them as well as documentation in the form of
 	HTML or LaTeX.
 */
+
+:- volatile is_not_visited/2.
+
 is_not_visited( _ , [] ).
 is_not_visited( H, [H|_T] ):-
 	false.
