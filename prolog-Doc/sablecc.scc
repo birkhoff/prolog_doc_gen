@@ -35,10 +35,12 @@ Helpers
 	y 	= 	['y'+'Y'];
 	z 	= 	['z'+'Z'];
 
+	
 	whitespace		= (' '| 10 | 13 | 9)+;
 	ops				= (' '| 10 | 13 | 9)*;
 	nl 				= 10;
-
+	eot				= (3|0|4);
+	
 	anynl		 = 	[0..255];
 	any			 =	[anynl -10];
 	any_no_at	 = 	[anynl -64];
@@ -52,6 +54,11 @@ Helpers
 	percent					= 37;
 	dot						= 46;
 	
+	single_whitespace		= (' '| 13 | 9)+;
+	single_ops				= (' '| 13 | 9)*;
+	any_no_percentage		= [ any - 37];						// for single line docs with %%
+	any_no_nl_no_at			= [any -64];
+	
 	chars 			= 	letter+;
 	star 			= 	(42); 
 	string_no_slash = 	[ [ anynl - 64 ] - 47];					// so comment tokens won't be eaten and the
@@ -64,11 +71,11 @@ Helpers
 
 
 States
-	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star, pl_comment, pl_comment_star;
+	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star, doc_single, pl_single_comment_start, pl_comment, pl_comment_star;
 	
 Tokens
 	 	
-		{doc}doc_at				= 	at at;
+		{doc, doc_single}doc_at	= 	at at;
 		{doc}doc_mail			= 	ops mail_letter* dot* mail_letter* at mail_letter+ dot mail_letter+ ops;
 		{doc}doc_descr			= 	ops at ( ( d e s c r )| ( d e s c r i p t i o n ) ) whitespace;	
 	 	{doc}doc_date			= 	ops at d a t e whitespace;
@@ -85,7 +92,7 @@ Tokens
 		{doc_star-> pl}	doc_end = '/' ops;
 		
 		{pl}					programm_no_slash = prog_no_slash;
-		{pl}					programm_comment = percent+ any* nl;
+		{pl -> pl_single_comment_start}		programm_comment_start = percent;
 		{pl -> pl_slash} 		prorgramm_slash = '/';
 		{pl -> pl_single_ticks}	programm_single_ticks = single_tick;
 		{pl -> pl_double_ticks}	programm_double_ticks = double_tick;
@@ -111,8 +118,27 @@ Tokens
 		{pl_double_ticks} programm_double_string 			= any_no_double_tick*;
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
+		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage+;
+		{pl_single_comment_start -> pl}		programm_end_normal_single_comment = nl+;
+		{pl_single_comment_start -> doc_single}		single_doc_start = percent+;
+		
+		{doc_single}					doc_single_string	= any_no_nl_no_at+;
+		{doc_single-> pl}				doc_single_end		= (nl | eot);
+		
+
+		{doc_single} single_doc_mail			= 	single_ops mail_letter* dot* mail_letter* at mail_letter+ dot mail_letter+ single_ops;
+		{doc_single} single_doc_descr			= 	single_ops  at ( ( d e s c r )| ( d e s c r i p t i o n ) ) single_whitespace;	
+	 	{doc_single} single_doc_date			= 	single_ops 	at 	d a t e 		single_whitespace;
+	 	{doc_single} single_doc_author			= 	single_ops 	at	a u t h o r 	single_whitespace;
+		{doc_single} single_doc_mode			= 	single_ops 	at	m o d e 		single_whitespace;
+	 	{doc_single} single_doc_atdoc			= 	single_ops 	at 	letter+ 		single_whitespace;
+		
 Ignored Tokens
-		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, comment_no_star, programm_comment, string_star_star, programm_to_star, programm_star_any, programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
+		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, 
+		comment_no_star, programm_comment_start, string_star_star, 
+		programm_to_star, programm_star_any, programm_comment, programm_end_normal_single_comment,
+		programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, 
+		programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;
 
 
 
@@ -120,7 +146,8 @@ Productions
 	
 	start{-> ast} =		{start} docs* 		{-> New ast.start( [docs.ast]) };
 	
-	docs {-> ast} = 	{doc} 	doc_start doc doc_end 		{-> doc.ast };
+	docs {-> ast} =       {doc} 		doc_start doc doc_end 				{-> doc.ast }
+						| {single_doc} 	single_doc_start doc doc_single_end? {-> doc.ast };
 
 	
 	doc {-> ast}	 = 	  {optional_rules} entries*			{-> New ast.entries( [entries.ast] ) }
@@ -133,18 +160,28 @@ Productions
 						| {date}	date 		{-> date.ast}
 						| {mode}	mode 		{-> mode.ast}
 						| {descr}	descr 		{-> descr.ast}
-						| {atdoc}	doc_atdoc string+ {-> New ast.at_doc( doc_atdoc, [string.ast] ) };
+						| {atdoc}	doc_atdoc string+ {-> New ast.at_doc( doc_atdoc, [string.ast] ) }
+						| {single_atdoc}	single_doc_atdoc string+ {-> New ast.single_at_doc( single_doc_atdoc, [string.ast] ) };
 	
-	author 	{-> ast} =	{author} doc_author string+ 	{-> New ast.author( [string.ast] )};
-	date 	{-> ast} =	{date} doc_date string+ 		{-> New ast.date( [string.ast] )};
-	mode 	{-> ast} =	{date} doc_mode string+ 		{-> New ast.mode( [string.ast] )};
-	descr 	{-> ast} = 	{descr} doc_descr string+ 		{->New ast.descr( [string.ast] ) };			
+	author 	{-> ast} =	  {author} doc_author string+ 					{-> New ast.author( [string.ast] )}
+						| {single_author} single_doc_author string+ 	{-> New ast.author( [string.ast] )};
+						
+	date 	{-> ast} = 	  {date} doc_date string+ 						{-> New ast.date( [string.ast] )}
+						| {single_date} single_doc_date string+ 		{-> New ast.date( [string.ast] )};
+						
+	mode 	{-> ast} =	  {date} doc_mode string+ 						{-> New ast.mode( [string.ast] )}
+						| {single_date} single_doc_mode string+ 		{-> New ast.mode( [string.ast] )};
+						
+	descr 	{-> ast} = 	  {descr} doc_descr string+ 					{->New ast.descr( [string.ast] ) }	
+						| {single_descr} single_doc_descr string+ 		{->New ast.descr( [string.ast] ) };	
 
-	string{-> ast} = 	{simple} 		string_doc_string 	{-> New ast.string_a(string_doc_string) }
-					|	{star}			string_doc_star 	{-> New ast.string_b(string_doc_star) }
-					|	{after_star} 	string_star_string	{-> New ast.string_c(string_star_string)}
-					|	{mail} 			doc_mail 			{-> New ast.string_d(doc_mail)}
-					|	{at} 			doc_at 				{-> New ast.string_e(doc_at)};
+	string{-> ast} = 	  {simple} 		string_doc_string 	{-> New ast.string_a(string_doc_string) }
+						| {star}		string_doc_star 	{-> New ast.string_b(string_doc_star) }
+						| {after_star} 	string_star_string	{-> New ast.string_c(string_star_string)}
+						| {mail} 		doc_mail 			{-> New ast.string_d(doc_mail)}
+						| {at} 			doc_at 				{-> New ast.string_e(doc_at)}
+						| {single_doc}	doc_single_string	{-> New ast.string_f(doc_single_string)}
+						| {single_mail}	single_doc_mail 	{-> New ast.string_g(single_doc_mail)};
 
 Abstract Syntax Tree
 	ast = 	{start}  ast*
@@ -156,11 +193,14 @@ Abstract Syntax Tree
 		| 	{descr} ast+
 		| 	{label} ast+
 		|	{at_doc} [identifier]: doc_atdoc [description]:ast* 
+		|	{single_at_doc} [identifier]: single_doc_atdoc [description]:ast* 
 		|	{string_a} 	string_doc_string 
 		| 	{string_b}	string_doc_star
 		|	{string_c}	string_star_string
 		|	{string_d} 	doc_mail
 		|	{string_e} 	doc_at
+		|	{string_f}	doc_single_string
+		|	{string_g} 	single_doc_mail
 		|	{user} [user]: ast [entries]: ast*;
 
 
