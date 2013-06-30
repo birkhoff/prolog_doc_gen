@@ -38,7 +38,7 @@ public class Compiler {
 		
 		for (int i = 0; i< Files.size(); i++) {
 
-			System.out.println("\n"+Files.get(i));
+			//System.out.println("\n"+Files.get(i));
 			try {
 				Compiler(Files.get(i));
 			} catch (ParserException e) {
@@ -123,7 +123,7 @@ public class Compiler {
 		  tree.apply( docCollector);
 		  
 		  
-		  //debugDocOutput( docCollector.DocInfo );
+		  debugDocOutput( docCollector.DocInfo );
 		  docInfos = docCollector.DocInfo;
 		  
 		  /*
@@ -136,35 +136,33 @@ public class Compiler {
 		 System.out.println(e.getMessage());
 		}
 
-	 System.out.println("going sicstus");
 		try {
-			String cmd = "sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_xml_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\"" ;
+			String cmd[] = {"bash", "-c", 
+						"sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_xml_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\""} ;
 			
-			Process p;
-			p = Runtime.getRuntime().exec(new String[] { 
-			       "bash", "-c", 
-			       cmd });
-			 System.out.println("wait"); 
-			//Process p = Runtime.getRuntime().exec(cmd);
-			p.getOutputStream().close();
-			p.getInputStream().close();
-			 p.waitFor();
+			ProcessBuilder pb = new ProcessBuilder(cmd);
+			pb.redirectErrorStream(true);
+			Process process = pb.start();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
+			while ((line = reader.readLine()) != null){   
+				//System.out.println("\t" + line);
+			}
+			process.waitFor();
 			
 			
-			System.out.println("waited");
 		} catch (IOException e1) {
 			
 			System.out.println( e1.getMessage() );
 		}
 		 
 
-		 System.out.println("leaving sicstus");
 		  
 		try
 		{
 		  CodeqParser codeqParser = new CodeqParser(nameOfFile);
 		  codeqParser.parseXML("foo.xml");
-		 // debugOutput(codeqParser.Predicates);
+		  //debugOutput(codeqParser.Predicates);
 		  //debugModuleOutput(codeqParser.Module);
 		  Module = codeqParser.Module;
 		  
@@ -178,12 +176,12 @@ public class Compiler {
 		  
 		  InformationMerger merger = new InformationMerger();
 		  merger.mergeModuleInformation(Predicates, docInfos);
-		//  debugMergedOutput(merger.MergedPredicates);
+		  //debugMergedOutput(merger.MergedPredicates);
 		  Module.setPredicates(merger.MergedPredicates);
 		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
 		  Modules.add(Module);
 		  File xml = new File("foo.xml");
-		  xml.delete();
+		  //xml.delete();
 
 		  		  
 	}
@@ -202,6 +200,8 @@ public class Compiler {
 			System.out.println(predicates.get(i).getName());
 			System.out.println("\tDynmc: "+predicates.get(i).isDynamic());
 			System.out.println("\tMeta: "+predicates.get(i).isMeta());
+			System.out.println("\tStartLines: "+predicates.get(i).getStartLines()[0]);
+			System.out.println("\tEndLines: "+predicates.get(i).getEndLines()[0]);
 
 			List<Call> calls = predicates.get(i).getCallsNames();
 			System.out.println("\tCalls:");

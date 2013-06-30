@@ -26,31 +26,36 @@ public class InformationMerger {
 			DocInformation currentDoc = docs.get(k);
 			
 			for (int i= 0; i < predicates.size(); i++) {
-				
-				if (!predicates.get(i).isAttached() ){
-					int currentMinSize = -1;
-					int docLine = docs.get(k).getLine();
-					int predicateLines[] = predicates.get(i).getStartLines();
+				//System.out.println("\n\t\tPreciate: "+ predicates.get(i).getName());
+				int currentMinSize = -1;
+				int docLine = currentDoc.getLine();
+				int predicateLines[] = predicates.get(i).getEndLines();
 					
-					for (int j = 0; j < predicateLines.length ;j++) {
-						int diff = Math.abs( predicateLines[j]-docLine );
-						//if(j <= 0) currentMinSize = diff;
-						if(currentMinSize > diff || currentMinSize == -1) currentMinSize = diff;
-					}
+				for (int j = 0; j < predicateLines.length ;j++) {
 					
-					if (minValue > currentMinSize || minValue == -1) {
-						minValue = currentMinSize;
-						attach = predicates.get(i);
+					int diff = predicateLines[j]-docLine;
+					if( diff >=0 && (currentMinSize > diff || currentMinSize == -1) ) {
+						currentMinSize = diff;
 					}
 				}
+				//System.out.println("\nMinValue: "+minValue +"  currentMin: " +currentMinSize);
+				if ( currentMinSize >=0 && (minValue > currentMinSize || minValue == -1) ) {
+					minValue = currentMinSize;
+					attach = predicates.get(i);
+				}
+				
 			}
 			
-			if(attach != null && currentDoc != null ){
-				attach.setAttached(true);
+			if(currentDoc != null && attach != null){
+				if (attach.isAttached()){ 
+					attach = this.mergeExistingPredicate(attach.getName(),attach.getArity(), currentDoc );
+				}else{
+					attach.setAttached(true);
+					Predicate mergedPredicate = this.mergePredicate(attach, currentDoc);
+					MergedPredicates.add( mergedPredicate );
+					PredicatesHashMap.put(mergedPredicate.getName(), mergedPredicate);
+				}
 				//System.out.println("mergin " + attach.getName() + " with " + currentDoc.getAuthor());
-				Predicate mergedPredicate = this.mergePredicate(attach, currentDoc);
-				MergedPredicates.add( mergedPredicate );
-				PredicatesHashMap.put(mergedPredicate.getName(), mergedPredicate);
 			}
 			
 		}
@@ -61,6 +66,30 @@ public class InformationMerger {
 			}
 		}
 		
+	}
+	
+	
+	public Predicate mergeExistingPredicate(String name, int ari, DocInformation doc){
+		
+		Predicate p = null;
+		for(int i=0; i<MergedPredicates.size(); i++){
+			if( MergedPredicates.get(i).getName().equalsIgnoreCase(name)
+				&& MergedPredicates.get(i).getArity() == ari ){
+				
+				p = MergedPredicates.get(i);
+				if(doc.getMode()!= null) p.addMode(doc.getMode());
+
+				if(doc.getDate()!= null) p.addDate(doc.getDate());
+				
+				if(doc.getAuthor()!= null) p.addAuthor(doc.getAuthor());
+				
+				if(doc.getDescription()!= null) p.addDescription(doc.getDescription());
+				
+				if(doc.getAdditionalEntries()!= null) p.addAdditionalEntries(doc.getAdditionalEntries());
+			}
+		}
+
+		return p;
 	}
 	
 	public Predicate mergePredicate( Predicate predicate, DocInformation doc){
@@ -76,11 +105,11 @@ public class InformationMerger {
 		merged.setModule(predicate.getModule());
 		merged.setCodeString(predicate.getCodeString());
 		
-		merged.setMode(doc.getMode());
-		merged.setDate(doc.getDate());
-		merged.setAuthor(doc.getAuthor());
-		merged.setDescription(doc.getDescription());
-		merged.setAdditionalEntries(doc.getAdditionalEntries());
+		if(doc.getMode()!= null) merged.setMode(doc.getMode());
+		if(doc.getDate()!= null) merged.setDate(doc.getDate());
+		if(doc.getAuthor()!= null) merged.setAuthor(doc.getAuthor());
+		if(doc.getDescription()!= null) merged.setDescription(doc.getDescription());
+		if(doc.getAdditionalEntries()!= null) merged.setAdditionalEntries(doc.getAdditionalEntries());
 				
 		return merged;
 	}

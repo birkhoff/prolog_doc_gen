@@ -130,9 +130,8 @@ public class DocParser extends DepthFirstAdapter{
 		if(returnDescr.charAt(returnDescr.length()-1) == '*') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
 		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
 		
-		
+		if(DocInfo.get(currentPredicate).getDescription()!=null) returnDescr = DocInfo.get(currentPredicate).getDescription() + returnDescr;
 		DocInfo.get(currentPredicate).setDescription(returnDescr);
-		
 		
 	}
 	
@@ -155,7 +154,8 @@ public class DocParser extends DepthFirstAdapter{
 		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
 		
 		DocInfo.get(currentPredicate).addAdditionalEntry(entryKey, returnDescr); 
-		((HashMap) Predicates.get(currentPredicate)).put(entryKey, returnDescr);
+		
+
 	}
 	
 	

@@ -31,17 +31,18 @@ public class Predicate {
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
+		
 	}
 	
 	public Predicate(String name){
 		
-
 		Code = new LinkedList<String>();
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
+
 	}
 
 	public Predicate( String name, int arity ){
@@ -54,13 +55,60 @@ public class Predicate {
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
+		
 	}
 	
 
+	public void addAuthor(String author){
+		if (this.Author!=null)
+			this.setAuthor(this.getAuthor()+" "+author);
+		else
+			this.setAuthor(author);
+	}
+	
+	public void addDate(String date){
+		if (this.Date!=null)
+			this.setDate(this.getDate()+" "+date);
+		else
+			this.setDate(date);
+	}
+	
+	public void addMode(String mode){
+		if (this.Mode!=null)
+			this.setMode(this.getMode()+" "+mode);
+		else
+			this.setMode(mode);
+	}
+	
+	public void addDescription(String descr){
+		if (this.Description!=null)
+			this.setDescription(this.getDescription()+" "+descr);
+		else
+			this.setDescription(descr);
+	}
+	
 	public void addAdditionalEntry( String key, String entry){
 		
 		AdditionalEntry newEntry = new AdditionalEntry(key, entry);
 		this.AdditionalEntries.add(newEntry);
+	}
+	
+	public void addAdditionalEntries(List<AdditionalEntry> additionalEntries) {
+		for(int k = 0; k < additionalEntries.size(); k++){
+			boolean notFound = true;
+			String key = additionalEntries.get(k).getIdentifier().replaceAll("( |\t)", "");
+			String entry = additionalEntries.get(k).getDescription();
+			for(int i = 0; i < this.AdditionalEntries.size() && notFound; i++){
+				if(AdditionalEntries.get(i).getIdentifier().equalsIgnoreCase(key)){
+					AdditionalEntries.get(i).addDescription(entry);
+					notFound = false;
+				}
+			}
+			if(notFound){
+				AdditionalEntry newEntry = new AdditionalEntry(key, entry);
+				this.AdditionalEntries.add(newEntry);
+			}
+		}
 	}
 	
 	public void setName(String name) {

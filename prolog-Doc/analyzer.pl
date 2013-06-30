@@ -228,6 +228,14 @@ analyze(Fact, Layout, Fact) :-
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     assert(predicates(Fun,Ar,Args,'',[],StartLine,EndLine)).
 
+	analyze_file(FileName):-
+		prolog_flag(redefine_warnings, _, off),
+		on_exception(X,(use_module(FileName),
+		write_xml_representation,told),
+		(
+			print('{:error \"'),print(X),print('\"}'),nl,halt(1))
+		).
+
 user:term_expansion(Term1, Lay1, Tokens1, Term2, [], [codeq | Tokens1]) :-
     nonmember(codeq, Tokens1), % do not expand if already expanded
     analyze(Term1, Lay1, Term2),

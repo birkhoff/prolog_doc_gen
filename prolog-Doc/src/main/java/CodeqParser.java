@@ -39,7 +39,7 @@ public class CodeqParser {
 	}
 	
 	public void parseXML(String fileName){
-		System.out.println("SaveToArray");
+		//System.out.println("SaveToArray");
 		this.saveFileToArray();
 		
 		try {
@@ -150,7 +150,16 @@ private String getCode(int starts[], int ends[]){
 					
 					returnCode += File.get(i);
 						  
-					if (i == ends[k])	returnCode += "<br>";
+					if (i == ends[k]){
+						if (File.get(i).matches(".*\\.((%+.*)| |\t|\n|(/\\+.*))*"))
+						returnCode += "<br>";
+						else{
+							for(int j = i+1; !File.get(j-1).matches(".*\\.((%+.*)| |\t|\n|/\\*.*)*") && j < File.size(); j++){
+								returnCode += "<br>"+File.get(j);
+							}
+							returnCode += "<br>";
+						}
+					}
 				}
 			}else{
 				System.out.println("\n FATAL ERROR TRYING TO READ PREDICATE FROM LINE "+i +"WITH A FILE LENGTH OF "+File.size());

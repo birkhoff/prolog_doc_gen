@@ -13,8 +13,6 @@ escape_argument(Arg,EscArg) :-
     atom_codes(EscArg,EscCodes).
 
 escape_codes_list([],[]).
-escape_codes_list([92|T],[92,92|T2]) :-
-    escape_codes_list(T,T2).
 escape_codes_list([34|T],[92,34|T2]) :-
     escape_codes_list(T,T2).
 escape_codes_list([H|T],[H|T2]) :-

@@ -60,7 +60,7 @@ public class HTML_Generator {
 		    
 		    this.generateModuleInformation(m);
 		    
-		    code +=   "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;\">\n";
+		    code +=   "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;box-shadow: 4px 4px 18px #666;\">\n";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	code += "<h4><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></h4>\n";
 		    }
@@ -108,7 +108,7 @@ public class HTML_Generator {
 		
 	    for(int i = 0; i < m.getPredicates().size(); i++){
 	    	Predicate p = m.getPredicates().get(i);
-	    	code += "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;\">\n";
+	    	code += "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; box-shadow:4px 4px 18px #666;\">\n";
 			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>";
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>";
@@ -137,7 +137,7 @@ public class HTML_Generator {
 					if(!callModule.equalsIgnoreCase("built_in") ) code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
 					
 				}else{
-					code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
+					code += "<p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
 					code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
 				}
 				//System.out.println(p.getName());
@@ -155,7 +155,7 @@ public class HTML_Generator {
 	
 	private void generateModuleInformation(Module m){
 		   
-		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n";
+		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
 			  
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>";
 		    

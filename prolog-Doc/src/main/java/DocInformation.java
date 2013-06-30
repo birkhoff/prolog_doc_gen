@@ -16,7 +16,6 @@ public class DocInformation {
 		
 		
 		public DocInformation(){
-			
 
 			setAdditionalEntries(new LinkedList<AdditionalEntry>());
 		}
@@ -72,11 +71,28 @@ public class DocInformation {
 		}
 		
 		
-		public void addAdditionalEntry(String key, String value ){
+	/*	public void addAdditionalEntry(String key, String value ){
 			AdditionalEntry newEntry = new AdditionalEntry(key, value);
 			this.AdditionalEntries.add(newEntry);
-		}
+		}*/
 
+		public void addAdditionalEntry( String key, String entry){
+			boolean notFound = true;
+			key = key.replaceAll("( |\t)", "");
+			for(int i = 0; i < this.AdditionalEntries.size() && notFound; i++){
+				if(AdditionalEntries.get(i).getIdentifier().equalsIgnoreCase(key)){
+					AdditionalEntries.get(i).addDescription(entry);
+					notFound = false;
+				
+				}
+			}
+			
+			if(notFound){
+				AdditionalEntry newEntry = new AdditionalEntry(key, entry);
+				this.AdditionalEntries.add(newEntry);
+			}
+			
+		}
 
 		public String getMode() {
 			return Mode;

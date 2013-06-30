@@ -11,7 +11,12 @@ public class AdditionalEntry {
 		this.Identifier = identifier.replaceAll(" |\n|\t", "");			// cuts off unnecessary whitespaces
 		
 	}
+	
+	public void addDescription(String description) {
+		this.Description += description;
+	}
 
+	
 	public void setDescription(String description) {
 		Description = description;
 	}
