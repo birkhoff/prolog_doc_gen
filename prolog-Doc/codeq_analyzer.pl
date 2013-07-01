@@ -161,6 +161,8 @@ layout_sub_term([H|T],N,Res) :-
     (N=<1 -> Res=H ; N1 is N-1, layout_sub_term(T,N1,Res)).
 
 analyze_body(X,_Layout,[call('built_in', 'call', 1)]) :- var(X), !.
+analyze_body(X:M,_Layout,[call('built_in', 'Use variable Module', 1)]) :- var(M), !.
+
 analyze_body(\+(X),Layout,[call('built_in','not',1)|Calls]) :-
     !, analyze_body(X,Layout,Calls).
 %analyze_body('~~'(X),Layout) :-
@@ -285,7 +287,7 @@ analyze(end_of_file,_Layout,end_of_file) :- !.
 
 
 analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
-    !, layout_sub_term([LayoutHead|LayoutSub],3,SubLay),
+    !,layout_sub_term([LayoutHead|LayoutSub],3,SubLay),
     analyze_body(Body,SubLay,Calls),
     functor(Head,Fun,Ar),
     Head =.. [Fun|Args],
@@ -309,6 +311,17 @@ analyze_file(FileName):-
 	prolog_flag(redefine_warnings, _, off),
 	on_exception(X,(use_module(FileName),
 	write_xml_representation,told),
+	(
+		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
+	).
+
+
+analyze_file(FileName, XMLFile):-
+	prolog_flag(redefine_warnings, _, off),
+	on_exception(X,
+		(use_module(FileName),
+		open(XMLFile,write,S),
+		write_xml_representation,told),
 	(
 		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
 	).
