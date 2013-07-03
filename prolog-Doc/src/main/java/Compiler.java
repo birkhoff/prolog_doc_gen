@@ -117,7 +117,7 @@ public class Compiler {
 		  Parser parser = new Parser(lexer); 
 		  Start tree = parser.parse();
 		  ASTPrinter lala = new ASTPrinter();
-		  tree.apply(lala);
+		  //tree.apply(lala);
 		 
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
@@ -138,7 +138,7 @@ public class Compiler {
 
 		try {
 			String cmd[] = {"bash", "-c", 
-						"sicstus -l codeq_analyzer --goal \"tell('foo.xml'), prolog_flag(redefine_warnings, _, off),on_exception(X,(use_module('"+nameOfFile+"'),write_xml_representation,told, halt),(print('{:error \"'),print(X),print('\"}'),nl,halt(1))).\""} ;
+						"sicstus -l codeq_analyzer --goal \"analyze_file('"+nameOfFile+"','"+"foo.xml"+"').\""} ;
 			
 			ProcessBuilder pb = new ProcessBuilder(cmd);
 			pb.redirectErrorStream(true);
