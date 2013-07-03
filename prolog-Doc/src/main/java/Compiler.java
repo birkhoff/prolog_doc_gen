@@ -123,7 +123,7 @@ public class Compiler {
 		  tree.apply( docCollector);
 		  
 		  
-		  debugDocOutput( docCollector.DocInfo );
+		  //debugDocOutput( docCollector.DocInfo );
 		  docInfos = docCollector.DocInfo;
 		  
 		  /*

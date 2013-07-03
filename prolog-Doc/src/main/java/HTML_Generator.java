@@ -127,18 +127,18 @@ public class HTML_Generator {
 			for(int k = 0; k < p.getCallsNames().size(); k ++){
 				Call call = p.getCallsNames().get(k);
 				String callName = call.getName().replaceAll("\"", "");
-				String callModule = call.getModule().replaceAll("\"", "");
+				String callModule = call.getModule().replaceAll("\"", "").replaceAll("/", "_");
 				int callArity = call.getArity();
 				code += "<div style=\"text-indent:30px;\">\n";
 				
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-					if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+" </p>\n"; 
-					else				code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</p>\n"; 
-					if(!callModule.equalsIgnoreCase("built_in") ) code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
+					if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"&nbsp;&nbsp;&nbsp;&nbsp;"; 
+					else				code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&nbsp;&nbsp;&nbsp;&nbsp;"; 
+					if(!callModule.equalsIgnoreCase("built_in") ) code += "&nbsp;&nbsp;&nbsp;&nbsp;Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
 					
 				}else{
-					code += "<p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></p>\n";
-					code += "<p>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
+					code += "<p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+					code += "&nbsp;&nbsp;&nbsp;&nbsp;Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
 				}
 				//System.out.println(p.getName());
 				code += "</div><br>";

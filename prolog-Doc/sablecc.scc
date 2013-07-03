@@ -103,7 +103,7 @@ Tokens
 
 		
 		{pl_star->pl_comment}		programm_star_any = any_no_star;
-		{pl_star->doc} 				doc_start = star (star | whitespace)*;
+		{pl_star->doc} 				doc_start = star (whitespace)*;
 		
 		{pl_comment}				comment_no_star = any_no_star*;
 		{pl_comment->pl_comment_star}	comment_star = star+;

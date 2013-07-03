@@ -70,8 +70,7 @@ public class DocParser extends DepthFirstAdapter{
 			entries.getAst().get(i).apply(this);
 		}
 		
-		((HashMap) Predicates.get(currentPredicate)).put(author, returnAuthor);
-		
+		returnAuthor = returnAuthor.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setAuthor(returnAuthor);
 		
 	}
@@ -88,8 +87,7 @@ public class DocParser extends DepthFirstAdapter{
 			returnDate += currentDate;
 			entries.getAst().get(i).apply(this);
 		}
-		
-		((HashMap) Predicates.get(currentPredicate)).put(date, returnDate);
+		returnDate = returnDate.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setDate(returnDate);
 		
 	}
@@ -108,6 +106,7 @@ public class DocParser extends DepthFirstAdapter{
 			entries.getAst().get(i).apply(this);
 		}
 		
+		returnMode = returnMode.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setMode(returnMode);
 		
 	}
@@ -129,6 +128,7 @@ public class DocParser extends DepthFirstAdapter{
 		if(returnDescr.charAt(returnDescr.length()-1) == ' ') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
 		if(returnDescr.charAt(returnDescr.length()-1) == '*') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
 		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
+		returnDescr = returnDescr.replaceFirst("\\*+", "");
 		
 		if(DocInfo.get(currentPredicate).getDescription()!=null) returnDescr = DocInfo.get(currentPredicate).getDescription() + returnDescr;
 		DocInfo.get(currentPredicate).setDescription(returnDescr);
