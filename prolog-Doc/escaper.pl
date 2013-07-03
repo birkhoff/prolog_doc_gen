@@ -1,11 +1,11 @@
-:- module(escaper,[escaping_format/2, escape_single_argument/2]).
+:- module(escaper,[escaping_format/3, escape_single_argument/2]).
 
 :- use_module(library(lists)).
 :- use_module(library(codesio)).
 
-escaping_format(FormatString,Arguments) :-
+escaping_format(S, FormatString,Arguments) :-
     maplist(escape_argument,Arguments,EscapedArguments),
-    format(FormatString,EscapedArguments).
+    format(S, FormatString,EscapedArguments).
 
 escape_argument(Arg,EscArg) :-
     format_to_codes('~w', [Arg], Codes),
