@@ -38,7 +38,7 @@ public class Compiler {
 		
 		for (int i = 0; i< Files.size(); i++) {
 
-			//System.out.println("\n"+Files.get(i));
+			System.out.println("\n"+Files.get(i));
 			try {
 				Compiler(Files.get(i));
 			} catch (ParserException e) {
@@ -122,7 +122,6 @@ public class Compiler {
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
 		  
-		  
 		  //debugDocOutput( docCollector.DocInfo );
 		  docInfos = docCollector.DocInfo;
 		  
@@ -136,6 +135,7 @@ public class Compiler {
 		 System.out.println(e.getMessage());
 		}
 
+
 		try {
 			String cmd[] = {"bash", "-c", 
 						"sicstus -l codeq_analyzer --goal \"analyze_file('"+nameOfFile+"','"+"foo.xml"+"').\""} ;
@@ -145,14 +145,15 @@ public class Compiler {
 			Process process = pb.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
+			process.getErrorStream().close();
+			process.getOutputStream().close();
 			while ((line = reader.readLine()) != null){   
 				//System.out.println("\t" + line);
 			}
 			process.waitFor();
 			
-			
 		} catch (IOException e1) {
-			
+			System.out.println("Sicstus Process Failed in: " + nameOfFile);
 			System.out.println( e1.getMessage() );
 		}
 		 

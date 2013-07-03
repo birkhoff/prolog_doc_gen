@@ -111,6 +111,11 @@ public class HTML_Generator {
 	    	code += "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; box-shadow:4px 4px 18px #666;\">\n";
 			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>";
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
+			
+			code += "<div class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#fffffa;\">\n";
+			code += "<p>"+ p.getCodeString() + "</p>\n";
+			code += "</div>\n";
+			
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>";
 			if(p.getDate() != null)	code += "<p>"+"Date"+": "+p.getDate()+"</p>";
 			if(p.getDescription() != null)	code += "<p>"+"Description"+": "+p.getDescription()+"</p>";
@@ -141,12 +146,9 @@ public class HTML_Generator {
 					code += "&nbsp;&nbsp;&nbsp;&nbsp;Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
 				}
 				//System.out.println(p.getName());
-				code += "</div><br>";
+				code += "</div>";
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}
-			code += "<div class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#fffffa;\">\n";
-			code += "<p>"+ p.getCodeString() + "</p>\n";
-			code += "</div>\n";
 			code += "</div><br><br>\n\n\n";
 	    }
 

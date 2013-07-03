@@ -158,6 +158,29 @@ public class DocParser extends DepthFirstAdapter{
 
 	}
 	
+	@Override
+	public void caseASingleAtDocAst(ASingleAtDocAst entry){
+		
+		String entryKey = entry.getIdentifier().toString().replaceAll("@", "");
+		String entryValue = entry.getDescription().toString();
+		String returnDescr = "";
+		for (int i = 0; i < entry.getDescription().size(); i ++) {
+			
+			String currentDescr = entry.getDescription().get(i).toString();
+			currentDescr = currentDescr.replaceAll("@@", "@");
+			returnDescr += currentDescr;
+			entry.getDescription().get(i).apply(this);
+			
+		}
+		if(returnDescr.charAt(returnDescr.length()-1) == ' ') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		if(returnDescr.charAt(returnDescr.length()-1) == '*') returnDescr = returnDescr.substring(0, returnDescr.length()-1);
+		returnDescr = returnDescr.replaceAll("\n", "\n<br>");
+		
+		DocInfo.get(currentPredicate).addAdditionalEntry(entryKey, returnDescr); 
+		
+
+	}
+	
 	
 	
 	@Override

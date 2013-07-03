@@ -17,16 +17,26 @@ public interface Analysis extends Switch
     void caseAEntriesAst(AEntriesAst node);
     void caseAAuthorAst(AAuthorAst node);
     void caseADateAst(ADateAst node);
+    void caseAModeAst(AModeAst node);
     void caseADescrAst(ADescrAst node);
     void caseALabelAst(ALabelAst node);
     void caseAAtDocAst(AAtDocAst node);
+    void caseASingleAtDocAst(ASingleAtDocAst node);
     void caseAStringAAst(AStringAAst node);
     void caseAStringBAst(AStringBAst node);
     void caseAStringCAst(AStringCAst node);
+    void caseAStringDAst(AStringDAst node);
+    void caseAStringEAst(AStringEAst node);
+    void caseAStringFAst(AStringFAst node);
+    void caseAStringGAst(AStringGAst node);
+    void caseAUserAst(AUserAst node);
 
+    void caseTDocAt(TDocAt node);
+    void caseTDocMail(TDocMail node);
     void caseTDocDescr(TDocDescr node);
     void caseTDocDate(TDocDate node);
     void caseTDocAuthor(TDocAuthor node);
+    void caseTDocMode(TDocMode node);
     void caseTDocAtdoc(TDocAtdoc node);
     void caseTDocIdentifier(TDocIdentifier node);
     void caseTStringDocString(TStringDocString node);
@@ -35,7 +45,7 @@ public interface Analysis extends Switch
     void caseTStringStarString(TStringStarString node);
     void caseTDocEnd(TDocEnd node);
     void caseTProgrammNoSlash(TProgrammNoSlash node);
-    void caseTProgrammComment(TProgrammComment node);
+    void caseTProgrammCommentStart(TProgrammCommentStart node);
     void caseTProrgrammSlash(TProrgrammSlash node);
     void caseTProgrammSingleTicks(TProgrammSingleTicks node);
     void caseTProgrammDoubleTicks(TProgrammDoubleTicks node);
@@ -53,5 +63,16 @@ public interface Analysis extends Switch
     void caseTProgrammSingleStringEnd(TProgrammSingleStringEnd node);
     void caseTProgrammDoubleString(TProgrammDoubleString node);
     void caseTProgrammDoubleStringEnd(TProgrammDoubleStringEnd node);
+    void caseTProgrammComment(TProgrammComment node);
+    void caseTProgrammEndNormalSingleComment(TProgrammEndNormalSingleComment node);
+    void caseTSingleDocStart(TSingleDocStart node);
+    void caseTDocSingleString(TDocSingleString node);
+    void caseTDocSingleEnd(TDocSingleEnd node);
+    void caseTSingleDocMail(TSingleDocMail node);
+    void caseTSingleDocDescr(TSingleDocDescr node);
+    void caseTSingleDocDate(TSingleDocDate node);
+    void caseTSingleDocAuthor(TSingleDocAuthor node);
+    void caseTSingleDocMode(TSingleDocMode node);
+    void caseTSingleDocAtdoc(TSingleDocAtdoc node);
     void caseEOF(EOF node);
 }

@@ -88,8 +88,62 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    public void caseTSingleDocStart(@SuppressWarnings("unused") TSingleDocStart node)
     {
         this.index = 13;
+    }
+
+    @Override
+    public void caseTDocSingleString(@SuppressWarnings("unused") TDocSingleString node)
+    {
+        this.index = 14;
+    }
+
+    @Override
+    public void caseTDocSingleEnd(@SuppressWarnings("unused") TDocSingleEnd node)
+    {
+        this.index = 15;
+    }
+
+    @Override
+    public void caseTSingleDocMail(@SuppressWarnings("unused") TSingleDocMail node)
+    {
+        this.index = 16;
+    }
+
+    @Override
+    public void caseTSingleDocDescr(@SuppressWarnings("unused") TSingleDocDescr node)
+    {
+        this.index = 17;
+    }
+
+    @Override
+    public void caseTSingleDocDate(@SuppressWarnings("unused") TSingleDocDate node)
+    {
+        this.index = 18;
+    }
+
+    @Override
+    public void caseTSingleDocAuthor(@SuppressWarnings("unused") TSingleDocAuthor node)
+    {
+        this.index = 19;
+    }
+
+    @Override
+    public void caseTSingleDocMode(@SuppressWarnings("unused") TSingleDocMode node)
+    {
+        this.index = 20;
+    }
+
+    @Override
+    public void caseTSingleDocAtdoc(@SuppressWarnings("unused") TSingleDocAtdoc node)
+    {
+        this.index = 21;
+    }
+
+    @Override
+    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    {
+        this.index = 22;
     }
 }
