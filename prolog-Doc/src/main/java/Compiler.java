@@ -131,7 +131,7 @@ public class Compiler {
 	   }
 		catch(IOException e)
 		{
-		 // catch no file found
+		System.out.println("Error: "+ nameOfFile);
 		 System.out.println(e.getMessage());
 		}
 
