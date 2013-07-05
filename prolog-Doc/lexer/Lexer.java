@@ -168,6 +168,7 @@ public class Lexer
                             switch(state.id())
                             {
                                 case 5: state = State.DOC; break;
+                                case 7: state = State.DOC_SINGLE; break;
                             }
                             return token;
                         }
@@ -377,7 +378,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 0: state = State.PL; break;
+                                case 0: state = State.PL_SINGLE_COMMENT_START; break;
                             }
                             return token;
                         }
@@ -510,7 +511,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.PL_COMMENT; break;
+                                case 9: state = State.PL_COMMENT; break;
                             }
                             return token;
                         }
@@ -525,7 +526,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.PL_COMMENT_STAR; break;
+                                case 9: state = State.PL_COMMENT_STAR; break;
                             }
                             return token;
                         }
@@ -540,7 +541,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL_COMMENT_STAR; break;
+                                case 10: state = State.PL_COMMENT_STAR; break;
                             }
                             return token;
                         }
@@ -555,7 +556,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL_COMMENT; break;
+                                case 10: state = State.PL_COMMENT; break;
                             }
                             return token;
                         }
@@ -570,7 +571,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL; break;
+                                case 10: state = State.PL; break;
                             }
                             return token;
                         }
@@ -634,6 +635,171 @@ public class Lexer
                             }
                             return token;
                         }
+                    case 32:
+                        {
+                            @SuppressWarnings("hiding") Token token = new32(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 8: state = State.PL; break;
+                            }
+                            return token;
+                        }
+                    case 33:
+                        {
+                            @SuppressWarnings("hiding") Token token = new33(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 8: state = State.PL; break;
+                            }
+                            return token;
+                        }
+                    case 34:
+                        {
+                            @SuppressWarnings("hiding") Token token = new34(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 8: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 35:
+                        {
+                            @SuppressWarnings("hiding") Token token = new35(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 36:
+                        {
+                            @SuppressWarnings("hiding") Token token = new36(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.PL; break;
+                            }
+                            return token;
+                        }
+                    case 37:
+                        {
+                            @SuppressWarnings("hiding") Token token = new37(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 38:
+                        {
+                            @SuppressWarnings("hiding") Token token = new38(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 39:
+                        {
+                            @SuppressWarnings("hiding") Token token = new39(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 40:
+                        {
+                            @SuppressWarnings("hiding") Token token = new40(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 41:
+                        {
+                            @SuppressWarnings("hiding") Token token = new41(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 42:
+                        {
+                            @SuppressWarnings("hiding") Token token = new42(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
                     }
                 }
                 else
@@ -668,7 +834,7 @@ public class Lexer
     Token new11(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TStringStarString(text, line, pos); }
     Token new12(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocEnd(text, line, pos); }
     Token new13(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammNoSlash(text, line, pos); }
-    Token new14(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammComment(text, line, pos); }
+    Token new14(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammCommentStart(text, line, pos); }
     Token new15(@SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProrgrammSlash(line, pos); }
     Token new16(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleTicks(text, line, pos); }
     Token new17(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleTicks(text, line, pos); }
@@ -686,6 +852,17 @@ public class Lexer
     Token new29(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleStringEnd(text, line, pos); }
     Token new30(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleString(text, line, pos); }
     Token new31(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleStringEnd(text, line, pos); }
+    Token new32(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammComment(text, line, pos); }
+    Token new33(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammEndNormalSingleComment(text, line, pos); }
+    Token new34(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocStart(text, line, pos); }
+    Token new35(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleString(text, line, pos); }
+    Token new36(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleEnd(text, line, pos); }
+    Token new37(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMail(text, line, pos); }
+    Token new38(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDescr(text, line, pos); }
+    Token new39(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDate(text, line, pos); }
+    Token new40(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAuthor(text, line, pos); }
+    Token new41(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMode(text, line, pos); }
+    Token new42(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAtdoc(text, line, pos); }
 
     private int getChar() throws IOException
     {
@@ -748,12 +925,9 @@ public class Lexer
             {{0, 33, 1}, {34, 34, 2}, {35, 36, 1}, {37, 37, 3}, {38, 38, 1}, {39, 39, 4}, {40, 46, 1}, {47, 47, 5}, {48, 255, 1}, },
             {},
             {},
-            {{0, 9, 6}, {10, 10, 7}, {11, 36, 6}, {37, 37, 8}, {38, 255, 6}, },
             {},
             {},
-            {{0, 10, -5}, {11, 255, 6}, },
             {},
-            {{0, 255, -5}, },
         }
         { // PL_SLASH
             {{0, 33, 1}, {35, 38, 1}, {40, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 255, 1}, },
@@ -764,12 +938,11 @@ public class Lexer
         { // PL_STAR
             {{0, 41, 1}, {42, 42, 2}, {43, 255, 1}, },
             {},
-            {{9, 9, 3}, {10, 10, 4}, {13, 13, 5}, {32, 32, 6}, {42, 42, 7}, },
-            {{9, 42, -4}, },
-            {{9, 42, -4}, },
-            {{9, 42, -4}, },
-            {{9, 42, -4}, },
-            {{9, 42, -4}, },
+            {{9, 9, 3}, {10, 10, 4}, {13, 13, 5}, {32, 32, 6}, },
+            {{9, 32, -4}, },
+            {{9, 32, -4}, },
+            {{9, 32, -4}, },
+            {{9, 32, -4}, },
         }
         { // PL_SINGLE_TICKS
             {{0, 38, 1}, {39, 39, 2}, {40, 255, 1}, },
@@ -900,6 +1073,114 @@ public class Lexer
             {{9, 32, -5}, },
             {{9, 32, -5}, },
         }
+        { // DOC_SINGLE
+            {{0, 0, 1}, {1, 2, 2}, {3, 3, 3}, {4, 4, 4}, {5, 8, 2}, {9, 9, 5}, {10, 10, 6}, {11, 12, 2}, {13, 13, 7}, {14, 31, 2}, {32, 32, 8}, {33, 44, 2}, {45, 45, 9}, {46, 46, 10}, {47, 63, 2}, {64, 64, 11}, {65, 90, 12}, {91, 94, 2}, {95, 95, 13}, {96, 96, 2}, {97, 122, 14}, {123, 255, 2}, },
+            {{0, 9, 2}, {11, 63, 2}, {65, 255, 2}, },
+            {{0, 255, -3}, },
+            {{0, 255, -3}, },
+            {{0, 255, -3}, },
+            {{0, 8, 2}, {9, 9, 5}, {11, 63, -2}, {64, 64, 15}, {65, 255, -2}, },
+            {},
+            {{0, 255, -7}, },
+            {{0, 255, -7}, },
+            {{0, 9, 2}, {11, 44, 2}, {45, 63, -2}, {64, 64, 16}, {65, 255, -2}, },
+            {{0, 44, -11}, {45, 45, 17}, {46, 64, -11}, {65, 90, 18}, {91, 94, 2}, {95, 95, 19}, {96, 96, 2}, {97, 122, 20}, {123, 255, 2}, },
+            {{45, 45, 21}, {64, 64, 22}, {65, 65, 23}, {66, 67, 24}, {68, 68, 25}, {69, 76, 24}, {77, 77, 26}, {78, 90, 24}, {95, 95, 27}, {97, 97, 28}, {98, 99, 29}, {100, 100, 30}, {101, 108, 29}, {109, 109, 31}, {110, 122, 29}, },
+            {{0, 255, -11}, },
+            {{0, 255, -11}, },
+            {{0, 255, -11}, },
+            {{45, 45, 21}, {65, 122, -13}, },
+            {{45, 45, 21}, {65, 90, 32}, {95, 95, 33}, {97, 122, 34}, },
+            {{0, 45, -12}, {46, 63, 2}, {64, 255, -12}, },
+            {{0, 255, -19}, },
+            {{0, 255, -19}, },
+            {{0, 255, -19}, },
+            {{45, 45, 21}, {46, 46, 35}, {65, 122, -18}, },
+            {},
+            {{9, 9, 36}, {13, 13, 37}, {32, 32, 38}, {45, 46, -23}, {65, 84, 24}, {85, 85, 39}, {86, 90, 24}, {95, 95, 27}, {97, 116, 29}, {117, 117, 40}, {118, 122, 29}, },
+            {{9, 46, -25}, {65, 90, 24}, {95, 95, 27}, {97, 122, 29}, },
+            {{9, 46, -25}, {65, 65, 41}, {66, 68, 24}, {69, 69, 42}, {70, 90, 24}, {95, 95, 27}, {97, 97, 43}, {98, 100, 29}, {101, 101, 44}, {102, 122, 29}, },
+            {{9, 46, -25}, {65, 78, 24}, {79, 79, 45}, {80, 90, 24}, {95, 95, 27}, {97, 110, 29}, {111, 111, 46}, {112, 122, 29}, },
+            {{9, 122, -26}, },
+            {{9, 122, -25}, },
+            {{9, 122, -26}, },
+            {{9, 122, -27}, },
+            {{9, 122, -28}, },
+            {{45, 122, -23}, },
+            {{45, 122, -23}, },
+            {{45, 122, -23}, },
+            {{45, 45, 47}, {65, 90, 48}, {95, 95, 49}, {97, 122, 50}, },
+            {{9, 32, -25}, },
+            {{9, 32, -25}, },
+            {{9, 32, -25}, },
+            {{9, 46, -25}, {65, 83, 24}, {84, 84, 51}, {85, 90, 24}, {95, 95, 27}, {97, 115, 29}, {116, 116, 52}, {117, 122, 29}, },
+            {{9, 122, -41}, },
+            {{9, 83, -41}, {84, 84, 53}, {85, 115, -41}, {116, 116, 54}, {117, 122, 29}, },
+            {{9, 46, -25}, {65, 82, 24}, {83, 83, 55}, {84, 90, 24}, {95, 95, 27}, {97, 114, 29}, {115, 115, 56}, {116, 122, 29}, },
+            {{9, 122, -43}, },
+            {{9, 122, -44}, },
+            {{9, 46, -25}, {65, 67, 24}, {68, 68, 57}, {69, 90, 24}, {95, 95, 27}, {97, 99, 29}, {100, 100, 58}, {101, 122, 29}, },
+            {{9, 122, -47}, },
+            {{9, 9, 59}, {13, 13, 60}, {32, 32, 61}, {45, 122, -37}, },
+            {{9, 122, -49}, },
+            {{9, 122, -49}, },
+            {{9, 122, -49}, },
+            {{9, 46, -25}, {65, 71, 24}, {72, 72, 62}, {73, 90, 24}, {95, 95, 27}, {97, 103, 29}, {104, 104, 63}, {105, 122, 29}, },
+            {{9, 122, -53}, },
+            {{9, 46, -25}, {65, 68, 24}, {69, 69, 64}, {70, 95, -27}, {97, 100, 29}, {101, 101, 65}, {102, 122, 29}, },
+            {{9, 122, -55}, },
+            {{9, 46, -25}, {65, 66, 24}, {67, 67, 66}, {68, 90, 24}, {95, 95, 27}, {97, 98, 29}, {99, 99, 67}, {100, 122, 29}, },
+            {{9, 122, -57}, },
+            {{9, 68, -55}, {69, 69, 68}, {70, 100, -55}, {101, 101, 69}, {102, 122, 29}, },
+            {{9, 122, -59}, },
+            {{9, 32, -49}, },
+            {{9, 32, -49}, },
+            {{9, 32, -49}, },
+            {{9, 78, -28}, {79, 79, 70}, {80, 110, -28}, {111, 111, 71}, {112, 122, 29}, },
+            {{9, 122, -64}, },
+            {{9, 9, 72}, {13, 13, 73}, {32, 32, 74}, {45, 122, -26}, },
+            {{9, 122, -66}, },
+            {{9, 46, -25}, {65, 81, 24}, {82, 82, 75}, {83, 90, 24}, {95, 95, 27}, {97, 113, 29}, {114, 114, 76}, {115, 122, 29}, },
+            {{9, 122, -68}, },
+            {{9, 9, 77}, {13, 13, 78}, {32, 32, 79}, {45, 122, -26}, },
+            {{9, 122, -70}, },
+            {{9, 81, -68}, {82, 82, 80}, {83, 113, -68}, {114, 114, 81}, {115, 122, 29}, },
+            {{9, 122, -72}, },
+            {{9, 32, -66}, },
+            {{9, 32, -66}, },
+            {{9, 32, -66}, },
+            {{9, 9, 82}, {13, 13, 83}, {32, 32, 84}, {45, 46, -23}, {65, 72, 24}, {73, 73, 85}, {74, 90, 24}, {95, 95, 27}, {97, 104, 29}, {105, 105, 86}, {106, 122, 29}, },
+            {{9, 122, -77}, },
+            {{9, 32, -70}, },
+            {{9, 32, -70}, },
+            {{9, 32, -70}, },
+            {{9, 9, 87}, {13, 13, 88}, {32, 32, 89}, {45, 122, -26}, },
+            {{9, 122, -82}, },
+            {{9, 32, -77}, },
+            {{9, 32, -77}, },
+            {{9, 32, -77}, },
+            {{9, 46, -25}, {65, 79, 24}, {80, 80, 90}, {81, 90, 24}, {95, 95, 27}, {97, 111, 29}, {112, 112, 91}, {113, 122, 29}, },
+            {{9, 122, -87}, },
+            {{9, 32, -82}, },
+            {{9, 32, -82}, },
+            {{9, 32, -82}, },
+            {{9, 83, -41}, {84, 84, 92}, {85, 115, -41}, {116, 116, 93}, {117, 122, 29}, },
+            {{9, 122, -92}, },
+            {{9, 46, -25}, {65, 72, 24}, {73, 73, 94}, {74, 104, -77}, {105, 105, 95}, {106, 122, 29}, },
+            {{9, 122, -94}, },
+            {{9, 78, -28}, {79, 79, 96}, {80, 110, -28}, {111, 111, 97}, {112, 122, 29}, },
+            {{9, 122, -96}, },
+            {{9, 46, -25}, {65, 77, 24}, {78, 78, 98}, {79, 90, 24}, {95, 95, 27}, {97, 109, 29}, {110, 110, 99}, {111, 122, 29}, },
+            {{9, 122, -98}, },
+            {{9, 46, -77}, {65, 122, -26}, },
+            {{9, 122, -100}, },
+        }
+        { // PL_SINGLE_COMMENT_START
+            {{0, 9, 1}, {10, 10, 2}, {11, 36, 1}, {37, 37, 3}, {38, 255, 1}, },
+            {{0, 9, 1}, {11, 36, 1}, {38, 255, 1}, },
+            {{10, 10, 2}, },
+            {{37, 37, 3}, },
+        }
         { // PL_COMMENT
             {{0, 41, 1}, {42, 42, 2}, {43, 255, 1}, },
             {{0, 41, 1}, {43, 255, 1}, },
@@ -916,11 +1197,11 @@ public class Lexer
     private static int[][] accept;
 /*  {
         // PL
-        {-1, 13, 17, -1, 16, 15, -1, 14, -1, },
+        {-1, 13, 17, 14, 16, 15, },
         // PL_SLASH
         {-1, 20, 19, 18, },
         // PL_STAR
-        {-1, 21, 22, 22, 22, 22, 22, 22, },
+        {-1, 21, 22, 22, 22, 22, 22, },
         // PL_SINGLE_TICKS
         {28, 28, 29, },
         // PL_DOUBLE_TICKS
@@ -929,6 +1210,10 @@ public class Lexer
         {8, 8, 8, 8, 8, 8, 9, 8, 8, -1, 7, 7, 7, -1, 8, 8, 8, -1, 8, 8, 8, 8, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 6, 6, 6, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, 3, 3, 3, -1, -1, 5, 5, 5, 5, -1, -1, 2, 2, 2, 2, -1, -1, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
         // DOC_STAR
         {-1, 11, 10, 12, 12, 12, 12, 12, },
+        // DOC_SINGLE
+        {-1, 35, 35, 35, 35, 35, 36, 35, 35, 35, 35, -1, 35, 35, 35, -1, -1, 35, 35, 35, 35, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 42, 42, 42, -1, -1, -1, -1, -1, -1, -1, -1, 37, 37, 37, 37, -1, -1, -1, -1, -1, -1, -1, -1, 37, 37, 37, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, -1, -1, 41, 41, 41, -1, -1, 38, 38, 38, -1, -1, 40, 40, 40, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
+        // PL_SINGLE_COMMENT_START
+        {-1, 32, 33, 34, },
         // PL_COMMENT
         {23, 23, 24, },
         // PL_COMMENT_STAR
@@ -945,8 +1230,10 @@ public class Lexer
         public final static State PL_DOUBLE_TICKS = new State(4);
         public final static State DOC = new State(5);
         public final static State DOC_STAR = new State(6);
-        public final static State PL_COMMENT = new State(7);
-        public final static State PL_COMMENT_STAR = new State(8);
+        public final static State DOC_SINGLE = new State(7);
+        public final static State PL_SINGLE_COMMENT_START = new State(8);
+        public final static State PL_COMMENT = new State(9);
+        public final static State PL_COMMENT_STAR = new State(10);
 
         private int id;
 

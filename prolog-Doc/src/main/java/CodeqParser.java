@@ -72,7 +72,11 @@ public class CodeqParser {
 					predicate.setDynamic(dynamic);
 					
 					Boolean meta = false;
-					if( this.getValue("meta", element).toLowerCase().contains("true")) meta = true;
+					if( this.getValue("meta", element).toLowerCase().contains("true")){
+						meta = true;
+						String metaInformation = predicate.getName().replaceAll("\"", "");
+						this.setMetaInformation(predicate, element, metaInformation);
+					}
 					predicate.setMeta(meta);
 					
 					NodeList calls = element.getElementsByTagName("call");
@@ -82,7 +86,7 @@ public class CodeqParser {
 						Node call = calls.item(j);
 						Element call_element = (Element) call;
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
-							String callName = this.getCDataValue("name", call_element);
+							String callName = this.getValue("name", call_element);	//former CDataValue
 							String callModule = this.getValue("module", call_element).replace("\"", "");
 							String callArity = this.getValue("arity", call_element);
 							
@@ -108,6 +112,20 @@ public class CodeqParser {
 		
 	}
 	
+private void setMetaInformation(Predicate predicate, Element node, String Name){
+	String MetaInformation = "";
+	
+		
+	String current = this.getValue("meta_args", node);
+	
+	String List[] = current.split("\t");
+	
+	for(int i = 0; i < List.length; i++){
+		MetaInformation += Name +List[i].replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
+	}
+	
+	predicate.setMetaInformation(MetaInformation);
+}
 
 private void saveFileToArray(){
 	try{
@@ -178,7 +196,7 @@ private String getCode(int starts[], int ends[]){
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
 		
 		if(nameOfModule.equalsIgnoreCase("user")){
-			nameOfModule = this.NameOfFile.replaceAll("/", ".");
+			nameOfModule = this.NameOfFile.replaceAll("/", "_");
 		}
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
@@ -231,7 +249,7 @@ private String getCode(int starts[], int ends[]){
 		return node.getNodeValue();
 	}
 	
-	
+	/*
 	public String getCDataValue(String tag, Element element) {
 		
 		 NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -249,7 +267,7 @@ private String getCode(int starts[], int ends[]){
 		    return "";
             
 		
-	}
+	}*/
 	
 	
 	public int[] getLineValue(String tag, Element element) {

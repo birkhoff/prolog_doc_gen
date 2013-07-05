@@ -66,6 +66,13 @@ write_multifiles :-
 	fail.
 write_multifiles.
 
+write_metas(Name/Ar) :-
+ 	stream(Stream),
+	metas(Name/Ar, Arg), 
+	escaping_format(Stream,'~w\t', [Arg]),
+	fail.
+write_metas(_Name/_Ar).
+
 write_predicates :-
     findall(pr(Name,Ar), predicates(Name,Ar,_,_,_,_,_), ListOfNames),
     remove_dups(ListOfNames,ListOfNames2),
@@ -88,7 +95,7 @@ bind_args2([V|Vs],VC,VCN) :-
 
 is_dynamic(Name,Ar,'<dynamic>true</dynamic>') :- dynamics(Name/Ar), !.
 is_dynamic(_Name,_Ar,'<dynamic>false</dynamic>').
-is_meta(Name,Ar,Return) :- metas(Name/Ar, Args), format_to_codes('<meta>true</meta>\n\t\t<meta_arg>~w</meta_arg>', [Args], Codes), atom_codes(Return, Codes), !.
+is_meta(Name,Ar,Return) :- metas(Name/Ar, Args), format_to_codes('<meta>true</meta>', [], Codes), atom_codes(Return, Codes), !.
 is_meta(_Name,_Ar,'<meta>false</meta>').
 
 is_volatile(Name,Ar,'\n\t\t<volatile>true</volatile>') :- volatiles(Name/Ar), !.
@@ -110,6 +117,9 @@ write_predicates2(Name,Ar,_Code,Calls,StartLines,EndLines,_VNC) :-
     stream(Stream),
 	escaping_format(Stream,'\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w ~w ~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta, Volatile,Multifile]),
     write_calls(Calls), write(Stream,'\n\t\t</calls>'),
+	write(Stream, '\n\t\t<meta_args>'),
+	write_metas(Name/Ar),
+	write(Stream, '</meta_args>'),
 	write(Stream,'\n\t\t<block>'),
 	write_blocking(Name/Ar),
 	write(Stream,'\n\t\t</block>'),

@@ -17,6 +17,9 @@ public class Predicate {
 	private boolean dynamic;
 	private boolean meta;
 	private int Arity;
+	private String MetaInformation;
+	private boolean Volatile;
+	private boolean MultiFile;
 	private int[] StartLines;
 	private int[] EndLines;
 	private String Module;
@@ -274,6 +277,30 @@ public class Predicate {
 
 	public void setMode(String mode) {
 		Mode = mode;
+	}
+
+	public String getMetaInformation() {
+		return MetaInformation;
+	}
+
+	public void setMetaInformation(String metaInformation) {
+		MetaInformation = metaInformation;
+	}
+
+	public boolean isVolatile() {
+		return Volatile;
+	}
+
+	public void setVolatile(boolean _volatile) {
+		Volatile = _volatile;
+	}
+
+	public boolean isMultiFile() {
+		return MultiFile;
+	}
+
+	public void setMultiFile(boolean multiFile) {
+		MultiFile = multiFile;
 	}
 
 }

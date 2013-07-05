@@ -105,6 +105,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAModeAst(AModeAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseADescrAst(ADescrAst node)
     {
         defaultCase(node);
@@ -118,6 +124,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAAtDocAst(AAtDocAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASingleAtDocAst(ASingleAtDocAst node)
     {
         defaultCase(node);
     }
@@ -141,6 +153,48 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAStringDAst(AStringDAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringEAst(AStringEAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringFAst(AStringFAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringGAst(AStringGAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAUserAst(AUserAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocAt(TDocAt node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocMail(TDocMail node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTDocDescr(TDocDescr node)
     {
         defaultCase(node);
@@ -154,6 +208,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTDocAuthor(TDocAuthor node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocMode(TDocMode node)
     {
         defaultCase(node);
     }
@@ -207,7 +267,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTProgrammComment(TProgrammComment node)
+    public void caseTProgrammCommentStart(TProgrammCommentStart node)
     {
         defaultCase(node);
     }
@@ -310,6 +370,72 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTProgrammDoubleStringEnd(TProgrammDoubleStringEnd node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammComment(TProgrammComment node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammEndNormalSingleComment(TProgrammEndNormalSingleComment node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocStart(TSingleDocStart node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocSingleString(TDocSingleString node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTDocSingleEnd(TDocSingleEnd node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocMail(TSingleDocMail node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocDescr(TSingleDocDescr node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocDate(TSingleDocDate node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocAuthor(TSingleDocAuthor node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocMode(TSingleDocMode node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSingleDocAtdoc(TSingleDocAtdoc node)
     {
         defaultCase(node);
     }

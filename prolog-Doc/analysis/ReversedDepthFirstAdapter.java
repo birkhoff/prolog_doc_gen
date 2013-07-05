@@ -157,6 +157,31 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outADateAst(node);
     }
 
+    public void inAModeAst(AModeAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAModeAst(AModeAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAModeAst(AModeAst node)
+    {
+        inAModeAst(node);
+        {
+            List<PAst> copy = new ArrayList<PAst>(node.getAst());
+            Collections.reverse(copy);
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outAModeAst(node);
+    }
+
     public void inADescrAst(ADescrAst node)
     {
         defaultIn(node);
@@ -236,6 +261,35 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAAtDocAst(node);
     }
 
+    public void inASingleAtDocAst(ASingleAtDocAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASingleAtDocAst(ASingleAtDocAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASingleAtDocAst(ASingleAtDocAst node)
+    {
+        inASingleAtDocAst(node);
+        {
+            List<PAst> copy = new ArrayList<PAst>(node.getDescription());
+            Collections.reverse(copy);
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        if(node.getIdentifier() != null)
+        {
+            node.getIdentifier().apply(this);
+        }
+        outASingleAtDocAst(node);
+    }
+
     public void inAStringAAst(AStringAAst node)
     {
         defaultIn(node);
@@ -297,5 +351,118 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getStringStarString().apply(this);
         }
         outAStringCAst(node);
+    }
+
+    public void inAStringDAst(AStringDAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringDAst(AStringDAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringDAst(AStringDAst node)
+    {
+        inAStringDAst(node);
+        if(node.getDocMail() != null)
+        {
+            node.getDocMail().apply(this);
+        }
+        outAStringDAst(node);
+    }
+
+    public void inAStringEAst(AStringEAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringEAst(AStringEAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringEAst(AStringEAst node)
+    {
+        inAStringEAst(node);
+        if(node.getDocAt() != null)
+        {
+            node.getDocAt().apply(this);
+        }
+        outAStringEAst(node);
+    }
+
+    public void inAStringFAst(AStringFAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringFAst(AStringFAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringFAst(AStringFAst node)
+    {
+        inAStringFAst(node);
+        if(node.getDocSingleString() != null)
+        {
+            node.getDocSingleString().apply(this);
+        }
+        outAStringFAst(node);
+    }
+
+    public void inAStringGAst(AStringGAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringGAst(AStringGAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringGAst(AStringGAst node)
+    {
+        inAStringGAst(node);
+        if(node.getSingleDocMail() != null)
+        {
+            node.getSingleDocMail().apply(this);
+        }
+        outAStringGAst(node);
+    }
+
+    public void inAUserAst(AUserAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAUserAst(AUserAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAUserAst(AUserAst node)
+    {
+        inAUserAst(node);
+        {
+            List<PAst> copy = new ArrayList<PAst>(node.getEntries());
+            Collections.reverse(copy);
+            for(PAst e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        if(node.getUser() != null)
+        {
+            node.getUser().apply(this);
+        }
+        outAUserAst(node);
     }
 }

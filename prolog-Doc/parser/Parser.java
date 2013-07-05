@@ -185,153 +185,207 @@ public class Parser
 			push(goTo(1), list);
 		    }
 		    break;
-                    case 3: /* reduce AAoptionalrulesdoc1Doc */
+                    case 3: /* reduce AAsingledocdocs1Docs */
 		    {
 			ArrayList<Object> list = new3();
-			push(goTo(2), list);
+			push(goTo(1), list);
 		    }
 		    break;
-                    case 4: /* reduce AAoptionalrulesdoc2Doc */
+                    case 4: /* reduce AAsingledocdocs2Docs */
 		    {
 			ArrayList<Object> list = new4();
-			push(goTo(2), list);
+			push(goTo(1), list);
 		    }
 		    break;
-                    case 5: /* reduce AAnopredefineddoc1Doc */
+                    case 5: /* reduce AAoptionalrulesdoc1Doc */
 		    {
 			ArrayList<Object> list = new5();
 			push(goTo(2), list);
 		    }
 		    break;
-                    case 6: /* reduce AAnopredefineddoc2Doc */
+                    case 6: /* reduce AAoptionalrulesdoc2Doc */
 		    {
 			ArrayList<Object> list = new6();
 			push(goTo(2), list);
 		    }
 		    break;
-                    case 7: /* reduce AUserUser */
+                    case 7: /* reduce AAnopredefineddoc1Doc */
 		    {
 			ArrayList<Object> list = new7();
+			push(goTo(2), list);
+		    }
+		    break;
+                    case 8: /* reduce AAnopredefineddoc2Doc */
+		    {
+			ArrayList<Object> list = new8();
+			push(goTo(2), list);
+		    }
+		    break;
+                    case 9: /* reduce AUserUser */
+		    {
+			ArrayList<Object> list = new9();
 			push(goTo(3), list);
 		    }
 		    break;
-                    case 8: /* reduce AAuthorEntries */
-		    {
-			ArrayList<Object> list = new8();
-			push(goTo(4), list);
-		    }
-		    break;
-                    case 9: /* reduce ADateEntries */
-		    {
-			ArrayList<Object> list = new9();
-			push(goTo(4), list);
-		    }
-		    break;
-                    case 10: /* reduce AModeEntries */
+                    case 10: /* reduce AAuthorEntries */
 		    {
 			ArrayList<Object> list = new10();
 			push(goTo(4), list);
 		    }
 		    break;
-                    case 11: /* reduce ADescrEntries */
+                    case 11: /* reduce ADateEntries */
 		    {
 			ArrayList<Object> list = new11();
 			push(goTo(4), list);
 		    }
 		    break;
-                    case 12: /* reduce AAtdocEntries */
+                    case 12: /* reduce AModeEntries */
 		    {
 			ArrayList<Object> list = new12();
 			push(goTo(4), list);
 		    }
 		    break;
-                    case 13: /* reduce AAuthorAuthor */
+                    case 13: /* reduce ADescrEntries */
 		    {
 			ArrayList<Object> list = new13();
+			push(goTo(4), list);
+		    }
+		    break;
+                    case 14: /* reduce AAtdocEntries */
+		    {
+			ArrayList<Object> list = new14();
+			push(goTo(4), list);
+		    }
+		    break;
+                    case 15: /* reduce ASingleAtdocEntries */
+		    {
+			ArrayList<Object> list = new15();
+			push(goTo(4), list);
+		    }
+		    break;
+                    case 16: /* reduce AAuthorAuthor */
+		    {
+			ArrayList<Object> list = new16();
 			push(goTo(5), list);
 		    }
 		    break;
-                    case 14: /* reduce ADateDate */
+                    case 17: /* reduce ASingleAuthorAuthor */
 		    {
-			ArrayList<Object> list = new14();
+			ArrayList<Object> list = new17();
+			push(goTo(5), list);
+		    }
+		    break;
+                    case 18: /* reduce ADateDate */
+		    {
+			ArrayList<Object> list = new18();
 			push(goTo(6), list);
 		    }
 		    break;
-                    case 15: /* reduce ADateMode */
+                    case 19: /* reduce ASingleDateDate */
 		    {
-			ArrayList<Object> list = new15();
+			ArrayList<Object> list = new19();
+			push(goTo(6), list);
+		    }
+		    break;
+                    case 20: /* reduce ADateMode */
+		    {
+			ArrayList<Object> list = new20();
 			push(goTo(7), list);
 		    }
 		    break;
-                    case 16: /* reduce ADescrDescr */
+                    case 21: /* reduce ASingleDateMode */
 		    {
-			ArrayList<Object> list = new16();
+			ArrayList<Object> list = new21();
+			push(goTo(7), list);
+		    }
+		    break;
+                    case 22: /* reduce ADescrDescr */
+		    {
+			ArrayList<Object> list = new22();
 			push(goTo(8), list);
 		    }
 		    break;
-                    case 17: /* reduce ASimpleString */
-		    {
-			ArrayList<Object> list = new17();
-			push(goTo(9), list);
-		    }
-		    break;
-                    case 18: /* reduce AStarString */
-		    {
-			ArrayList<Object> list = new18();
-			push(goTo(9), list);
-		    }
-		    break;
-                    case 19: /* reduce AAfterStarString */
-		    {
-			ArrayList<Object> list = new19();
-			push(goTo(9), list);
-		    }
-		    break;
-                    case 20: /* reduce AMailString */
-		    {
-			ArrayList<Object> list = new20();
-			push(goTo(9), list);
-		    }
-		    break;
-                    case 21: /* reduce AAtString */
-		    {
-			ArrayList<Object> list = new21();
-			push(goTo(9), list);
-		    }
-		    break;
-                    case 22: /* reduce ATerminal$Docs */
-		    {
-			ArrayList<Object> list = new22();
-			push(goTo(10), list);
-		    }
-		    break;
-                    case 23: /* reduce ANonTerminal$Docs */
+                    case 23: /* reduce ASingleDescrDescr */
 		    {
 			ArrayList<Object> list = new23();
+			push(goTo(8), list);
+		    }
+		    break;
+                    case 24: /* reduce ASimpleString */
+		    {
+			ArrayList<Object> list = new24();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 25: /* reduce AStarString */
+		    {
+			ArrayList<Object> list = new25();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 26: /* reduce AAfterStarString */
+		    {
+			ArrayList<Object> list = new26();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 27: /* reduce AMailString */
+		    {
+			ArrayList<Object> list = new27();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 28: /* reduce AAtString */
+		    {
+			ArrayList<Object> list = new28();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 29: /* reduce ASingleDocString */
+		    {
+			ArrayList<Object> list = new29();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 30: /* reduce ASingleMailString */
+		    {
+			ArrayList<Object> list = new30();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 31: /* reduce ATerminal$Docs */
+		    {
+			ArrayList<Object> list = new31();
 			push(goTo(10), list);
 		    }
 		    break;
-                    case 24: /* reduce ATerminal$Entries */
+                    case 32: /* reduce ANonTerminal$Docs */
 		    {
-			ArrayList<Object> list = new24();
+			ArrayList<Object> list = new32();
+			push(goTo(10), list);
+		    }
+		    break;
+                    case 33: /* reduce ATerminal$Entries */
+		    {
+			ArrayList<Object> list = new33();
 			push(goTo(11), list);
 		    }
 		    break;
-                    case 25: /* reduce ANonTerminal$Entries */
+                    case 34: /* reduce ANonTerminal$Entries */
 		    {
-			ArrayList<Object> list = new25();
+			ArrayList<Object> list = new34();
 			push(goTo(11), list);
 		    }
 		    break;
-                    case 26: /* reduce ATerminal$String */
+                    case 35: /* reduce ATerminal$String */
 		    {
-			ArrayList<Object> list = new26();
+			ArrayList<Object> list = new35();
 			push(goTo(12), list);
 		    }
 		    break;
-                    case 27: /* reduce ANonTerminal$String */
+                    case 36: /* reduce ANonTerminal$String */
 		    {
-			ArrayList<Object> list = new27();
+			ArrayList<Object> list = new36();
 			push(goTo(12), list);
 		    }
 		    break;
@@ -420,7 +474,38 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new3() /* reduce AAoptionalrulesdoc1Doc */
+    ArrayList<Object> new3() /* reduce AAsingledocdocs1Docs */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList2.get(0);
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new4() /* reduce AAsingledocdocs2Docs */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        pastNode1 = (PAst)nodeArrayList2.get(0);
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new5() /* reduce AAoptionalrulesdoc1Doc */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -441,7 +526,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new4() /* reduce AAoptionalrulesdoc2Doc */
+    ArrayList<Object> new6() /* reduce AAoptionalrulesdoc2Doc */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -469,7 +554,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new5() /* reduce AAnopredefineddoc1Doc */
+    ArrayList<Object> new7() /* reduce AAnopredefineddoc1Doc */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -493,7 +578,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new6() /* reduce AAnopredefineddoc2Doc */
+    ArrayList<Object> new8() /* reduce AAnopredefineddoc2Doc */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -524,7 +609,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new7() /* reduce AUserUser */
+    ArrayList<Object> new9() /* reduce AUserUser */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -552,7 +637,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new8() /* reduce AAuthorEntries */
+    ArrayList<Object> new10() /* reduce AAuthorEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -566,7 +651,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new9() /* reduce ADateEntries */
+    ArrayList<Object> new11() /* reduce ADateEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -580,7 +665,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new10() /* reduce AModeEntries */
+    ArrayList<Object> new12() /* reduce AModeEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -594,7 +679,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new11() /* reduce ADescrEntries */
+    ArrayList<Object> new13() /* reduce ADescrEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -608,7 +693,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new12() /* reduce AAtdocEntries */
+    ArrayList<Object> new14() /* reduce AAtdocEntries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -639,7 +724,38 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new13() /* reduce AAuthorAuthor */
+    ArrayList<Object> new15() /* reduce ASingleAtdocEntries */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        TSingleDocAtdoc tsingledocatdocNode2;
+        LinkedList<Object> listNode4 = new LinkedList<Object>();
+        tsingledocatdocNode2 = (TSingleDocAtdoc)nodeArrayList1.get(0);
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        listNode3 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode3 != null)
+	{
+	  listNode4.addAll(listNode3);
+	}
+        }
+
+        pastNode1 = new ASingleAtDocAst(tsingledocatdocNode2, listNode4);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new16() /* reduce AAuthorAuthor */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -668,7 +784,36 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new14() /* reduce ADateDate */
+    ArrayList<Object> new17() /* reduce ASingleAuthorAuthor */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new AAuthorAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new18() /* reduce ADateDate */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -697,7 +842,36 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new15() /* reduce ADateMode */
+    ArrayList<Object> new19() /* reduce ASingleDateDate */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new ADateAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new20() /* reduce ADateMode */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -726,7 +900,36 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new16() /* reduce ADescrDescr */
+    ArrayList<Object> new21() /* reduce ASingleDateMode */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new AModeAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new22() /* reduce ADescrDescr */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -755,7 +958,36 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new17() /* reduce ASimpleString */
+    ArrayList<Object> new23() /* reduce ASingleDescrDescr */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        LinkedList<Object> listNode3 = new LinkedList<Object>();
+        {
+            // Block
+        LinkedList<Object> listNode2 = new LinkedList<Object>();
+        listNode2 = (LinkedList)nodeArrayList2.get(0);
+	if(listNode2 != null)
+	{
+	  listNode3.addAll(listNode2);
+	}
+        }
+
+        pastNode1 = new ADescrAst(listNode3);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new24() /* reduce ASimpleString */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -775,7 +1007,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new18() /* reduce AStarString */
+    ArrayList<Object> new25() /* reduce AStarString */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -795,7 +1027,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new19() /* reduce AAfterStarString */
+    ArrayList<Object> new26() /* reduce AAfterStarString */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -815,7 +1047,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new20() /* reduce AMailString */
+    ArrayList<Object> new27() /* reduce AMailString */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -835,7 +1067,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new21() /* reduce AAtString */
+    ArrayList<Object> new28() /* reduce AAtString */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -855,7 +1087,47 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new22() /* reduce ATerminal$Docs */
+    ArrayList<Object> new29() /* reduce ASingleDocString */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        TDocSingleString tdocsinglestringNode2;
+        tdocsinglestringNode2 = (TDocSingleString)nodeArrayList1.get(0);
+
+        pastNode1 = new AStringFAst(tdocsinglestringNode2);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new30() /* reduce ASingleMailString */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAst pastNode1;
+        {
+            // Block
+        TSingleDocMail tsingledocmailNode2;
+        tsingledocmailNode2 = (TSingleDocMail)nodeArrayList1.get(0);
+
+        pastNode1 = new AStringGAst(tsingledocmailNode2);
+        }
+	nodeList.add(pastNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new31() /* reduce ATerminal$Docs */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -877,7 +1149,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new23() /* reduce ANonTerminal$Docs */
+    ArrayList<Object> new32() /* reduce ANonTerminal$Docs */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -906,7 +1178,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new24() /* reduce ATerminal$Entries */
+    ArrayList<Object> new33() /* reduce ATerminal$Entries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -928,7 +1200,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new25() /* reduce ANonTerminal$Entries */
+    ArrayList<Object> new34() /* reduce ANonTerminal$Entries */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -957,7 +1229,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new26() /* reduce ATerminal$String */
+    ArrayList<Object> new35() /* reduce ATerminal$String */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -979,7 +1251,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new27() /* reduce ANonTerminal$String */
+    ArrayList<Object> new36() /* reduce ANonTerminal$String */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -1009,70 +1281,88 @@ public class Parser
 
     private static int[][][] actionTable;
 /*      {
-			{{-1, REDUCE, 0}, {12, SHIFT, 1}, },
-			{{-1, REDUCE, 3}, {0, SHIFT, 5}, {1, SHIFT, 6}, {2, SHIFT, 7}, {3, SHIFT, 8}, {4, SHIFT, 9}, {5, SHIFT, 10}, {6, SHIFT, 11}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, ERROR, 2}, {13, ACCEPT, -1}, },
-			{{-1, REDUCE, 22}, },
-			{{-1, REDUCE, 1}, {12, SHIFT, 1}, },
-			{{-1, REDUCE, 21}, },
-			{{-1, REDUCE, 20}, },
-			{{-1, ERROR, 7}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, ERROR, 8}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, ERROR, 9}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, ERROR, 10}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, ERROR, 11}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 17}, },
-			{{-1, REDUCE, 18}, },
-			{{-1, REDUCE, 19}, },
-			{{-1, ERROR, 15}, {11, SHIFT, 31}, },
-			{{-1, REDUCE, 5}, {2, SHIFT, 7}, {3, SHIFT, 8}, {4, SHIFT, 9}, {5, SHIFT, 10}, {6, SHIFT, 11}, },
+			{{-1, REDUCE, 0}, {12, SHIFT, 1}, {13, SHIFT, 2}, },
+			{{-1, REDUCE, 5}, {0, SHIFT, 6}, {1, SHIFT, 7}, {2, SHIFT, 8}, {3, SHIFT, 9}, {4, SHIFT, 10}, {5, SHIFT, 11}, {6, SHIFT, 12}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, {17, SHIFT, 18}, {18, SHIFT, 19}, {19, SHIFT, 20}, {20, SHIFT, 21}, {21, SHIFT, 22}, },
+			{{-1, REDUCE, 5}, {0, SHIFT, 6}, {1, SHIFT, 7}, {2, SHIFT, 8}, {3, SHIFT, 9}, {4, SHIFT, 10}, {5, SHIFT, 11}, {6, SHIFT, 12}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, {17, SHIFT, 18}, {18, SHIFT, 19}, {19, SHIFT, 20}, {20, SHIFT, 21}, {21, SHIFT, 22}, },
+			{{-1, ERROR, 3}, {22, ACCEPT, -1}, },
+			{{-1, REDUCE, 31}, },
+			{{-1, REDUCE, 1}, {12, SHIFT, 1}, {13, SHIFT, 2}, },
+			{{-1, REDUCE, 28}, },
+			{{-1, REDUCE, 27}, },
+			{{-1, ERROR, 8}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 9}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 10}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 11}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 12}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
 			{{-1, REDUCE, 24}, },
-			{{-1, REDUCE, 8}, },
-			{{-1, REDUCE, 9}, },
+			{{-1, REDUCE, 25}, },
+			{{-1, REDUCE, 26}, },
+			{{-1, REDUCE, 29}, },
+			{{-1, REDUCE, 30}, },
+			{{-1, ERROR, 18}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 19}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 20}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 21}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 22}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, ERROR, 23}, {11, SHIFT, 45}, },
+			{{-1, REDUCE, 7}, {2, SHIFT, 8}, {3, SHIFT, 9}, {4, SHIFT, 10}, {5, SHIFT, 11}, {6, SHIFT, 12}, {17, SHIFT, 18}, {18, SHIFT, 19}, {19, SHIFT, 20}, {20, SHIFT, 21}, {21, SHIFT, 22}, },
+			{{-1, REDUCE, 33}, },
 			{{-1, REDUCE, 10}, },
 			{{-1, REDUCE, 11}, },
-			{{-1, REDUCE, 26}, },
-			{{-1, REDUCE, 4}, {2, SHIFT, 7}, {3, SHIFT, 8}, {4, SHIFT, 9}, {5, SHIFT, 10}, {6, SHIFT, 11}, },
-			{{-1, REDUCE, 7}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 23}, },
-			{{-1, REDUCE, 16}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 14}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 13}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 15}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
-			{{-1, REDUCE, 12}, {0, SHIFT, 5}, {1, SHIFT, 6}, {8, SHIFT, 12}, {9, SHIFT, 13}, {10, SHIFT, 14}, },
+			{{-1, REDUCE, 12}, },
+			{{-1, REDUCE, 13}, },
+			{{-1, REDUCE, 35}, },
+			{{-1, REDUCE, 6}, {2, SHIFT, 8}, {3, SHIFT, 9}, {4, SHIFT, 10}, {5, SHIFT, 11}, {6, SHIFT, 12}, {17, SHIFT, 18}, {18, SHIFT, 19}, {19, SHIFT, 20}, {20, SHIFT, 21}, {21, SHIFT, 22}, },
+			{{-1, REDUCE, 9}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 3}, {15, SHIFT, 49}, },
+			{{-1, REDUCE, 32}, },
+			{{-1, REDUCE, 22}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 18}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 16}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 20}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 14}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 23}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 19}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 17}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 21}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
+			{{-1, REDUCE, 15}, {0, SHIFT, 6}, {1, SHIFT, 7}, {8, SHIFT, 13}, {9, SHIFT, 14}, {10, SHIFT, 15}, {14, SHIFT, 16}, {16, SHIFT, 17}, },
 			{{-1, REDUCE, 2}, },
-			{{-1, REDUCE, 6}, {2, SHIFT, 7}, {3, SHIFT, 8}, {4, SHIFT, 9}, {5, SHIFT, 10}, {6, SHIFT, 11}, },
-			{{-1, REDUCE, 25}, },
-			{{-1, REDUCE, 27}, },
+			{{-1, REDUCE, 8}, {2, SHIFT, 8}, {3, SHIFT, 9}, {4, SHIFT, 10}, {5, SHIFT, 11}, {6, SHIFT, 12}, {17, SHIFT, 18}, {18, SHIFT, 19}, {19, SHIFT, 20}, {20, SHIFT, 21}, {21, SHIFT, 22}, },
+			{{-1, REDUCE, 34}, },
+			{{-1, REDUCE, 36}, },
+			{{-1, REDUCE, 4}, },
         };*/
     private static int[][][] gotoTable;
 /*      {
-			{{-1, 2}, },
-			{{-1, 3}, {4, 25}, },
-			{{-1, 15}, },
-			{{-1, 16}, },
-			{{-1, 17}, {23, 33}, {32, 33}, },
-			{{-1, 18}, },
-			{{-1, 19}, },
-			{{-1, 20}, },
-			{{-1, 21}, },
-			{{-1, 22}, {24, 34}, {26, 34}, {27, 34}, {28, 34}, {29, 34}, {30, 34}, },
-			{{-1, 4}, },
-			{{-1, 23}, {16, 32}, },
-			{{-1, 24}, {7, 26}, {8, 27}, {9, 28}, {10, 29}, {11, 30}, },
+			{{-1, 3}, },
+			{{-1, 4}, {5, 34}, },
+			{{-1, 23}, {2, 33}, },
+			{{-1, 24}, },
+			{{-1, 25}, {31, 47}, {46, 47}, },
+			{{-1, 26}, },
+			{{-1, 27}, },
+			{{-1, 28}, },
+			{{-1, 29}, },
+			{{-1, 30}, {32, 48}, {35, 48}, {36, 48}, {37, 48}, {38, 48}, {39, 48}, {40, 48}, {41, 48}, {42, 48}, {43, 48}, {44, 48}, },
+			{{-1, 5}, },
+			{{-1, 31}, {24, 46}, },
+			{{-1, 32}, {8, 35}, {9, 36}, {10, 37}, {11, 38}, {12, 39}, {18, 40}, {19, 41}, {20, 42}, {21, 43}, {22, 44}, },
         };*/
     private static String[] errorMessages;
 /*      {
-			"expecting: doc start, EOF",
-			"expecting: doc at, doc mail, doc descr, doc date, doc author, doc mode, doc atdoc, string doc string, string doc star, string star string, doc end",
+			"expecting: doc start, single doc start, EOF",
+			"expecting: doc at, doc mail, doc descr, doc date, doc author, doc mode, doc atdoc, string doc string, string doc star, string star string, doc end, doc single string, single doc mail, single doc descr, single doc date, single doc author, single doc mode, single doc atdoc",
+			"expecting: doc at, doc mail, doc descr, doc date, doc author, doc mode, doc atdoc, string doc string, string doc star, string star string, doc start, single doc start, doc single string, doc single end, single doc mail, single doc descr, single doc date, single doc author, single doc mode, single doc atdoc, EOF",
 			"expecting: EOF",
-			"expecting: doc at, doc mail, string doc string, string doc star, string star string",
+			"expecting: doc at, doc mail, doc descr, doc date, doc author, doc mode, doc atdoc, string doc string, string doc star, string star string, doc end, doc start, single doc start, doc single string, doc single end, single doc mail, single doc descr, single doc date, single doc author, single doc mode, single doc atdoc, EOF",
+			"expecting: doc at, doc mail, string doc string, string doc star, string star string, doc single string, single doc mail",
 			"expecting: doc end",
-			"expecting: doc descr, doc date, doc author, doc mode, doc atdoc, doc end",
+			"expecting: doc descr, doc date, doc author, doc mode, doc atdoc, doc end, doc start, single doc start, doc single end, single doc descr, single doc date, single doc author, single doc mode, single doc atdoc, EOF",
+			"expecting: doc start, single doc start, doc single end, EOF",
         };*/
     private static int[] errors;
 /*      {
-			0, 1, 2, 0, 0, 1, 1, 3, 3, 3, 3, 3, 1, 1, 1, 4, 5, 5, 5, 5, 5, 5, 1, 5, 1, 0, 1, 1, 1, 1, 1, 0, 5, 5, 1, 
+			0, 1, 2, 3, 0, 0, 4, 4, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 7, 7, 7, 7, 7, 7, 4, 7, 4, 8, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 7, 7, 4, 0, 
         };*/
 
     static 
