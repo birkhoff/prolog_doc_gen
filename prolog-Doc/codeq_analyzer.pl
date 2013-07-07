@@ -69,7 +69,7 @@ write_multifiles.
 write_metas(Name/Ar) :-
  	stream(Stream),
 	metas(Name/Ar, Arg), 
-	escaping_format(Stream,'~w\t', [Arg]),
+	escaping_format(Stream,'~w~w\t', [Name, Arg]),
 	fail.
 write_metas(_Name/_Ar).
 

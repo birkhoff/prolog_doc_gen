@@ -117,7 +117,7 @@ public class Compiler {
 		  Parser parser = new Parser(lexer); 
 		  Start tree = parser.parse();
 		  ASTPrinter lala = new ASTPrinter();
-		  //tree.apply(lala);
+		  tree.apply(lala);
 		 
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
@@ -190,9 +190,6 @@ public class Compiler {
 	
 	
 	
-	
-	
-	
 	public static void debugOutput( List<Predicate> predicates){
 		
 		for(int i = 0; i<predicates.size(); i++){
@@ -204,6 +201,7 @@ public class Compiler {
 			System.out.println("\tStartLines: "+predicates.get(i).getStartLines()[0]);
 			System.out.println("\tEndLines: "+predicates.get(i).getEndLines()[0]);
 			System.out.println("\tMetaInformation: "+predicates.get(i).getMetaInformation());
+			System.out.println("\tBlockings: "+predicates.get(i).getBlockingInformation());
 			
 			List<Call> calls = predicates.get(i).getCallsNames();
 			System.out.println("\tCalls:");
@@ -255,6 +253,7 @@ public class Compiler {
 					
 					System.out.println("\tDynmc: "+predicates.get(i).isDynamic());
 					System.out.println("\tMeta: "+predicates.get(i).isMeta());
+					System.out.println("\tBlockings: "+predicates.get(i).getBlockingInformation());
 		
 					System.out.println("\tCode:\n"+predicates.get(i).getCodeString());
 						

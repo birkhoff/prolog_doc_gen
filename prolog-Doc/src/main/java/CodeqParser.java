@@ -74,10 +74,12 @@ public class CodeqParser {
 					Boolean meta = false;
 					if( this.getValue("meta", element).toLowerCase().contains("true")){
 						meta = true;
-						String metaInformation = predicate.getName().replaceAll("\"", "");
-						this.setMetaInformation(predicate, element, metaInformation);
+						this.setMetaInformation(predicate, element);
 					}
 					predicate.setMeta(meta);
+					
+					this.setBlockingInformation(predicate, element);
+										
 					
 					NodeList calls = element.getElementsByTagName("call");
 										
@@ -112,7 +114,7 @@ public class CodeqParser {
 		
 	}
 	
-private void setMetaInformation(Predicate predicate, Element node, String Name){
+private void setMetaInformation(Predicate predicate, Element node){
 	String MetaInformation = "";
 	
 		
@@ -121,10 +123,33 @@ private void setMetaInformation(Predicate predicate, Element node, String Name){
 	String List[] = current.split("\t");
 	
 	for(int i = 0; i < List.length; i++){
-		MetaInformation += Name +List[i].replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
+		MetaInformation += List[i].replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
 	}
 	
 	predicate.setMetaInformation(MetaInformation);
+}
+
+private void setBlockingInformation(Predicate predicate, Element node){
+	
+	String BlockingInformation = "";
+	
+	NodeList blockings = node.getElementsByTagName("blocking");
+		
+
+	for (int j = 0; j <blockings.getLength(); j++) {
+		
+		Node blocking = blockings.item(j);
+		Element call_element = (Element) blocking;
+		if (blocking.getNodeType() == Node.ELEMENT_NODE) {
+			
+			String currentBlocking = blocking.getFirstChild().getNodeValue();
+			//System.out.println("Blockings: "+blockings.getLength() + currentBlocking);
+			BlockingInformation += currentBlocking.replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
+		}
+		
+	}
+		
+	predicate.setBlockingInformation(BlockingInformation);
 }
 
 private void saveFileToArray(){

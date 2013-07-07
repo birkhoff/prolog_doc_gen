@@ -125,7 +125,8 @@ public class HTML_Generator {
 			}
 			code += "<p>"+"Arity"+": "+p.getArity()+"</p>\n";
 			code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
-			code += "<p>"+"Meta"+": "+p.isMeta()+"</p>\n";
+			if(p.isMeta()) code += "<p>"+"Meta"+": "+p.getMetaInformation()+"</p>\n";
+			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
 			
 			if(p.getCallsNames().size() > 0) code += "<p>"+"Calls:"+"</p>\n";
 			

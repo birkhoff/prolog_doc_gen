@@ -18,6 +18,7 @@ public class Predicate {
 	private boolean meta;
 	private int Arity;
 	private String MetaInformation;
+	private String BlockingInformation;
 	private boolean Volatile;
 	private boolean MultiFile;
 	private int[] StartLines;
@@ -301,6 +302,14 @@ public class Predicate {
 
 	public void setMultiFile(boolean multiFile) {
 		MultiFile = multiFile;
+	}
+
+	public String getBlockingInformation() {
+		return BlockingInformation;
+	}
+
+	public void setBlockingInformation(String blockingInformation) {
+		BlockingInformation = blockingInformation;
 	}
 
 }
