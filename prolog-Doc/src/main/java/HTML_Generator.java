@@ -48,7 +48,7 @@ public class HTML_Generator {
 		        br.close();
 		    }
 		    code += m.getName().replaceAll("\"", "")+".html";
-		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n <div id=\"b2\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<h3>Modules</h3>\n";
+		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n\n <div id=\"b2\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<h3>Modules</h3>\n";
 		    code += moduleLinks;
 		    
 		    code += "<h3>Predicates of "+m.getName()+"</h3>\n";
@@ -60,7 +60,7 @@ public class HTML_Generator {
 		    
 		    this.generateModuleInformation(m);
 		    
-		    code +=   "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;box-shadow: 4px 4px 18px #666;\">\n";
+		    code +=   "\n<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;box-shadow: 4px 4px 18px #666;\">\n";
 		    code += "<h3>Predicates:</h3>";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
@@ -72,9 +72,9 @@ public class HTML_Generator {
 		    
 		    this.generateBottom();
 		    
-		    code += "	</body>\n</html>";
+		    code += "\n</body>\n</html>";
 		    this.writeToFile(m);
-		    code = "";
+		    code = null;
 		    
 		    this.loadingScreen();
 		    
@@ -100,8 +100,8 @@ public class HTML_Generator {
 	}
 	
 	private void generateBottom(){
-		this.code += "<div id=\"b5\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><h2 align=\"center\">Sicstus Prolog Doc</h2>";
-		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013<h/4>";
+		this.code += "\n<div id=\"b5\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n<h2 align=\"center\">Sicstus Prolog Doc</h2>";
+		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013<h/4>\n";
 		this.code += "</div>";
 	}
 	
@@ -109,17 +109,17 @@ public class HTML_Generator {
 		
 	    for(int i = 0; i < m.getPredicates().size(); i++){
 	    	Predicate p = m.getPredicates().get(i);
-	    	code += "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; box-shadow:4px 4px 18px #666;\">\n";
-			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>";
+	    	code += "\n<div id=\"inner\">\n";
+			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>\n";
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
 			code += "<div class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#fffffa;\">\n";
 			code += "<p>"+ p.getCodeString() + "</p>\n";
 			code += "</div>\n";
 			
-			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>";
-			if(p.getDate() != null)	code += "<p>"+"Date"+": "+p.getDate()+"</p>";
-			if(p.getDescription() != null)	code += "<p>"+"Description"+": "+p.getDescription()+"</p>";
+			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>\n";
+			if(p.getDate() != null)	code += "<p>"+"Date"+": "+p.getDate()+"</p>\n";
+			if(p.getDescription() != null)	code += "<p>"+"Description"+": "+p.getDescription()+"</p>\n";
 			
 			for(int k = 0; k < p.getAdditionalEntries().size(); k++){
 				code += "<p>"+p.getAdditionalEntries().get(k).getIdentifier()+": "+p.getAdditionalEntries().get(k).getDescription()+"</p>\n";
@@ -140,16 +140,16 @@ public class HTML_Generator {
 				//code += "<div style=\"text-indent:30px;\">\n";
 				this.code+= "<tr>";
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-					if(callArity > 0) 	code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>"; 
-					else				code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>"; 
+					if(callArity > 0) 	code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
+					else				code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
 					if(!callModule.equalsIgnoreCase("built_in") ) code += "<td>"+" \t"+callModule+"</p></td>\n";
 					
 				}else{
-					code += "<td><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>";
+					code += "<td><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
 					code += "<td>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
 				}
 				//System.out.println(p.getName());
-				this.code+= "</tr>";
+				this.code+= "</tr>\n";
 				//code += "</div>";
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}
@@ -162,18 +162,18 @@ public class HTML_Generator {
 	
 	private void generateModuleInformation(Module m){
 		   
-		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
+		    this.code += "\n<div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
 			  
-		    this.code += "<h2 align=\"center\">Module Information</h2><br>";
+		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
 		    
-		    this.code += "<table  width=100%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>";
+		    this.code += "<table  width=100%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
 		    
 		    generateImports(m);
 		    generateExports(m);
 		    
-		    this.code += "</table>";
+		    this.code += "</table>\n";
 		    
-		    this.code += "</div><br>";
+		    this.code += "</div><br>\n";
 		    
 		    
 	}
@@ -224,8 +224,9 @@ public class HTML_Generator {
 		try
 		{
 			writer = new BufferedWriter( new FileWriter("Doc/"+m.getName().replaceAll("\"", "")+".html"));
-			writer.write(code);
-
+			
+			//writer.write(code);
+			writer.write(this.prettyPrintCode());
 		}
 		catch ( IOException e)
 		{
@@ -245,7 +246,45 @@ public class HTML_Generator {
 	
 	private void setModuleLinks(List<Module> modules){
 		for(int i = 0; i < modules.size(); i++){
-			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getName()+"</a></li>";
+			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getName()+"</a></li>\n";
 		}
 	}
+	
+	public String prettyPrintCode(){
+		
+		String returnCode = "";
+		String splitCode[] = this.code.split("\n"); 
+		int tabCounter = 0;
+		int div = 0;
+		int enddiv = 0;
+		for(int i = 0; i < splitCode.length; i++){
+			
+			if(splitCode[i].contains("<"+'/'+"div")){
+				enddiv++;
+				tabCounter = tabCounter-1;
+			}
+			if(splitCode[i].contains("<"+'/'+"table"))		tabCounter = tabCounter-1;
+			if(splitCode[i].contains("<"+'/'+"tr"))			tabCounter = tabCounter-1;
+			
+			
+			for(int k = 0; k < tabCounter; k++){
+				returnCode += "\t";
+				
+			}
+			returnCode += splitCode[i] + "\n";
+			
+			if(splitCode[i].contains("<div")){
+				tabCounter++;
+				div++;
+			}
+			if(splitCode[i].contains("<table"))			tabCounter++;
+			if(splitCode[i].contains("<tr>")) 			tabCounter++;
+			
+			//System.out.println("div open: " + div + "div closed: " + enddiv);
+			
+		}
+		
+		return returnCode;
+	}
+
 }

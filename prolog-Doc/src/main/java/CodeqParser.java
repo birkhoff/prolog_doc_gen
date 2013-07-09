@@ -131,11 +131,12 @@ private void setMetaInformation(Predicate predicate, Element node){
 
 private void setBlockingInformation(Predicate predicate, Element node){
 	
-	String BlockingInformation = "";
+	String BlockingInformation = null;
 	
 	NodeList blockings = node.getElementsByTagName("blocking");
 		
-
+	if(blockings.getLength()>0) BlockingInformation = "";
+		
 	for (int j = 0; j <blockings.getLength(); j++) {
 		
 		Node blocking = blockings.item(j);
