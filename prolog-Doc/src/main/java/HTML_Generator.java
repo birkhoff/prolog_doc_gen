@@ -48,7 +48,7 @@ public class HTML_Generator {
 		        br.close();
 		    }
 		    code += m.getName().replaceAll("\"", "")+".html";
-		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n\n <div id=\"b2\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<h3>Modules</h3>\n";
+		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n\n <div id=\"b2\" class=\"box\">\n<h3>Modules</h3>\n";
 		    code += moduleLinks;
 		    
 		    code += "<h3>Predicates of "+m.getName()+"</h3>\n";
@@ -60,7 +60,7 @@ public class HTML_Generator {
 		    
 		    this.generateModuleInformation(m);
 		    
-		    code +=   "\n<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;box-shadow: 4px 4px 18px #666;\">\n";
+		    code +=   "\n<div id=\"inner\">\n";
 		    code += "<h3>Predicates:</h3>";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
@@ -100,9 +100,9 @@ public class HTML_Generator {
 	}
 	
 	private void generateBottom(){
-		this.code += "\n<div id=\"b5\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n<h2 align=\"center\">Sicstus Prolog Doc</h2>";
+		this.code += "\n<footer id=\"b5\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n<h2 align=\"center\">Sicstus Prolog Doc</h2>";
 		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013<h/4>\n";
-		this.code += "</div>";
+		this.code += "</footer>";
 	}
 	
 	private void generatePredicatesInformation(Module m){
@@ -113,8 +113,8 @@ public class HTML_Generator {
 			code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>\n";
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
-			code += "<div class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#fffffa;\">\n";
-			code += "<p>"+ p.getCodeString() + "</p>\n";
+			code += "<div id=\"codeblock\" class=\"box\">\n";
+			code += "<p><font color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
 			code += "</div>\n";
 			
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>\n";
@@ -131,29 +131,32 @@ public class HTML_Generator {
 			
 			if(p.getCallsNames().size() > 0) code += "<p>"+"Calls:"+"</p>\n";
 			
-			if(p.getCallsNames().size() > 0) this.code += "<table border=\"1\"; width=80%>\n";
+			if(p.getCallsNames().size() > 0) this.code += "<table border=\"0\"; id=\"table\">\n";
 			for(int k = 0; k < p.getCallsNames().size(); k ++){
 				Call call = p.getCallsNames().get(k);
 				String callName = call.getName().replaceAll("\"", "");
 				String callModule = call.getModule().replaceAll("\"", "").replaceAll("/", "_");
 				int callArity = call.getArity();
 				//code += "<div style=\"text-indent:30px;\">\n";
-				this.code+= "<tr>";
+				//this.code+= "<tr>"; before alternatve
+				if(k%2 == 0) 	this.code+= "<tr id=\"even\">";
+				else			this.code+= "<tr id=\"odd\">";
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-					if(callArity > 0) 	code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
-					else				code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
-					if(!callModule.equalsIgnoreCase("built_in") ) code += "<td>"+" \t"+callModule+"</p></td>\n";
+					if(callArity > 0) 	code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
+					else				code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
+					if(!callModule.equalsIgnoreCase("built_in") )	code += "<td id=\"row\">"+" \t"+callModule+"</p></td>\n";
+					else											code += "<td></td>";
 					
 				}else{
-					code += "<td><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
-					code += "<td>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
+					code += "<td id=\"row\"><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
+					code += "<td id=\"row\">Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
 				}
 				//System.out.println(p.getName());
 				this.code+= "</tr>\n";
 				//code += "</div>";
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}
-			if(p.getCallsNames().size() > 0) this.code += "</table>\n";
+			if(p.getCallsNames().size() > 0) this.code += "\n</table>\n";
 			code += "</div><br><br>\n\n\n";
 	    }
 
@@ -162,7 +165,7 @@ public class HTML_Generator {
 	
 	private void generateModuleInformation(Module m){
 		   
-		    this.code += "\n<div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
+		    this.code += "\n<div id=\"b3\" class=\"box\">\n<div id=\"inner\">\n";
 			  
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
 		    
@@ -171,7 +174,7 @@ public class HTML_Generator {
 		    generateImports(m);
 		    generateExports(m);
 		    
-		    this.code += "</table>\n";
+		    this.code += "\n</tr>\n</table>\n";
 		    
 		    this.code += "</div><br>\n";
 		    
