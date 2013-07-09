@@ -48,21 +48,22 @@ public class HTML_Generator {
 		        br.close();
 		    }
 		    code += m.getName().replaceAll("\"", "")+".html";
-		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n <div id=\"b2\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\">\n<h3>Modules</h3>\n";
+		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n <div id=\"b2\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\">\n<h3>Modules</h3>\n";
 		    code += moduleLinks;
 		    
 		    code += "<h3>Predicates of "+m.getName()+"</h3>\n";
 
 		    for(int i = 0; i < m.getPredicates().size(); i++){
-		    	code += "<h4><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></h4>\n";
+		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
 		    }
 		    code += "</div>\n";
 		    
 		    this.generateModuleInformation(m);
 		    
 		    code +=   "<div id=\"inner\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6;box-shadow: 4px 4px 18px #666;\">\n";
+		    code += "<h3>Predicates:</h3>";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
-		    	code += "<h4><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></h4>\n";
+		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
 		    }
 		    
 		    code += "</div><br><br>";
@@ -130,26 +131,29 @@ public class HTML_Generator {
 			
 			if(p.getCallsNames().size() > 0) code += "<p>"+"Calls:"+"</p>\n";
 			
+			if(p.getCallsNames().size() > 0) this.code += "<table border=\"1\"; width=80%>\n";
 			for(int k = 0; k < p.getCallsNames().size(); k ++){
 				Call call = p.getCallsNames().get(k);
 				String callName = call.getName().replaceAll("\"", "");
 				String callModule = call.getModule().replaceAll("\"", "").replaceAll("/", "_");
 				int callArity = call.getArity();
-				code += "<div style=\"text-indent:30px;\">\n";
-				
+				//code += "<div style=\"text-indent:30px;\">\n";
+				this.code+= "<tr>";
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
-					if(callArity > 0) 	code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"&nbsp;&nbsp;&nbsp;&nbsp;"; 
-					else				code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&nbsp;&nbsp;&nbsp;&nbsp;"; 
-					if(!callModule.equalsIgnoreCase("built_in") ) code += "&nbsp;&nbsp;&nbsp;&nbsp;Module: &nbsp;&nbsp;&nbsp;"+" \t"+callModule+"</p>\n";
+					if(callArity > 0) 	code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>"; 
+					else				code += "<td><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>"; 
+					if(!callModule.equalsIgnoreCase("built_in") ) code += "<td>"+" \t"+callModule+"</p></td>\n";
 					
 				}else{
-					code += "<p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-					code += "&nbsp;&nbsp;&nbsp;&nbsp;Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p>\n";
+					code += "<td><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>";
+					code += "<td>Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
 				}
 				//System.out.println(p.getName());
-				code += "</div>";
+				this.code+= "</tr>";
+				//code += "</div>";
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}
+			if(p.getCallsNames().size() > 0) this.code += "</table>\n";
 			code += "</div><br><br>\n\n\n";
 	    }
 
@@ -158,12 +162,16 @@ public class HTML_Generator {
 	
 	private void generateModuleInformation(Module m){
 		   
-		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
+		    this.code += "  <div id=\"b3\" class=\"box\" style=\"font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6; background-color:#ffffff;\"><div style=\"font-family:verdana;padding:40px;border-radius:10px;border:2px solid #a7bec6; background-color:#ffffff;box-shadow:4px 4px 18px #666;\">\n";
 			  
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>";
 		    
+		    this.code += "<table  width=100%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>";
+		    
 		    generateImports(m);
 		    generateExports(m);
+		    
+		    this.code += "</table>";
 		    
 		    this.code += "</div><br>";
 		    
@@ -172,7 +180,7 @@ public class HTML_Generator {
 	
 	private void generateImports(Module m){
 		 
-		if ( m.getImports().size()>0) this.code += "<h3>Imports</h3>";
+		this.code += "<td valign=\"top\">";
 		
 		for(int i = 0; i < m.getImports().size(); i++){
 		    Call imp = m.getImports().get(i);
@@ -192,12 +200,12 @@ public class HTML_Generator {
 			}
 			this.code += "<br>";
 		}
-		if ( m.getImports().size()>0) this.code += "<br>";
+		this.code += "</td>";
 	}
 	
 	private void generateExports(Module m){
 		 
-		if ( m.getExports().size()>0) this.code += "<h3>Exports</h3>";
+		this.code += "<td valign=\"top\">";
 		
 		for(int i = 0; i < m.getExports().size(); i++){
 		    Call exp = m.getExports().get(i);
@@ -208,7 +216,7 @@ public class HTML_Generator {
 			this.code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\"#"+exportName+exportArity+"\">"+exportName+"/"+exportArity+"</a></p>\n";
 			this.code += "<br>";
 		}
-		if ( m.getExports().size()>0) this.code += "<br>";
+		this.code += "</td>";
 	}
 	
 	private void writeToFile(Module m){
@@ -237,7 +245,7 @@ public class HTML_Generator {
 	
 	private void setModuleLinks(List<Module> modules){
 		for(int i = 0; i < modules.size(); i++){
-			moduleLinks +=	"<h4><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getName()+"</a></h4>";
+			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getName()+"</a></li>";
 		}
 	}
 }
