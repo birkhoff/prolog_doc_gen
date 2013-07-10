@@ -116,7 +116,7 @@ public class HTML_Generator {
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
 			code += "<div id=\"codeblock\" class=\"box\">\n";
-			code += "<p><font color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
+			code += "<p><font face=\"monospace\" size=\"4\" color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
 			code += "</div>\n";
 			
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>\n";
