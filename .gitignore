@@ -1,0 +1,12 @@
+*.class
+prolog-doc/Doc
+Prob_prolog/
+prolog-Doc/.settings/
+prolog-Doc/bar.xml
+prolog-Doc/foo.xml
+prolog-Doc/prolog_data/
+prolog-Doc/swi_prolog_files.zip
+prolog-Doc/swi_prolog_files/
+prolog-Doc/test6.pl
+.DS_Store
+.metadata/
