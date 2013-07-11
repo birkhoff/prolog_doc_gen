@@ -41,7 +41,7 @@ Helpers
 	nl 				= 10;
 	eot				= (3|0|4);
 	
-	anynl		 = 	[0..255];
+	anynl		 = 	[0..0xffff];
 	any			 =	[anynl -10];
 	any_no_at	 = 	[anynl -64];
 	

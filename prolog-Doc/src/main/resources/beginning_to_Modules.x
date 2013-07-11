@@ -11,12 +11,12 @@ body { margin:0; padding:0; }
 #b1 {float: middle; width: 96%; height: 100px; font-family:verdana;padding:40px;border-radius:1px;border:2px solid #a7bec6; background-color:#ffffff; outline: 1px }
 #b2 {float: left; width: 13%; outline: 1px; overflow-x:scroll; font-family:verdana;padding:40px;border-radius:10px;border:0px solid #a7bec6;}
 #b3 {float: middle; margin-left: 18%; width: 78%; outline: 1px; font-family:verdana;padding:40px;border-radius:2px;border:0px solid #a7bec6; background-color:#ffffff;}
-#b5 {float: left; width: 96%; height: 100px; outline: 1px;
+#b5 {float: left; width: 99.5%; height: 100px; outline: 1px;
 	font-family:verdana;border:2px solid #a7bec6; background-color:#ffffff;
 	 }
 
 
-#top_margin {float: middle;width: 99.6%; height:22px; outline: 1px; font-family:verdana;border-radius:1px;border:2px solid #a7bec6; background-color:#7c8ed0; z-index: 1000;}
+#top_margin {float: middle;width: 99.6%; height:22px; outline: 1px; font-family:verdana;border-radius:1px;border:2px solid #a7bec6; background-color:#ddf6fb; z-index: 1000;}
 #navi {float: middle; position:fixed; width: 99.5%; height:20px; outline: 1px; font-family:verdana;border-radius:2px;border:0px solid #a7bec6; background-color:#a7bec6; z-index: 1000;}
 
 #odd{

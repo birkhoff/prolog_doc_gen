@@ -5,7 +5,7 @@
 	@date /John *Witulski
 	@TimLippold  yolo
 	swagelicious
-	@descr /* GPL
+	@descr <b>/* GPL</b>
 	@mode merge(+,+,-)
 
 */

@@ -25,6 +25,9 @@ public class CodeqParser {
 	private String ParsedFile;
 	private String NameOfFile;
 	private List<String> File;
+	private static String atomHighlight = "e55f88";
+	private static String stringHighlight = "329989";
+	private static String implicationHighlight = "5f8ee3";
 	
 	public CodeqParser(){
 		
@@ -192,14 +195,16 @@ private String getCode(int starts[], int ends[]){
 					returnCode += 	"<br>";
 					if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";	
 					
-					returnCode += File.get(i);
-						  
+					String current = " "+File.get(i).replaceAll("(\".*\")", "<FONT COLOR=\""+stringHighlight+"\">$1</FONT COLOR>");
+					current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1<FONT COLOR=\""+atomHighlight+"\">$2</FONT COLOR>" );
+					//current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1<FONT COLOR=\""+varHighlight+"\">$2</FONT COLOR>" );
+					returnCode += current;
 					if (i == ends[k]){
 						if (File.get(i).matches(".*\\.((%+.*)| |\t|\n|(/\\+.*))*"))
 						returnCode += "<br>";
 						else{
 							for(int j = i+1; !File.get(j-1).matches(".*\\.((%+.*)| |\t|\n|/\\*.*)*") && j < File.size(); j++){
-								returnCode += "<br>"+File.get(j);
+								returnCode += "<br>"+File.get(j).replaceAll("([a-z])([A-Z]|[a-z]|_|-)*","<FONT COLOR=\""+atomHighlight+"\">$1$2</FONT COLOR>" );
 							}
 							returnCode += "<br>";
 						}
@@ -207,13 +212,13 @@ private String getCode(int starts[], int ends[]){
 				}
 			}else{
 				System.out.println("\n FATAL ERROR TRYING TO READ PREDICATE FROM LINE "+i +"WITH A FILE LENGTH OF "+File.size());
-			}
-			
+			}		
 		}
 	}
-	
 	returnCode = returnCode.replaceAll("\t", "\t&nbsp;&nbsp;&nbsp;");
-	returnCode = returnCode.replaceAll(" ", " &nbsp;");
+	returnCode = returnCode.replaceAll(":-", "<FONT COLOR=\""+implicationHighlight+"\">:-</FONT COLOR>");
+	returnCode = returnCode.replaceAll("-->", "<FONT COLOR=\""+implicationHighlight+"\">--></FONT COLOR>");
+	returnCode = returnCode.replaceAll("->", "<FONT COLOR=\""+implicationHighlight+"\">-></FONT COLOR>");
 	return returnCode;
 }
 	
@@ -261,8 +266,7 @@ private String getCode(int starts[], int ends[]){
 				String callName = this.getValue("name", import_element);
 				String callModule = this.getValue("module", import_element);
 				String callArity = this.getValue("arity", import_element);
-				Module.addExport(callName, callModule, callArity);
-								
+				Module.addExport(callName, callModule, callArity);					
 			}
 		}
 		//System.out.println("Length:"+ Module.getExports().size());
