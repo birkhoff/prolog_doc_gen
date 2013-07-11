@@ -601,7 +601,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 3: state = State.PL; break;
+                                case 3: state = State.PL_SINGLE_TICKS; break;
                             }
                             return token;
                         }
@@ -616,7 +616,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 4: state = State.PL_DOUBLE_TICKS; break;
+                                case 3: state = State.PL; break;
                             }
                             return token;
                         }
@@ -631,7 +631,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 4: state = State.PL; break;
+                                case 4: state = State.PL_DOUBLE_TICKS; break;
                             }
                             return token;
                         }
@@ -646,7 +646,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL; break;
+                                case 4: state = State.PL_DOUBLE_TICKS; break;
                             }
                             return token;
                         }
@@ -661,7 +661,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL; break;
+                                case 4: state = State.PL; break;
                             }
                             return token;
                         }
@@ -676,7 +676,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.DOC_SINGLE; break;
+                                case 8: state = State.PL; break;
                             }
                             return token;
                         }
@@ -691,7 +691,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.DOC_SINGLE; break;
+                                case 8: state = State.PL; break;
                             }
                             return token;
                         }
@@ -706,7 +706,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.PL; break;
+                                case 8: state = State.DOC_SINGLE; break;
                             }
                             return token;
                         }
@@ -736,7 +736,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.DOC_SINGLE; break;
+                                case 7: state = State.PL; break;
                             }
                             return token;
                         }
@@ -800,6 +800,36 @@ public class Lexer
                             }
                             return token;
                         }
+                    case 43:
+                        {
+                            @SuppressWarnings("hiding") Token token = new43(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 44:
+                        {
+                            @SuppressWarnings("hiding") Token token = new44(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
                     }
                 }
                 else
@@ -849,20 +879,22 @@ public class Lexer
     Token new26(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TCommentStarNoSlash(text, line, pos); }
     Token new27(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TCommentStarSlash(text, line, pos); }
     Token new28(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleString(text, line, pos); }
-    Token new29(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleStringEnd(text, line, pos); }
-    Token new30(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleString(text, line, pos); }
-    Token new31(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleStringEnd(text, line, pos); }
-    Token new32(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammComment(text, line, pos); }
-    Token new33(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammEndNormalSingleComment(text, line, pos); }
-    Token new34(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocStart(text, line, pos); }
-    Token new35(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleString(text, line, pos); }
-    Token new36(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleEnd(text, line, pos); }
-    Token new37(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMail(text, line, pos); }
-    Token new38(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDescr(text, line, pos); }
-    Token new39(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDate(text, line, pos); }
-    Token new40(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAuthor(text, line, pos); }
-    Token new41(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMode(text, line, pos); }
-    Token new42(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAtdoc(text, line, pos); }
+    Token new29(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleStringEscape(text, line, pos); }
+    Token new30(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammSingleStringEnd(text, line, pos); }
+    Token new31(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleString(text, line, pos); }
+    Token new32(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleStringEscape(text, line, pos); }
+    Token new33(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammDoubleStringEnd(text, line, pos); }
+    Token new34(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammComment(text, line, pos); }
+    Token new35(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammEndNormalSingleComment(text, line, pos); }
+    Token new36(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocStart(text, line, pos); }
+    Token new37(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleString(text, line, pos); }
+    Token new38(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleEnd(text, line, pos); }
+    Token new39(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMail(text, line, pos); }
+    Token new40(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDescr(text, line, pos); }
+    Token new41(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDate(text, line, pos); }
+    Token new42(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAuthor(text, line, pos); }
+    Token new43(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMode(text, line, pos); }
+    Token new44(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAtdoc(text, line, pos); }
 
     private int getChar() throws IOException
     {
@@ -922,7 +954,7 @@ public class Lexer
     private static int[][][][] gotoTable;
 /*  {
         { // PL
-            {{0, 33, 1}, {34, 34, 2}, {35, 36, 1}, {37, 37, 3}, {38, 38, 1}, {39, 39, 4}, {40, 46, 1}, {47, 47, 5}, {48, 255, 1}, },
+            {{0, 33, 1}, {34, 34, 2}, {35, 36, 1}, {37, 37, 3}, {38, 38, 1}, {39, 39, 4}, {40, 46, 1}, {47, 47, 5}, {48, 65535, 1}, },
             {},
             {},
             {},
@@ -930,13 +962,13 @@ public class Lexer
             {},
         }
         { // PL_SLASH
-            {{0, 33, 1}, {35, 38, 1}, {40, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 255, 1}, },
+            {{0, 33, 1}, {35, 38, 1}, {40, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 65535, 1}, },
             {},
             {},
             {},
         }
         { // PL_STAR
-            {{0, 41, 1}, {42, 42, 2}, {43, 255, 1}, },
+            {{0, 41, 1}, {42, 42, 2}, {43, 65535, 1}, },
             {},
             {{9, 9, 3}, {10, 10, 4}, {13, 13, 5}, {32, 32, 6}, },
             {{9, 32, -4}, },
@@ -945,38 +977,42 @@ public class Lexer
             {{9, 32, -4}, },
         }
         { // PL_SINGLE_TICKS
-            {{0, 38, 1}, {39, 39, 2}, {40, 255, 1}, },
-            {{0, 38, 1}, {40, 255, 1}, },
+            {{0, 38, 1}, {39, 39, 2}, {40, 91, 1}, {92, 92, 3}, {93, 65535, 1}, },
+            {{0, 38, 1}, {40, 91, 1}, {93, 65535, 1}, },
+            {},
+            {{0, 9, 4}, {11, 65535, 4}, },
             {},
         }
         { // PL_DOUBLE_TICKS
-            {{0, 33, 1}, {34, 34, 2}, {35, 255, 1}, },
-            {{0, 33, 1}, {35, 255, 1}, },
+            {{0, 33, 1}, {34, 34, 2}, {35, 91, 1}, {92, 92, 3}, {93, 65535, 1}, },
+            {{0, 33, 1}, {35, 91, 1}, {93, 65535, 1}, },
+            {},
+            {{0, 9, 4}, {11, 65535, 4}, },
             {},
         }
         { // DOC
-            {{0, 8, 1}, {9, 9, 2}, {10, 10, 3}, {11, 12, 1}, {13, 13, 4}, {14, 31, 1}, {32, 32, 5}, {33, 41, 1}, {42, 42, 6}, {43, 44, 1}, {45, 45, 7}, {46, 46, 8}, {47, 63, 1}, {64, 64, 9}, {65, 90, 10}, {91, 94, 1}, {95, 95, 11}, {96, 96, 1}, {97, 122, 12}, {123, 255, 1}, },
-            {{0, 41, 1}, {43, 63, 1}, {65, 255, 1}, },
-            {{0, 41, -2}, {43, 63, -2}, {64, 64, 13}, {65, 90, 14}, {91, 94, 1}, {95, 95, 15}, {96, 96, 1}, {97, 122, 16}, {123, 255, 1}, },
-            {{0, 255, -4}, },
-            {{0, 255, -4}, },
-            {{0, 255, -4}, },
+            {{0, 8, 1}, {9, 9, 2}, {10, 10, 3}, {11, 12, 1}, {13, 13, 4}, {14, 31, 1}, {32, 32, 5}, {33, 41, 1}, {42, 42, 6}, {43, 44, 1}, {45, 45, 7}, {46, 46, 8}, {47, 63, 1}, {64, 64, 9}, {65, 90, 10}, {91, 94, 1}, {95, 95, 11}, {96, 96, 1}, {97, 122, 12}, {123, 65535, 1}, },
+            {{0, 41, 1}, {43, 63, 1}, {65, 65535, 1}, },
+            {{0, 41, -2}, {43, 63, -2}, {64, 64, 13}, {65, 90, 14}, {91, 94, 1}, {95, 95, 15}, {96, 96, 1}, {97, 122, 16}, {123, 65535, 1}, },
+            {{0, 65535, -4}, },
+            {{0, 65535, -4}, },
+            {{0, 65535, -4}, },
             {},
-            {{0, 41, 1}, {43, 63, -2}, {64, 64, 17}, {65, 255, -4}, },
-            {{0, 44, -9}, {45, 45, 18}, {46, 64, -9}, {65, 90, 19}, {91, 94, 1}, {95, 95, 20}, {96, 96, 1}, {97, 122, 21}, {123, 255, 1}, },
+            {{0, 41, 1}, {43, 63, -2}, {64, 64, 17}, {65, 65535, -4}, },
+            {{0, 44, -9}, {45, 45, 18}, {46, 64, -9}, {65, 90, 19}, {91, 94, 1}, {95, 95, 20}, {96, 96, 1}, {97, 122, 21}, {123, 65535, 1}, },
             {{45, 45, 22}, {64, 64, 23}, {65, 65, 24}, {66, 67, 25}, {68, 68, 26}, {69, 76, 25}, {77, 77, 27}, {78, 90, 25}, {95, 95, 28}, {97, 97, 29}, {98, 99, 30}, {100, 100, 31}, {101, 108, 30}, {109, 109, 32}, {110, 122, 30}, },
-            {{0, 64, -9}, {65, 255, -2}, },
-            {{0, 255, -12}, },
-            {{0, 255, -12}, },
+            {{0, 64, -9}, {65, 65535, -2}, },
+            {{0, 65535, -12}, },
+            {{0, 65535, -12}, },
             {{45, 45, 22}, {65, 122, -11}, },
-            {{0, 255, -9}, },
-            {{0, 255, -9}, },
-            {{0, 255, -9}, },
+            {{0, 65535, -9}, },
+            {{0, 65535, -9}, },
+            {{0, 65535, -9}, },
             {{45, 45, 22}, {65, 90, 33}, {95, 95, 34}, {97, 122, 35}, },
-            {{0, 45, -10}, {46, 63, 1}, {64, 255, -10}, },
-            {{0, 255, -20}, },
-            {{0, 255, -20}, },
-            {{0, 255, -20}, },
+            {{0, 45, -10}, {46, 63, 1}, {64, 65535, -10}, },
+            {{0, 65535, -20}, },
+            {{0, 65535, -20}, },
+            {{0, 65535, -20}, },
             {{45, 45, 22}, {46, 46, 36}, {65, 122, -19}, },
             {},
             {{9, 9, 37}, {10, 10, 38}, {13, 13, 39}, {32, 32, 40}, {45, 46, -24}, {65, 84, 25}, {85, 85, 41}, {86, 90, 25}, {95, 95, 28}, {97, 116, 30}, {117, 117, 42}, {118, 122, 30}, },
@@ -1064,8 +1100,8 @@ public class Lexer
             {{9, 122, -107}, },
         }
         { // DOC_STAR
-            {{0, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 63, 1}, {65, 255, 1}, },
-            {{0, 41, 1}, {43, 46, 1}, {48, 255, -2}, },
+            {{0, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 63, 1}, {65, 65535, 1}, },
+            {{0, 41, 1}, {43, 46, 1}, {48, 65535, -2}, },
             {{42, 42, 2}, },
             {{9, 9, 4}, {10, 10, 5}, {13, 13, 6}, {32, 32, 7}, },
             {{9, 32, -5}, },
@@ -1074,27 +1110,27 @@ public class Lexer
             {{9, 32, -5}, },
         }
         { // DOC_SINGLE
-            {{0, 0, 1}, {1, 2, 2}, {3, 3, 3}, {4, 4, 4}, {5, 8, 2}, {9, 9, 5}, {10, 10, 6}, {11, 12, 2}, {13, 13, 7}, {14, 31, 2}, {32, 32, 8}, {33, 44, 2}, {45, 45, 9}, {46, 46, 10}, {47, 63, 2}, {64, 64, 11}, {65, 90, 12}, {91, 94, 2}, {95, 95, 13}, {96, 96, 2}, {97, 122, 14}, {123, 255, 2}, },
-            {{0, 9, 2}, {11, 63, 2}, {65, 255, 2}, },
-            {{0, 255, -3}, },
-            {{0, 255, -3}, },
-            {{0, 255, -3}, },
-            {{0, 8, 2}, {9, 9, 5}, {11, 63, -2}, {64, 64, 15}, {65, 255, -2}, },
+            {{0, 0, 1}, {1, 2, 2}, {3, 3, 3}, {4, 4, 4}, {5, 8, 2}, {9, 9, 5}, {10, 10, 6}, {11, 12, 2}, {13, 13, 7}, {14, 31, 2}, {32, 32, 8}, {33, 44, 2}, {45, 45, 9}, {46, 46, 10}, {47, 63, 2}, {64, 64, 11}, {65, 90, 12}, {91, 94, 2}, {95, 95, 13}, {96, 96, 2}, {97, 122, 14}, {123, 65535, 2}, },
+            {{0, 9, 2}, {11, 63, 2}, {65, 65535, 2}, },
+            {{0, 65535, -3}, },
+            {{0, 65535, -3}, },
+            {{0, 65535, -3}, },
+            {{0, 8, 2}, {9, 9, 5}, {11, 63, -2}, {64, 64, 15}, {65, 65535, -2}, },
             {},
-            {{0, 255, -7}, },
-            {{0, 255, -7}, },
-            {{0, 9, 2}, {11, 44, 2}, {45, 63, -2}, {64, 64, 16}, {65, 255, -2}, },
-            {{0, 44, -11}, {45, 45, 17}, {46, 64, -11}, {65, 90, 18}, {91, 94, 2}, {95, 95, 19}, {96, 96, 2}, {97, 122, 20}, {123, 255, 2}, },
+            {{0, 65535, -7}, },
+            {{0, 65535, -7}, },
+            {{0, 9, 2}, {11, 44, 2}, {45, 63, -2}, {64, 64, 16}, {65, 65535, -2}, },
+            {{0, 44, -11}, {45, 45, 17}, {46, 64, -11}, {65, 90, 18}, {91, 94, 2}, {95, 95, 19}, {96, 96, 2}, {97, 122, 20}, {123, 65535, 2}, },
             {{45, 45, 21}, {64, 64, 22}, {65, 65, 23}, {66, 67, 24}, {68, 68, 25}, {69, 76, 24}, {77, 77, 26}, {78, 90, 24}, {95, 95, 27}, {97, 97, 28}, {98, 99, 29}, {100, 100, 30}, {101, 108, 29}, {109, 109, 31}, {110, 122, 29}, },
-            {{0, 255, -11}, },
-            {{0, 255, -11}, },
-            {{0, 255, -11}, },
+            {{0, 65535, -11}, },
+            {{0, 65535, -11}, },
+            {{0, 65535, -11}, },
             {{45, 45, 21}, {65, 122, -13}, },
             {{45, 45, 21}, {65, 90, 32}, {95, 95, 33}, {97, 122, 34}, },
-            {{0, 45, -12}, {46, 63, 2}, {64, 255, -12}, },
-            {{0, 255, -19}, },
-            {{0, 255, -19}, },
-            {{0, 255, -19}, },
+            {{0, 45, -12}, {46, 63, 2}, {64, 65535, -12}, },
+            {{0, 65535, -19}, },
+            {{0, 65535, -19}, },
+            {{0, 65535, -19}, },
             {{45, 45, 21}, {46, 46, 35}, {65, 122, -18}, },
             {},
             {{9, 9, 36}, {13, 13, 37}, {32, 32, 38}, {45, 46, -23}, {65, 84, 24}, {85, 85, 39}, {86, 90, 24}, {95, 95, 27}, {97, 116, 29}, {117, 117, 40}, {118, 122, 29}, },
@@ -1176,19 +1212,19 @@ public class Lexer
             {{9, 122, -100}, },
         }
         { // PL_SINGLE_COMMENT_START
-            {{0, 9, 1}, {10, 10, 2}, {11, 36, 1}, {37, 37, 3}, {38, 255, 1}, },
-            {{0, 9, 1}, {11, 36, 1}, {38, 255, 1}, },
+            {{0, 9, 1}, {10, 10, 2}, {11, 36, 1}, {37, 37, 3}, {38, 65535, 1}, },
+            {{0, 9, 1}, {11, 36, 1}, {38, 65535, 1}, },
             {{10, 10, 2}, },
             {{37, 37, 3}, },
         }
         { // PL_COMMENT
-            {{0, 41, 1}, {42, 42, 2}, {43, 255, 1}, },
-            {{0, 41, 1}, {43, 255, 1}, },
+            {{0, 41, 1}, {42, 42, 2}, {43, 65535, 1}, },
+            {{0, 41, 1}, {43, 65535, 1}, },
             {{42, 42, 2}, },
         }
         { // PL_COMMENT_STAR
-            {{0, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 255, 1}, },
-            {{0, 41, 1}, {43, 46, 1}, {48, 255, 1}, },
+            {{0, 41, 1}, {42, 42, 2}, {43, 46, 1}, {47, 47, 3}, {48, 65535, 1}, },
+            {{0, 41, 1}, {43, 46, 1}, {48, 65535, 1}, },
             {{42, 42, 2}, },
             {{47, 47, 3}, },
         }
@@ -1203,17 +1239,17 @@ public class Lexer
         // PL_STAR
         {-1, 21, 22, 22, 22, 22, 22, },
         // PL_SINGLE_TICKS
-        {28, 28, 29, },
+        {28, 28, 30, -1, 29, },
         // PL_DOUBLE_TICKS
-        {30, 30, 31, },
+        {31, 31, 33, -1, 32, },
         // DOC
         {8, 8, 8, 8, 8, 8, 9, 8, 8, -1, 7, 7, 7, -1, 8, 8, 8, -1, 8, 8, 8, 8, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 6, 6, 6, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, 3, 3, 3, -1, -1, 5, 5, 5, 5, -1, -1, 2, 2, 2, 2, -1, -1, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
         // DOC_STAR
         {-1, 11, 10, 12, 12, 12, 12, 12, },
         // DOC_SINGLE
-        {-1, 35, 35, 35, 35, 35, 36, 35, 35, 35, 35, -1, 35, 35, 35, -1, -1, 35, 35, 35, 35, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 42, 42, 42, -1, -1, -1, -1, -1, -1, -1, -1, 37, 37, 37, 37, -1, -1, -1, -1, -1, -1, -1, -1, 37, 37, 37, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, -1, -1, 41, 41, 41, -1, -1, 38, 38, 38, -1, -1, 40, 40, 40, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
+        {-1, 37, 37, 37, 37, 37, 38, 37, 37, 37, 37, -1, 37, 37, 37, -1, -1, 37, 37, 37, 37, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 44, 44, 44, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, 39, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 41, 41, 41, -1, -1, 43, 43, 43, -1, -1, 40, 40, 40, -1, -1, 42, 42, 42, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
         // PL_SINGLE_COMMENT_START
-        {-1, 32, 33, 34, },
+        {-1, 34, 35, 36, },
         // PL_COMMENT
         {23, 23, 24, },
         // PL_COMMENT_STAR

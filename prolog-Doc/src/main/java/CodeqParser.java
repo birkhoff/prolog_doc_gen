@@ -25,9 +25,9 @@ public class CodeqParser {
 	private String ParsedFile;
 	private String NameOfFile;
 	private List<String> File;
-	private static String atomHighlight = "e55f88";
+	private static String atomHighlight = "f36055";
 	private static String stringHighlight = "329989";
-	private static String implicationHighlight = "5f8ee3";
+	private static String implicationHighlight = "7ab6f9";
 	
 	public CodeqParser(){
 		
@@ -227,7 +227,7 @@ private String getCode(int starts[], int ends[]){
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
 		
 		if(nameOfModule.equalsIgnoreCase("user")){
-			nameOfModule = this.NameOfFile.replaceAll("/", "_");
+			nameOfModule = this.NameOfFile.replaceAll("/", "_").replaceAll("\\.\\.", "-");
 		}
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");

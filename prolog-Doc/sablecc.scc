@@ -45,8 +45,8 @@ Helpers
 	any			 =	[anynl -10];
 	any_no_at	 = 	[anynl -64];
 	
-	any_no_single_tick 		= [ anynl - 39];
-	any_no_double_tick 		= [ anynl - 34];
+	any_no_single_tick 		= [[ anynl - 39]-92];				// 92 Backslash
+	any_no_double_tick 		= [[ anynl - 34]-92];
 	any_no_star 			= [ anynl - 42];
 	any_no_slash_no_star 	= [ [ anynl -42]- 47];
 	single_tick				= 39;
@@ -113,9 +113,11 @@ Tokens
 		{pl_comment_star->pl}			comment_star_slash = ('/')+;			
 		
 		{pl_single_ticks} programm_single_string = any_no_single_tick*;
+		{pl_single_ticks} programm_single_string_escape = 92 any;
 		{pl_single_ticks->pl} programm_single_string_end = single_tick;
 		
 		{pl_double_ticks} programm_double_string 			= any_no_double_tick*;
+		{pl_double_ticks} programm_double_string_escape		= 92 any;
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
 		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage+;
@@ -136,6 +138,7 @@ Tokens
 Ignored Tokens
 		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, 
 		comment_no_star, programm_comment_start, string_star_star, 
+		programm_double_string_escape, programm_single_string_escape,
 		programm_to_star, programm_star_any, programm_comment, programm_end_normal_single_comment,
 		programm_no_slash, prorgramm_slash, programm_single_ticks, programm_double_ticks, programm_slash_slash, 
 		programm_slash_any, programm_single_string, programm_single_string_end, programm_double_string, programm_double_string_end;

@@ -60,8 +60,10 @@ public interface Analysis extends Switch
     void caseTCommentStarNoSlash(TCommentStarNoSlash node);
     void caseTCommentStarSlash(TCommentStarSlash node);
     void caseTProgrammSingleString(TProgrammSingleString node);
+    void caseTProgrammSingleStringEscape(TProgrammSingleStringEscape node);
     void caseTProgrammSingleStringEnd(TProgrammSingleStringEnd node);
     void caseTProgrammDoubleString(TProgrammDoubleString node);
+    void caseTProgrammDoubleStringEscape(TProgrammDoubleStringEscape node);
     void caseTProgrammDoubleStringEnd(TProgrammDoubleStringEnd node);
     void caseTProgrammComment(TProgrammComment node);
     void caseTProgrammEndNormalSingleComment(TProgrammEndNormalSingleComment node);

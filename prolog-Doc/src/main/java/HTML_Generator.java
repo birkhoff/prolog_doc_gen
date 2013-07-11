@@ -171,7 +171,7 @@ public class HTML_Generator {
 		    this.code += "<a class=\"anchor\" name=\"MODULE_INFO\">Module Information</a>\n";
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
 		    
-		    this.code += "<table  width=100%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
+		    this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
 		    
 		    generateImports(m);
 		    generateExports(m);
@@ -196,7 +196,7 @@ public class HTML_Generator {
 		   
 			if(!ModuleNames.containsKey(importModule)){
 			
-				this.code += "<h4>"+  importName.replaceAll("\"", "")+"/"+ importArity +"</h4>\n";
+				this.code += "<p>"+  importName.replaceAll("\"", "")+"/"+ importArity +"</p>\n";
 				this.code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+importName+"</p>\n";
 			}else{
 			
@@ -228,7 +228,7 @@ public class HTML_Generator {
 		BufferedWriter writer = null;
 		try
 		{
-			writer = new BufferedWriter( new FileWriter("Doc/"+m.getName().replaceAll("\"", "")+".html"));
+			writer = new BufferedWriter( new FileWriter("Doc/"+m.getName().replaceAll("\"", "").replaceAll("\\.\\.", "-")+".html"));
 			
 			//writer.write(code);
 			writer.write(this.prettyPrintCode());
@@ -247,6 +247,7 @@ public class HTML_Generator {
 			{
 			}
 	     }
+		
 	}
 	
 	private void setModuleLinks(List<Module> modules){

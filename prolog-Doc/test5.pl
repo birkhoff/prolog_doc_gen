@@ -42,7 +42,8 @@ is_not_visited( H, [H|_T] ):-
 	false.
 is_not_visited( A, [H|T] ):-
 	A \= H,
-	is_not_visited(A, T).
+	is_not_visited(A, T),
+	print(' \'More info at: http://www.stups.uni-duesseldorf.de/ProB/').
 
-dcg_one --> "/**", dcg_two.
-dcg_two --> "//".
+dcg_one --> '/\\/', dcg_two.
+dcg_two --> "jap tum da//".

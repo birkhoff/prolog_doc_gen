@@ -357,6 +357,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTProgrammSingleStringEscape(TProgrammSingleStringEscape node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTProgrammSingleStringEnd(TProgrammSingleStringEnd node)
     {
         defaultCase(node);
@@ -364,6 +370,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTProgrammDoubleString(TProgrammDoubleString node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProgrammDoubleStringEscape(TProgrammDoubleStringEscape node)
     {
         defaultCase(node);
     }
