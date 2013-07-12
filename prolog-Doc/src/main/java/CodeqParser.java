@@ -17,6 +17,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.*;
+
 public class CodeqParser {
 
 	
@@ -195,9 +197,20 @@ private String getCode(int starts[], int ends[]){
 					returnCode += 	"<br>";
 					if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";	
 					
-					String current = " "+File.get(i).replaceAll("(\".*\")", "<FONT COLOR=\""+stringHighlight+"\">$1</FONT COLOR>");
-					current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1<FONT COLOR=\""+atomHighlight+"\">$2</FONT COLOR>" );
-					//current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1<FONT COLOR=\""+varHighlight+"\">$2</FONT COLOR>" );
+					String current = " "+File.get(i);
+					String stringOfCurrent = null;
+					if(current.contains("\"")) stringOfCurrent = current.replaceAll("([^\"]*)(\".*\")([^\"]*)", "<FONT COLOR=\""+stringHighlight+"\">$2</FONT COLOR>");
+					
+					System.out.println("\n\n\t!!!! String: "+stringOfCurrent);
+					current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
+					
+					if(stringOfCurrent != null){
+						current = current.replaceAll("(\"(.|\n)*\")", stringOfCurrent);
+						System.out.println("\n"+current.replaceAll("(\"(.|\n)*\")", stringOfCurrent)+"\n");
+					}
+					current = current.replaceAll("\n#<\n","<FONT COLOR=\""+atomHighlight+"\">" );
+					current = current.replaceAll("\n#>\n","</FONT>" );
+				
 					returnCode += current;
 					if (i == ends[k]){
 						if (File.get(i).matches(".*\\.((%+.*)| |\t|\n|(/\\+.*))*"))

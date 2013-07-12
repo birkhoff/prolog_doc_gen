@@ -16,6 +16,8 @@
 
 foo(yam).
 
+bar(Tam).
+
 :- block merge(-,?,-), merge(?,-,-).
 
     merge([], Y, Y).
