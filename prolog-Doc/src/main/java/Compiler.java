@@ -163,8 +163,8 @@ public class Compiler {
 		{
 		  CodeqParser codeqParser = new CodeqParser(nameOfFile);
 		  codeqParser.parseXML("foo.xml");
-		  debugOutput(codeqParser.Predicates);
-		  debugModuleOutput(codeqParser.Module);
+		  //debugOutput(codeqParser.Predicates);
+		  //debugModuleOutput(codeqParser.Module);
 		  Module = codeqParser.Module;
 		  
 		  Predicates = codeqParser.Predicates;

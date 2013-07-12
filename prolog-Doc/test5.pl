@@ -1,5 +1,3 @@
-:-module(test5, [foo/1]).
-
 /** 
 	@author swaghetti yolonese
 	@date /John *Witulski
@@ -12,11 +10,15 @@
 
 /* /*/
 
+%% bla
+
+:-module(test5, [foo/1]).
+
 :- multifile foo/1.
 
-foo(yam).
+foo(Yam).
 
-bar(Tam).
+bar(yam(x)).
 
 :- block merge(-,?,-), merge(?,-,-).
 

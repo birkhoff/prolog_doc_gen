@@ -27,8 +27,10 @@ public class CodeqParser {
 	private String ParsedFile;
 	private String NameOfFile;
 	private List<String> File;
+
+	private static String varHighlight = "8ce8ff";
 	private static String atomHighlight = "f36055";
-	private static String stringHighlight = "329989";
+	private static String stringHighlight = "94FF8C";
 	private static String implicationHighlight = "7ab6f9";
 	
 	public CodeqParser(){
@@ -197,27 +199,14 @@ private String getCode(int starts[], int ends[]){
 					returnCode += 	"<br>";
 					if (i != starts[k]) 	returnCode += "&nbsp;&nbsp;&nbsp;";	
 					
-					String current = " "+File.get(i);
-					String stringOfCurrent = null;
-					if(current.contains("\"")) stringOfCurrent = current.replaceAll("([^\"]*)(\".*\")([^\"]*)", "<FONT COLOR=\""+stringHighlight+"\">$2</FONT COLOR>");
-					
-					System.out.println("\n\n\t!!!! String: "+stringOfCurrent);
-					current = current.replaceAll("(,| |\\)|\\(|\\||\t)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
-					
-					if(stringOfCurrent != null){
-						current = current.replaceAll("(\"(.|\n)*\")", stringOfCurrent);
-						System.out.println("\n"+current.replaceAll("(\"(.|\n)*\")", stringOfCurrent)+"\n");
-					}
-					current = current.replaceAll("\n#<\n","<FONT COLOR=\""+atomHighlight+"\">" );
-					current = current.replaceAll("\n#>\n","</FONT>" );
+					returnCode += this.highlightCode(File.get(i)) ;
 				
-					returnCode += current;
 					if (i == ends[k]){
 						if (File.get(i).matches(".*\\.((%+.*)| |\t|\n|(/\\+.*))*"))
 						returnCode += "<br>";
 						else{
 							for(int j = i+1; !File.get(j-1).matches(".*\\.((%+.*)| |\t|\n|/\\*.*)*") && j < File.size(); j++){
-								returnCode += "<br>"+File.get(j).replaceAll("([a-z])([A-Z]|[a-z]|_|-)*","<FONT COLOR=\""+atomHighlight+"\">$1$2</FONT COLOR>" );
+								//returnCode += "<br>"+ this.highlightCode(File.get(j));
 							}
 							returnCode += "<br>";
 						}
@@ -234,8 +223,32 @@ private String getCode(int starts[], int ends[]){
 	returnCode = returnCode.replaceAll("->", "<FONT COLOR=\""+implicationHighlight+"\">-></FONT COLOR>");
 	return returnCode;
 }
+
+private String highlightCode(String line){
+
+	String current = " "+line;
+	String stringOfCurrent = null;
+	if(current.contains("\"")) stringOfCurrent = current.replaceAll("([^\"]*)(\".*\")([^\"]*)", "<FONT COLOR=\""+stringHighlight+"\">$2</FONT COLOR>");
 	
-	private void parseModuleInformation(Document dc){
+	current = current.replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
+	
+	current = current.replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting
+	
+	if(stringOfCurrent != null){
+		current = current.replaceAll("(\"(.|\n)*\")", stringOfCurrent);
+		//System.out.println("\n"+current.replaceAll("(\"(.|\n)*\")", stringOfCurrent)+"\n");
+	}
+	current = current.replaceAll("\n#<\n","<FONT COLOR=\""+atomHighlight+"\">" );
+	current = current.replaceAll("\n#>\n","</FONT>" );
+	
+	current = current.replaceAll("\n##<\n","<FONT COLOR=\""+varHighlight+"\">" );
+	current = current.replaceAll("\n##>\n","</FONT>" );
+	
+	
+	return current;
+}
+
+private void parseModuleInformation(Document dc){
 		
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
 		
