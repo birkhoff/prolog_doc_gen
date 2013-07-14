@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><programm><module>"testFiles2"</module>
+
+<module_startline>1</module_startline>
+<module_endline>1</module_endline>
+<exports>
+
+	<export>
+		<module>"testFiles2"</module>
+		<name>"foo"</name>
+		<arity>1</arity>
+	</export>
+
+</exports>
+<multifiles>
+
+	<multifile>foo/2</multifile>
+	<multifile>bar/0</multifile>
+</multifiles>
+
+<predicates>
+
+	<predicate>
+		<name>"bar"</name>
+		<arity>0</arity>
+		<startlines>[9]</startlines>
+		<endlines>[11]</endlines>
+		<dynamic>false</dynamic>
+		<meta>false</meta> 
+		<volatile>false</volatile> 
+		<multifile>true</multifile>
+		<calls>
+			<call>
+				<module>"foo_error"</module>
+				<name>errorMessage</name>
+				<arity>2</arity>
+			</call>
+		</calls>
+		<meta_args></meta_args>
+		<block>
+		</block>
+	</predicate>
+	<predicate>
+		<name>"foo"</name>
+		<arity>2</arity>
+		<startlines>[7]</startlines>
+		<endlines>[7]</endlines>
+		<dynamic>false</dynamic>
+		<meta>true</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+		</calls>
+		<meta_args>foo[:,+]	foo[:,:]	</meta_args>
+		<block>
+		</block>
+	</predicate>
+	<predicate>
+		<name>"foo_bar"</name>
+		<arity>2</arity>
+		<startlines>[20]</startlines>
+		<endlines>[21]</endlines>
+		<dynamic>false</dynamic>
+		<meta>true</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+			<call>
+				<module>"built_in"</module>
+				<name>=</name>
+				<arity>2</arity>
+			</call>
+		</calls>
+		<meta_args>foo_bar[+,+]	</meta_args>
+		<block>
+		</block>
+	</predicate>
+	<predicate>
+		<name>"merge"</name>
+		<arity>3</arity>
+		<startlines>[18,17,16,15]</startlines>
+		<endlines>[18,17,16,15]</endlines>
+		<dynamic>false</dynamic>
+		<meta>false</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+			<call>
+				<module>"built_in"</module>
+				<name>@&lt;</name>
+				<arity>2</arity>
+			</call>
+			<call>
+				<module>"testFiles2"</module>
+				<name>merge</name>
+				<arity>3</arity>
+			</call>
+			<call>
+				<module>"built_in"</module>
+				<name>@>=</name>
+				<arity>2</arity>
+			</call>
+			<call>
+				<module>"testFiles2"</module>
+				<name>RECURSIVE_CALL</name>
+				<arity>3</arity>
+			</call>
+		</calls>
+		<meta_args></meta_args>
+		<block>
+		<blocking>merge[-,?,-]</blocking>
+		<blocking>merge[?,-,-]</blocking>
+		</block>
+	</predicate>
+</predicates><import_modules></import_modules><import_predicates>
+</import_predicates>
+<ops>
+</ops>
+</programm>

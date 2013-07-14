@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.parsers;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,11 +12,13 @@ public class Module {
 	private List<Call> Exports;
 	private List<Call> Imports;
 	private HashMap<String, Predicate> PredicatesHashMap;
+	private List<String> MultiFile;
 	
 	public Module(){
 		
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
+		this.MultiFile = new LinkedList<String>();
 	}
 
 	
@@ -25,6 +27,7 @@ public class Module {
 		this.Name = name;
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
+		this.MultiFile = new LinkedList<String>();
 	}
 	
 	public String getName() {
@@ -86,4 +89,19 @@ public class Module {
 	public void setPredicatesHashMap(HashMap<String, Predicate> predicatesHashMap) {
 		PredicatesHashMap = predicatesHashMap;
 	}
+
+
+	public List<String> getMultiFile() {
+		return MultiFile;
+	}
+
+
+	public void setMultiFile(List<String> multiFile) {
+		MultiFile = multiFile;
+	}
+	
+	public void addMultiFile(String add){
+		this.MultiFile.add(add);
+	}
+	
 }

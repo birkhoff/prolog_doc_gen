@@ -34,7 +34,7 @@ body { margin:0; padding:0; }
 	padding: 0px; padding-left:20px; width:1; height:5px;
 }
 #codeblock{
-	font-family:verdana;padding:10px; padding-left:30px; padding-top:0px; border-radius:10px;border:2px solid #a7bec6; background-color:#2f2f2f;
+	padding:10px; padding-left:30px; padding-top:0px; border-radius:10px;border:2px solid #a7bec6; background-color:#2f2f2f;
 }
 
 #code{

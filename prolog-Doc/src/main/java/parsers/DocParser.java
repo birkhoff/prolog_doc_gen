@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.parsers;
 
 import java.util.*;
 
@@ -7,23 +7,16 @@ import analysis.*;
 
 public class DocParser extends DepthFirstAdapter{
 	
-	public List<HashMap>	 Predicates;
+
 	
 	public List<DocInformation>	 DocInfo;
 	
-	private String currentEntry;
 	private int currentPredicate;
 	
-	private String author = "Author";
-	private String description = "Description";
-	private String date = "Date";
-	private String line = "Line";
-	private String mode = "Mode";
-	private String currentEntryKey;
 	
 	
 	public DocParser(){
-		Predicates = new LinkedList<HashMap>();
+		
 		DocInfo = new LinkedList<DocInformation>();
 	}
 	
@@ -36,9 +29,7 @@ public class DocParser extends DepthFirstAdapter{
 		
 		
 		for(int i = 0; i < docs_size; i++){
-			HashMap<String, String > EntriesTable = new HashMap<String, String>();
-			Predicates.add(EntriesTable);
-			
+	
 			DocInformation DocEntry = new DocInformation();
 			DocInfo.add(DocEntry);
 			
@@ -139,7 +130,7 @@ public class DocParser extends DepthFirstAdapter{
 	public void caseAAtDocAst(AAtDocAst entry){
 		
 		String entryKey = entry.getIdentifier().toString().replaceAll("@", "");
-		String entryValue = entry.getDescription().toString();
+		
 		String returnDescr = "";
 		for (int i = 0; i < entry.getDescription().size(); i ++) {
 			
@@ -162,7 +153,6 @@ public class DocParser extends DepthFirstAdapter{
 	public void caseASingleAtDocAst(ASingleAtDocAst entry){
 		
 		String entryKey = entry.getIdentifier().toString().replaceAll("@", "");
-		String entryValue = entry.getDescription().toString();
 		String returnDescr = "";
 		for (int i = 0; i < entry.getDescription().size(); i ++) {
 			

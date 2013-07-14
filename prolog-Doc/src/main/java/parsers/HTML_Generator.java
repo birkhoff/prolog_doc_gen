@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.parsers;
 
 import java.io.*;
 import java.util.*;
@@ -129,6 +129,7 @@ public class HTML_Generator {
 			code += "<p>"+"Arity"+": "+p.getArity()+"</p>\n";
 			code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
 			if(p.isMeta()) code += "<p>"+"Meta"+": "+p.getMetaInformation()+"</p>\n";
+			if(p.isMultiFile()) code += "<p>"+"Multifile"+": "+p.isMultiFile()+"</p>\n";
 			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
 			
 			if(p.getCallsNames().size() > 0) code += "<p>"+"Calls:"+"</p>\n";
@@ -171,16 +172,27 @@ public class HTML_Generator {
 		    this.code += "<a class=\"anchor\" name=\"MODULE_INFO\">Module Information</a>\n";
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
 		    
+		    if(m.getMultiFile().size() > 0) this.generateMultifile(m);
+		    
 		    this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
 		    
-		    generateImports(m);
-		    generateExports(m);
+		    this.generateImports(m);
+		    this.generateExports(m);
 		    
 		    this.code += "\n</tr>\n</table>\n";
 		    
 		    this.code += "</div><br>\n";
 		    
 		    
+	}
+	
+	private void generateMultifile(Module m){
+		this.code += "<h4>Multifile Declarations: <h>"; 
+		for(int i = 0; i < m.getMultiFile().size(); i++){
+			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			this.code+= "<a href=\"#"+m.getMultiFile().get(i).replaceAll("(/)([0-9])*$", "$2")+"\">"+m.getMultiFile().get(i)+"</a>";			// regex $ end of line
+		}
+		this.code += " </h2>";
 	}
 	
 	private void generateImports(Module m){

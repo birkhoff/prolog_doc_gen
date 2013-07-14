@@ -1,6 +1,5 @@
-package src.main.java;
+package src.main.java.parsers;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 

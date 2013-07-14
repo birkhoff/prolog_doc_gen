@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.parsers;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -11,13 +11,13 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.CharacterData;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.*;
+
 
 public class CodeqParser {
 
@@ -30,8 +30,9 @@ public class CodeqParser {
 
 	private static String varHighlight = "8ce8ff";
 	private static String atomHighlight = "f36055";
-	private static String stringHighlight = "94FF8C";
+	private static String stringHighlight = "6490ff";//"94FF8C";
 	private static String implicationHighlight = "7ab6f9";
+	private static String commentHighlight = "c4f1a3";
 	
 	public CodeqParser(){
 		
@@ -71,12 +72,17 @@ public class CodeqParser {
 					predicate.setModule( doc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue());
 					predicate.setStartLines( this.getLineValue("startlines", element));
 					predicate.setEndLines(this.getLineValue("endlines", element));
+
 					
 					predicate.setCodeString(this.getCode(predicate.getStartLines(), predicate.getEndLines()));
 					
 					Boolean dynamic = false;
 					if( this.getValue("dynamic", element).toLowerCase().contains("true")) dynamic = true;
 					predicate.setDynamic(dynamic);
+					
+					Boolean isMultifile = false;
+					if( this.getValue("multifile", element).contains("true")) isMultifile = true;
+					predicate.setMultiFile(isMultifile);
 					
 					Boolean meta = false;
 					if( this.getValue("meta", element).toLowerCase().contains("true")){
@@ -147,11 +153,10 @@ private void setBlockingInformation(Predicate predicate, Element node){
 	for (int j = 0; j <blockings.getLength(); j++) {
 		
 		Node blocking = blockings.item(j);
-		Element call_element = (Element) blocking;
+
 		if (blocking.getNodeType() == Node.ELEMENT_NODE) {
 			
 			String currentBlocking = blocking.getFirstChild().getNodeValue();
-			//System.out.println("Blockings: "+blockings.getLength() + currentBlocking);
 			BlockingInformation += currentBlocking.replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
 		}
 		
@@ -206,7 +211,7 @@ private String getCode(int starts[], int ends[]){
 						returnCode += "<br>";
 						else{
 							for(int j = i+1; !File.get(j-1).matches(".*\\.((%+.*)| |\t|\n|/\\*.*)*") && j < File.size(); j++){
-								//returnCode += "<br>"+ this.highlightCode(File.get(j));
+								returnCode += "<br>"+ this.highlightCode(File.get(j));
 							}
 							returnCode += "<br>";
 						}
@@ -218,34 +223,48 @@ private String getCode(int starts[], int ends[]){
 		}
 	}
 	returnCode = returnCode.replaceAll("\t", "\t&nbsp;&nbsp;&nbsp;");
-	returnCode = returnCode.replaceAll(":-", "<FONT COLOR=\""+implicationHighlight+"\">:-</FONT COLOR>");
-	returnCode = returnCode.replaceAll("-->", "<FONT COLOR=\""+implicationHighlight+"\">--></FONT COLOR>");
-	returnCode = returnCode.replaceAll("->", "<FONT COLOR=\""+implicationHighlight+"\">-></FONT COLOR>");
 	return returnCode;
 }
 
 private String highlightCode(String line){
 
 	String current = " "+line;
-	String stringOfCurrent = null;
-	if(current.contains("\"")) stringOfCurrent = current.replaceAll("([^\"]*)(\".*\")([^\"]*)", "<FONT COLOR=\""+stringHighlight+"\">$2</FONT COLOR>");
+	String stringsOfCurrent[] = current.split("\"");
+	String returnString = "";
 	
-	current = current.replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
-	
-	current = current.replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting
-	
-	if(stringOfCurrent != null){
-		current = current.replaceAll("(\"(.|\n)*\")", stringOfCurrent);
-		//System.out.println("\n"+current.replaceAll("(\"(.|\n)*\")", stringOfCurrent)+"\n");
+	for(int i = 0; i < stringsOfCurrent.length; i++){
+		if(i % 2 == 0){
+			String commentsOfCurrent[] = stringsOfCurrent[i].split("%");
+			
+			//stringsOfCurrent[i] = stringsOfCurrent[i].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
+			//stringsOfCurrent[i] = stringsOfCurrent[i].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting	
+			
+			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[|:)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
+			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[|:)(((_|[A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting	
+			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll(":-", "<FONT COLOR=\""+implicationHighlight+"\">:-</FONT COLOR>");
+			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("-->", "<FONT COLOR=\""+implicationHighlight+"\">--></FONT COLOR>");
+			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("->", "<FONT COLOR=\""+implicationHighlight+"\">-></FONT COLOR>");
+			stringsOfCurrent[i] = commentsOfCurrent[0];
+			
+			for(int k = 1; k < commentsOfCurrent.length; k++){
+				stringsOfCurrent[i] += "<FONT COLOR=\""+commentHighlight+"\">%"+commentsOfCurrent[k]+"</FONT COLOR>";
+			}
+		
+		}else{
+			
+			stringsOfCurrent[i] = "<FONT COLOR=\""+stringHighlight+"\">\""+stringsOfCurrent[i]+"\"</FONT COLOR>";
+		}
+		returnString += stringsOfCurrent[i];
 	}
-	current = current.replaceAll("\n#<\n","<FONT COLOR=\""+atomHighlight+"\">" );
-	current = current.replaceAll("\n#>\n","</FONT>" );
 	
-	current = current.replaceAll("\n##<\n","<FONT COLOR=\""+varHighlight+"\">" );
-	current = current.replaceAll("\n##>\n","</FONT>" );
+	returnString = returnString.replaceAll("\n#<\n","<FONT COLOR=\""+atomHighlight+"\">" );
+	returnString = returnString.replaceAll("\n#>\n","</FONT>" );
+	
+	returnString = returnString.replaceAll("\n##<\n","<FONT COLOR=\""+varHighlight+"\">" );
+	returnString = returnString.replaceAll("\n##>\n","</FONT>" );
 	
 	
-	return current;
+	return returnString;
 }
 
 private void parseModuleInformation(Document dc){
@@ -258,12 +277,23 @@ private void parseModuleInformation(Document dc){
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
+		NodeList multiFileNodes = dc.getElementsByTagName("multifile");
 		
 		this.parseImports(importNodes);
 		this.parseExports(exportNodes);
+		this.parseMultiFile(multiFileNodes);
 			
 	}
 	
+	private void parseMultiFile(NodeList nodes){
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			String multiFile = node.getFirstChild().getNodeValue();
+			if(!(multiFile.contains("false") || multiFile.contains("true") ))	Module.addMultiFile(multiFile);
+	
+		}
+	}
+
 	private void parseImports(NodeList nodes){
 		
 		for (int i = 0; i < nodes.getLength(); i++) {

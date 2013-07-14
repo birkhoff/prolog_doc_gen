@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><programm><module>"user"</module>
+
+<module_startline>1</module_startline>
+<module_endline>1</module_endline>
+<exports>
+</exports>
+<multifiles>
+
+</multifiles>
+
+<predicates>
+
+	<predicate>
+		<name>"element"</name>
+		<arity>2</arity>
+		<startlines>[11,10]</startlines>
+		<endlines>[12,10]</endlines>
+		<dynamic>false</dynamic>
+		<meta>false</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+			<call>
+				<module>"user"</module>
+				<name>element</name>
+				<arity>2</arity>
+			</call>
+		</calls>
+		<meta_args></meta_args>
+		<block>
+		</block>
+	</predicate>
+	<predicate>
+		<name>"is_not_visited"</name>
+		<arity>2</arity>
+		<startlines>[29,22,21]</startlines>
+		<endlines>[31,23,21]</endlines>
+		<dynamic>false</dynamic>
+		<meta>false</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+			<call>
+				<module>"built_in"</module>
+				<name>false</name>
+				<arity>0</arity>
+			</call>
+			<call>
+				<module>"built_in"</module>
+				<name>\=</name>
+				<arity>2</arity>
+			</call>
+			<call>
+				<module>"user"</module>
+				<name>RECURSIVE_CALL</name>
+				<arity>2</arity>
+			</call>
+		</calls>
+		<meta_args></meta_args>
+		<block>
+		</block>
+	</predicate>
+	<predicate>
+		<name>"istrue"</name>
+		<arity>1</arity>
+		<startlines>[37]</startlines>
+		<endlines>[37]</endlines>
+		<dynamic>false</dynamic>
+		<meta>false</meta> 
+		<volatile>false</volatile> 
+		<multifile>false</multifile>
+		<calls>
+		</calls>
+		<meta_args></meta_args>
+		<block>
+		</block>
+	</predicate>
+</predicates><import_modules></import_modules><import_predicates>
+</import_predicates>
+<ops>
+</ops>
+</programm>

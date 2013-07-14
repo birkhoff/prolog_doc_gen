@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.parsers;
 
 import parser.*;
 
@@ -7,7 +7,7 @@ import node.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.* ;
+
 
 
 
@@ -40,7 +40,7 @@ public class Compiler {
 
 			System.out.println("\n"+Files.get(i));
 			try {
-				Compiler(Files.get(i));
+				analyze(Files.get(i));
 			} catch (ParserException e) {
 				System.out.println("Error in:"+  Files.get(i));
 				e.printStackTrace();
@@ -105,10 +105,8 @@ public class Compiler {
 		return getFiles(args);
 	}
 	
-	public static void Compiler(String nameOfFile) throws ParserException, LexerException, InterruptedException
-	{
-		
-		
+	public static void analyze(String nameOfFile) throws ParserException, LexerException, InterruptedException
+	{	
 	   try
 	   {
 		  File file = new File(nameOfFile);
@@ -116,8 +114,8 @@ public class Compiler {
 		  Lexer lexer = new Lexer(reader); 
 		  Parser parser = new Parser(lexer); 
 		  Start tree = parser.parse();
-		  ASTPrinter lala = new ASTPrinter();
-		 // tree.apply(lala);
+		 // ASTPrinter printer = new ASTPrinter();
+		 // tree.apply(printer);
 		 
 		  DocParser docCollector = new DocParser();
 		  tree.apply( docCollector);
@@ -144,11 +142,11 @@ public class Compiler {
 			pb.redirectErrorStream(true);
 			Process process = pb.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String line;
+			//String line;
 			process.getErrorStream().close();
 			process.getOutputStream().close();
-			while ((line = reader.readLine()) != null){   
-				//System.out.println("\t" + line);
+			while ((reader.readLine()) != null){   
+				
 			}
 			process.waitFor();
 			
@@ -181,7 +179,7 @@ public class Compiler {
 		  Module.setPredicates(merger.MergedPredicates);
 		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
 		  Modules.add(Module);
-		  File xml = new File("foo.xml");
+		  //File xml = new File("foo.xml");
 		  //xml.delete();
 
 		  		  

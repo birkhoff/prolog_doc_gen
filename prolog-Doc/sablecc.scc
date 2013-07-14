@@ -113,11 +113,11 @@ Tokens
 		{pl_comment_star->pl}			comment_star_slash = ('/')+;			
 		
 		{pl_single_ticks} programm_single_string = any_no_single_tick*;
-		{pl_single_ticks} programm_single_string_escape = 92 any;
+		{pl_single_ticks} programm_single_string_escape = 92 anynl;
 		{pl_single_ticks->pl} programm_single_string_end = single_tick;
 		
 		{pl_double_ticks} programm_double_string 			= any_no_double_tick*;
-		{pl_double_ticks} programm_double_string_escape		= 92 any;
+		{pl_double_ticks} programm_double_string_escape		= 92 anynl;
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
 		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage+;
