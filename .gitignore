@@ -7,6 +7,9 @@ prolog-Doc/foo.xml
 prolog-Doc/prolog_data/
 prolog-Doc/swi_prolog_files.zip
 prolog-Doc/swi_prolog_files/
-prolog-Doc/test6.pl
+prolog-Doc/node/
+prolog-Doc/parsers/
+prolog-Doc/analysis/
+prolog-Doc/lexer/
 .DS_Store
 .metadata/
