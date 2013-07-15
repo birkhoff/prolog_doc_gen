@@ -38,20 +38,13 @@ public class Compiler {
 		
 		for (int i = 0; i< Files.size(); i++) {
 
-			System.out.println("\n"+Files.get(i));
 			try {
+				loadingScreen(Files.size(), i, Files.get(i));
 				analyze(Files.get(i));
-			} catch (ParserException e) {
-				System.out.println("Error in:"+  Files.get(i));
-				e.printStackTrace();
-			} catch (LexerException e) {
-				System.out.println("Error in:"+  Files.get(i));
-				e.printStackTrace();
-			} catch (InterruptedException e) {
+			} catch (final Exception e) {
 				System.out.println("Error in:"+  Files.get(i));
 				e.printStackTrace();
 			}
-			loadingScreen(Files.size(), i);
 			
 		}
 		System.out.println("\n\nGenerating HTML Pages:");
@@ -64,16 +57,20 @@ public class Compiler {
 	public static void startLoadingScreen(int files){
 		NumberOfFiles = files;
 		CurrentFileNumber = 0;
-		System.out.print("\nGenerating Sicstus Prolog Doc:\n\t");
+		System.out.print("\nGenerating Sicstus Prolog Doc:\n");
 	}
 	
-	public static void loadingScreen(int size, int current){
+	public static void loadingScreen(int size, int current, String File){
 		
-		for (int k = 0; k < loadingString.length(); k++) System.out.print("\b");
-		loadingString = "";
+		for (int k = 0; k < loadingString.length(); k++){
+			System.out.print("\b");
+			System.out.print(" ");
+			System.out.print("\b");
+		}
+		loadingString = "\t";
 		for (int k = 0; k <= current; k++) loadingString += "#";
 		current ++;
-		loadingString += " ("+current+"/"+size+") Files analyzed";
+		loadingString += " ("+current+"/"+size+") Files analyzed   currently: "+File;
 		System.out.print(loadingString);
 	}
 	
@@ -133,7 +130,7 @@ public class Compiler {
 		 System.out.println(e.getMessage());
 		}
 
-
+	   
 		try {
 			String cmd[] = {"bash", "-c", 
 						"sicstus -l codeq_analyzer --goal \"analyze_file('"+nameOfFile+"','"+"foo.xml"+"').\""} ;

@@ -236,9 +236,6 @@ private String highlightCode(String line){
 		if(i % 2 == 0){
 			String commentsOfCurrent[] = stringsOfCurrent[i].split("%");
 			
-			//stringsOfCurrent[i] = stringsOfCurrent[i].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
-			//stringsOfCurrent[i] = stringsOfCurrent[i].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[)((([A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting	
-			
 			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[|:)((([a-z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n#<\n$2\n#>\n" );	// #< means atom_start and will be replaced by <Font> and #> as </Font> \n used as escaping character to ensure correct highlighting because of split on \n it is a neutral token
 			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll("(,| |\\)|\\(|\\||\t|\\]|\\[|:)(((_|[A-Z])([A-Z]|[a-z]|[0-9]|_|-)*)|(\'.*\'))","$1\n##<\n$2\n##>\n" );	// ## stands for Var highlighting	
 			commentsOfCurrent[0] = commentsOfCurrent[0].replaceAll(":-", "<FONT COLOR=\""+implicationHighlight+"\">:-</FONT COLOR>");
