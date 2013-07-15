@@ -24,7 +24,7 @@ public class SPDetParser {
 	
 	ProcessBuilder pb = new ProcessBuilder(cmd);
 	pb.redirectErrorStream(true);
-	Process process;
+	final Process process;
 	try {
 		process = pb.start();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -33,13 +33,38 @@ public class SPDetParser {
 		process.getOutputStream().close();
 		String line = "";
 		
-		for(int counter = 0; ((line = reader.readLine()) != null); counter = 1){
+		Thread t = new Thread(){
+			public void run() {
+				long start = System.currentTimeMillis();
+				long end = start + 15*1000; //  seconds = X * 1000 ms/sec
+				
+				while(true){
+					if(System.currentTimeMillis()>end){
+						try {
+							process.getOutputStream().close();
+							process.destroy();
+						} catch (IOException e) {
+							
+							e.printStackTrace();
+						}
+											
+					}
+				}
+			}
+		};
+		t.start();
+		
+		for(int counter = 0; ((line = reader.readLine()) != null)  ; counter = 1){
+			
 			
 			if(counter >0)this.SPDetOutput 	+= line+"\n";
 			if(counter >0)this.SPDetHTML 	+= this.parsePredicates(line)+"<br>\n";
 		}
-			
+		t.stop();
+		
 		process.waitFor();
+		
+		
 		
 	} catch (IOException e) {
 		

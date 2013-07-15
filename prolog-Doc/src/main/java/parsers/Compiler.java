@@ -20,10 +20,12 @@ public class Compiler {
 	public static String loadingString= "";
 	public static int NumberOfFiles;
 	public static int CurrentFileNumber;
+	public static boolean spdet_flag;
 	
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
 		
+		if(args[0].contains("spdet")||args[1].contains("spdet")) spdet_flag = true;
 		
 		List<String> Files = new LinkedList<String>();
 		if(args[0].contains("-dir")){
@@ -69,7 +71,7 @@ public class Compiler {
 		}
 		loadingString = "\t";
 		for (int k = 0; k <= current; k++) loadingString += "#";
-		
+		current ++;
 		loadingString += " ("+current+"/"+size+") Files analyzed   currently: "+File;
 		System.out.print(loadingString);
 	}
@@ -152,7 +154,7 @@ public class Compiler {
 			System.out.println( e1.getMessage() );
 		}
 		 
-		SPDetParser spdet = new SPDetParser(nameOfFile);
+	
 				  
 		try
 		{
@@ -161,7 +163,10 @@ public class Compiler {
 		  //debugOutput(codeqParser.Predicates);
 		  //debugModuleOutput(codeqParser.Module);
 		  Module = codeqParser.Module;
-		  Module.setSPDet(spdet.getSPDetHTML());
+		  if(spdet_flag){
+			  SPDetParser spdet = new SPDetParser(nameOfFile);
+			  Module.setSPDet(spdet.getSPDetHTML());
+		  }
 		  Predicates = codeqParser.Predicates;
 		  
 		 }catch( Exception e)
