@@ -104,6 +104,9 @@ public class InformationMerger {
 		merged.setDynamic(predicate.isDynamic());
 		merged.setModule(predicate.getModule());
 		merged.setCodeString(predicate.getCodeString());
+		merged.setBlockingInformation(predicate.getBlockingInformation());
+		merged.setMultiFile(predicate.isMultiFile());
+		merged.setMetaInformation(predicate.getMetaInformation());
 		
 		if(doc.getMode()!= null) merged.setMode(doc.getMode());
 		if(doc.getDate()!= null) merged.setDate(doc.getDate());

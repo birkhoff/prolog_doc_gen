@@ -66,7 +66,7 @@ public class CodeqParserTests {
 		CodeqParser codeqParser = new CodeqParser("src/main/java/tests/TestFiles/test2.pl");
 		codeqParser.parseXML("src/main/java/tests/TestFiles/test2.xml");
 		Module m = codeqParser.Module;
-		assertTrue(m.getMultiFile().get(0).contains("foo/1"));
+		assertTrue(m.getMultiFile().get(0).contains("foo/2"));
 		assertTrue(m.getMultiFile().get(1).contains("bar/0"));
 	}
 	

@@ -16,7 +16,10 @@
 
 :- multifile foo/1.
 
-foo(_Yam).
+:-meta_predicate foo(2), foo(1).
+
+foo(Yam):-
+	when(ground(Yam), print('1')).
 
 bar:-
 	% lala

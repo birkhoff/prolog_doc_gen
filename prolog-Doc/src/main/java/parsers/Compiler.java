@@ -69,7 +69,7 @@ public class Compiler {
 		}
 		loadingString = "\t";
 		for (int k = 0; k <= current; k++) loadingString += "#";
-		current ++;
+		
 		loadingString += " ("+current+"/"+size+") Files analyzed   currently: "+File;
 		System.out.print(loadingString);
 	}
@@ -152,8 +152,8 @@ public class Compiler {
 			System.out.println( e1.getMessage() );
 		}
 		 
-
-		  
+		SPDetParser spdet = new SPDetParser(nameOfFile);
+				  
 		try
 		{
 		  CodeqParser codeqParser = new CodeqParser(nameOfFile);
@@ -161,7 +161,7 @@ public class Compiler {
 		  //debugOutput(codeqParser.Predicates);
 		  //debugModuleOutput(codeqParser.Module);
 		  Module = codeqParser.Module;
-		  
+		  Module.setSPDet(spdet.getSPDetHTML());
 		  Predicates = codeqParser.Predicates;
 		  
 		 }catch( Exception e)

@@ -13,6 +13,7 @@ public class Module {
 	private List<Call> Imports;
 	private HashMap<String, Predicate> PredicatesHashMap;
 	private List<String> MultiFile;
+	private String SPDet;
 	
 	public Module(){
 		
@@ -102,6 +103,16 @@ public class Module {
 	
 	public void addMultiFile(String add){
 		this.MultiFile.add(add);
+	}
+
+
+	public String getSPDet() {
+		return SPDet;
+	}
+
+
+	public void setSPDet(String sPDet) {
+		SPDet = sPDet;
 	}
 	
 }

@@ -102,7 +102,7 @@ public class CodeqParser {
 						Element call_element = (Element) call;
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
 							String callName = this.getValue("name", call_element);	//former CDataValue
-							String callModule = this.getValue("module", call_element).replace("\"", "");
+							String callModule = this.getValue("module", call_element).replaceAll("\"", "").replaceAll("\\.\\.", "-");
 							String callArity = this.getValue("arity", call_element);
 							
 							if (callModule.equalsIgnoreCase("user")) {

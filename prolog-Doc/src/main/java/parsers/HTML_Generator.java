@@ -171,6 +171,7 @@ public class HTML_Generator {
 		    this.code += "\n<div id=\"b3\" class=\"box\">\n<div id=\"inner\">\n";
 		    this.code += "<a class=\"anchor\" name=\"MODULE_INFO\">Module Information</a>\n";
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
+		    this.code += "<h4>spdet:</h4>"+m.getSPDet() +"<br><br>\n";
 		    
 		    if(m.getMultiFile().size() > 0) this.generateMultifile(m);
 		    
