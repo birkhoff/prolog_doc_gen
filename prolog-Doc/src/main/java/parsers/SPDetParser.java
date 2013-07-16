@@ -37,8 +37,8 @@ public class SPDetParser {
 			public void run() {
 				long start = System.currentTimeMillis();
 				long end = start + 15*1000; //  seconds = X * 1000 ms/sec
-				
-				while(true){
+				boolean  checkTime= true;
+				while(checkTime){
 					if(System.currentTimeMillis()>end){
 						try {
 							process.getOutputStream().close();
@@ -47,7 +47,7 @@ public class SPDetParser {
 							
 							e.printStackTrace();
 						}
-											
+						checkTime = false;					
 					}
 				}
 			}

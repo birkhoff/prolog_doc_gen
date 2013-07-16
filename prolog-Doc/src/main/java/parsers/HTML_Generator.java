@@ -9,12 +9,15 @@ public class HTML_Generator {
 	private String moduleLinks ="";
 	private List<Module> Modules;
 	private HashMap<String, Boolean> ModuleNames;
+	private String destination = "Doc/";
+	
 	public HTML_Generator(){
 		
 	}
 	
-	public void generateDoc( List<Module> modules){
+	public void generateDoc( List<Module> modules, String destFolder){
 		
+		this.destination = destFolder;
 		this.Modules = modules;
 		ModuleNames = this.setModuleNamestoHash(Modules);
 		this.setModuleLinks(modules);
@@ -29,6 +32,21 @@ public class HTML_Generator {
 
 	}
 	
+	public void generateDoc( List<Module> modules){
+	
+		this.Modules = modules;
+		ModuleNames = this.setModuleNamestoHash(Modules);
+		this.setModuleLinks(modules);
+		for(int i = 0; i < modules.size(); i++){
+			try {
+				this.generateSinglePage(modules.get(i));
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+
+	}
 	
 	private void generateSinglePage(Module m) throws IOException{
 		BufferedReader br;
@@ -241,7 +259,7 @@ public class HTML_Generator {
 		BufferedWriter writer = null;
 		try
 		{
-			writer = new BufferedWriter( new FileWriter("Doc/"+m.getName().replaceAll("\"", "").replaceAll("\\.\\.", "-")+".html"));
+			writer = new BufferedWriter( new FileWriter(this.destination+m.getName().replaceAll("\"", "").replaceAll("\\.\\.", "-")+".html"));
 			
 			//writer.write(code);
 			writer.write(this.prettyPrintCode());

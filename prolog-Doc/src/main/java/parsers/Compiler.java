@@ -21,18 +21,21 @@ public class Compiler {
 	public static int NumberOfFiles;
 	public static int CurrentFileNumber;
 	public static boolean spdet_flag;
+	public static boolean dir_flag;
+	public static String destinationFolder = "Doc/";
 	
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
-		
-		if(args[0].contains("spdet")||args[1].contains("spdet")) spdet_flag = true;
+				
+		setFlags(args);
 		
 		List<String> Files = new LinkedList<String>();
-		if(args[0].contains("-dir")){
+		if(dir_flag){
 			Files = getFiles(args);
 		}else{
 			for (int i = 0; i < args.length; i++) {
-				Files.add(args[i]);
+				
+				if(!args[i].startsWith("-"))Files.add(args[i]);
 			}
 		}
 
@@ -51,9 +54,22 @@ public class Compiler {
 		}
 		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
-		generator.generateDoc(Modules);
+		generator.generateDoc(Modules, destinationFolder);
 		System.out.println("\n");
 	
+	}
+	
+	public static void setFlags(String args[]){
+	
+		for(int i = 0; i < args.length; i++){
+			if(args[i].contains("-spdet")) 	spdet_flag = true;
+			if(args[i].contains("-dir"))	dir_flag = true;
+			if(args[i].contains("-o")){
+				destinationFolder = args[i].replaceAll("-[^=]*=", "").replaceAll("\"|\'", "");
+				File f = new File(destinationFolder);
+				if(!f.exists()) f.mkdirs();
+			}
+		}
 	}
 	
 	public static void startLoadingScreen(int files){
@@ -78,22 +94,23 @@ public class Compiler {
 	
 	public static List<String> getFiles(String args[]){
 		
-		// Starting at pos 1 so we skip the -dir
-        List<String> returnFiles = new LinkedList<String>();
+		List<String> returnFiles = new LinkedList<String>();
       
         for (int i = 1; i < args.length; i ++) {
 			
-        	File current = new File(args[i]);
-	        for ( File f : current.listFiles()) {
-	            if (f.isDirectory()) {
-	            	List<String> additionalFiles = getFiles(f.getPath());
-	            	returnFiles.addAll(additionalFiles);
-	            } else if (f.getName().endsWith(".pl")) {
-	            	returnFiles.add(f.getPath());
-	            	//System.out.println(f.getPath());
-	            }
-	        }				
-		}
+        	if(!args[i].startsWith("-")){
+	        	File current = new File(args[i]);
+		        for ( File f : current.listFiles()) {
+		            if (f.isDirectory()) {
+		            	List<String> additionalFiles = getFiles(f.getPath());
+		            	returnFiles.addAll(additionalFiles);
+		            } else if (f.getName().endsWith(".pl")) {
+		            	returnFiles.add(f.getPath());
+		            	
+		            }
+		        }				
+			}
+        }
 		return returnFiles;
 	}
 	
