@@ -54,10 +54,10 @@ Helpers
 	percent					= 37;
 	dot						= 46;
 	
-	single_whitespace		= (' '| 13 | 9)+;
-	single_ops				= (' '| 13 | 9)*;
-	any_no_percentage		= [ any - 37];						// for single line docs with %%
-	any_no_nl_no_at			= [any -64];
+	single_whitespace			= (' '| 13 | 9)+;
+	single_ops					= (' '| 13 | 9)*;
+	any_no_percentage_and_not	= [[ any - 37]- '!'];						// for single line docs with %%
+	any_no_nl_no_at				= [any -64];
 	
 	chars 			= 	letter+;
 	star 			= 	(42); 
@@ -120,9 +120,9 @@ Tokens
 		{pl_double_ticks} programm_double_string_escape		= 92 anynl;
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
-		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage+;
+		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage_and_not+;
 		{pl_single_comment_start -> pl}		programm_end_normal_single_comment = nl+;
-		{pl_single_comment_start -> doc_single}		single_doc_start = percent+;
+		{pl_single_comment_start -> doc_single}		single_doc_start = percent+ | '!';
 		
 		{doc_single}					doc_single_string	= any_no_nl_no_at+;
 		{doc_single-> pl}				doc_single_end		= (nl | eot);
