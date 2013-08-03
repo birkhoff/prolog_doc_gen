@@ -405,6 +405,18 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTPlSingleCommentToken(TPlSingleCommentToken node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTPlSingleCommentEnd(TPlSingleCommentEnd node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTDocSingleString(TDocSingleString node)
     {
         defaultCase(node);

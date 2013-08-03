@@ -56,12 +56,11 @@ public class DocParser extends DepthFirstAdapter{
 		for (int i = 0; i < entries_size; i ++) {
 			
 			String currentAuthor = entries.getAst().get(i).toString();
-			//System.out.println( currentAuthor );
 			returnAuthor += currentAuthor;
 			entries.getAst().get(i).apply(this);
 		}
 		
-		returnAuthor = returnAuthor.replaceFirst("\\*+", "");
+		//returnAuthor = returnAuthor.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setAuthor(returnAuthor);
 		
 	}
@@ -78,7 +77,7 @@ public class DocParser extends DepthFirstAdapter{
 			returnDate += currentDate;
 			entries.getAst().get(i).apply(this);
 		}
-		returnDate = returnDate.replaceFirst("\\*+", "");
+		//returnDate = returnDate.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setDate(returnDate);
 		
 	}
@@ -97,7 +96,7 @@ public class DocParser extends DepthFirstAdapter{
 			entries.getAst().get(i).apply(this);
 		}
 		
-		returnMode = returnMode.replaceFirst("\\*+", "");
+		//returnMode = returnMode.replaceFirst("\\*+", "");
 		DocInfo.get(currentPredicate).setMode(returnMode);
 		
 	}

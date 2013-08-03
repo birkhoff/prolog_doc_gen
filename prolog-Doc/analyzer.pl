@@ -231,7 +231,7 @@ analyze(Fact, Layout, Fact) :-
 	analyze_file(FileName):-
 		prolog_flag(redefine_warnings, _, off),
 		on_exception(X,(use_module(FileName),
-		write_xml_representation,told),
+		write_clj_representation,told),
 		(
 			print('{:error \"'),print(X),print('\"}'),nl,halt(1))
 		).

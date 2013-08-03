@@ -68,6 +68,8 @@ public interface Analysis extends Switch
     void caseTProgrammComment(TProgrammComment node);
     void caseTProgrammEndNormalSingleComment(TProgrammEndNormalSingleComment node);
     void caseTSingleDocStart(TSingleDocStart node);
+    void caseTPlSingleCommentToken(TPlSingleCommentToken node);
+    void caseTPlSingleCommentEnd(TPlSingleCommentEnd node);
     void caseTDocSingleString(TDocSingleString node);
     void caseTDocSingleEnd(TDocSingleEnd node);
     void caseTSingleDocMail(TSingleDocMail node);

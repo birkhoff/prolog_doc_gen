@@ -71,7 +71,7 @@ Helpers
 
 
 States
-	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star, doc_single, pl_single_comment_start, pl_comment, pl_comment_star;
+	pl, pl_slash, pl_star,pl_single_ticks, pl_double_ticks, doc, doc_star, doc_single, pl_single_comment, pl_single_comment_start, pl_comment, pl_comment_star;
 	
 Tokens
 	 	
@@ -120,9 +120,12 @@ Tokens
 		{pl_double_ticks} programm_double_string_escape		= 92 anynl;
 		{pl_double_ticks->pl} programm_double_string_end 	= double_tick;
 		
-		{pl_single_comment_start -> pl}		programm_comment = any_no_percentage_and_not+;
+		{pl_single_comment_start -> pl_single_comment}		programm_comment = any_no_percentage_and_not+;
 		{pl_single_comment_start -> pl}		programm_end_normal_single_comment = nl+;
 		{pl_single_comment_start -> doc_single}		single_doc_start = percent+ | '!';
+		
+		{pl_single_comment}					pl_single_comment_token = any+;
+		{pl_single_comment->pl}				pl_single_comment_end 	= nl+;
 		
 		{doc_single}					doc_single_string	= any_no_nl_no_at+;
 		{doc_single-> pl}				doc_single_end		= (nl | eot);
@@ -136,7 +139,7 @@ Tokens
 	 	{doc_single} single_doc_atdoc			= 	single_ops 	at 	letter+ 		single_whitespace;
 		
 Ignored Tokens
-		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, 
+		comment_star_slash, comment_star_no_slash, comment_star_star, comment_star, pl_single_comment_token, pl_single_comment_end,
 		comment_no_star, programm_comment_start, string_star_star, 
 		programm_double_string_escape, programm_single_string_escape,
 		programm_to_star, programm_star_any, programm_comment, programm_end_normal_single_comment,

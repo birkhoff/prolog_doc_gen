@@ -10,8 +10,8 @@
 
 /* /*/
 
-%% bla
-
+%! bla
+%% blubb
 :-module(test5, [foo/1]).
 
 :- multifile foo/1.

@@ -511,7 +511,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 9: state = State.PL_COMMENT; break;
+                                case 10: state = State.PL_COMMENT; break;
                             }
                             return token;
                         }
@@ -526,7 +526,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 9: state = State.PL_COMMENT_STAR; break;
+                                case 10: state = State.PL_COMMENT_STAR; break;
                             }
                             return token;
                         }
@@ -541,7 +541,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 10: state = State.PL_COMMENT_STAR; break;
+                                case 11: state = State.PL_COMMENT_STAR; break;
                             }
                             return token;
                         }
@@ -556,7 +556,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 10: state = State.PL_COMMENT; break;
+                                case 11: state = State.PL_COMMENT; break;
                             }
                             return token;
                         }
@@ -571,7 +571,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 10: state = State.PL; break;
+                                case 11: state = State.PL; break;
                             }
                             return token;
                         }
@@ -676,7 +676,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL; break;
+                                case 9: state = State.PL_SINGLE_COMMENT; break;
                             }
                             return token;
                         }
@@ -691,7 +691,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.PL; break;
+                                case 9: state = State.PL; break;
                             }
                             return token;
                         }
@@ -706,7 +706,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 8: state = State.DOC_SINGLE; break;
+                                case 9: state = State.DOC_SINGLE; break;
                             }
                             return token;
                         }
@@ -721,7 +721,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.DOC_SINGLE; break;
+                                case 8: state = State.PL_SINGLE_COMMENT; break;
                             }
                             return token;
                         }
@@ -736,7 +736,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.PL; break;
+                                case 8: state = State.PL; break;
                             }
                             return token;
                         }
@@ -766,7 +766,7 @@ public class Lexer
                             this.line = accept_line;
                             switch(state.id())
                             {
-                                case 7: state = State.DOC_SINGLE; break;
+                                case 7: state = State.PL; break;
                             }
                             return token;
                         }
@@ -818,6 +818,36 @@ public class Lexer
                     case 44:
                         {
                             @SuppressWarnings("hiding") Token token = new44(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 45:
+                        {
+                            @SuppressWarnings("hiding") Token token = new45(
+                                getText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            pushBack(accept_length);
+                            this.pos = accept_pos;
+                            this.line = accept_line;
+                            switch(state.id())
+                            {
+                                case 7: state = State.DOC_SINGLE; break;
+                            }
+                            return token;
+                        }
+                    case 46:
+                        {
+                            @SuppressWarnings("hiding") Token token = new46(
                                 getText(accept_length),
                                 start_line + 1,
                                 start_pos + 1);
@@ -887,14 +917,16 @@ public class Lexer
     Token new34(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammComment(text, line, pos); }
     Token new35(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TProgrammEndNormalSingleComment(text, line, pos); }
     Token new36(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocStart(text, line, pos); }
-    Token new37(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleString(text, line, pos); }
-    Token new38(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleEnd(text, line, pos); }
-    Token new39(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMail(text, line, pos); }
-    Token new40(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDescr(text, line, pos); }
-    Token new41(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDate(text, line, pos); }
-    Token new42(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAuthor(text, line, pos); }
-    Token new43(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMode(text, line, pos); }
-    Token new44(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAtdoc(text, line, pos); }
+    Token new37(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TPlSingleCommentToken(text, line, pos); }
+    Token new38(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TPlSingleCommentEnd(text, line, pos); }
+    Token new39(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleString(text, line, pos); }
+    Token new40(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TDocSingleEnd(text, line, pos); }
+    Token new41(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMail(text, line, pos); }
+    Token new42(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDescr(text, line, pos); }
+    Token new43(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocDate(text, line, pos); }
+    Token new44(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAuthor(text, line, pos); }
+    Token new45(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocMode(text, line, pos); }
+    Token new46(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TSingleDocAtdoc(text, line, pos); }
 
     private int getChar() throws IOException
     {
@@ -1211,6 +1243,11 @@ public class Lexer
             {{9, 46, -77}, {65, 122, -26}, },
             {{9, 122, -100}, },
         }
+        { // PL_SINGLE_COMMENT
+            {{0, 9, 1}, {10, 10, 2}, {11, 65535, 1}, },
+            {{0, 9, 1}, {11, 65535, 1}, },
+            {{10, 10, 2}, },
+        }
         { // PL_SINGLE_COMMENT_START
             {{0, 9, 1}, {10, 10, 2}, {11, 32, 1}, {33, 33, 3}, {34, 36, 1}, {37, 37, 4}, {38, 65535, 1}, },
             {{0, 9, 1}, {11, 32, 1}, {34, 36, 1}, {38, 65535, 1}, },
@@ -1248,7 +1285,9 @@ public class Lexer
         // DOC_STAR
         {-1, 11, 10, 12, 12, 12, 12, 12, },
         // DOC_SINGLE
-        {-1, 37, 37, 37, 37, 37, 38, 37, 37, 37, 37, -1, 37, 37, 37, -1, -1, 37, 37, 37, 37, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 44, 44, 44, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, 39, -1, -1, -1, -1, -1, -1, -1, -1, 39, 39, 39, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 41, 41, 41, -1, -1, 43, 43, 43, -1, -1, 40, 40, 40, -1, -1, 42, 42, 42, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
+        {-1, 39, 39, 39, 39, 39, 40, 39, 39, 39, 39, -1, 39, 39, 39, -1, -1, 39, 39, 39, 39, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 46, 46, 46, -1, -1, -1, -1, -1, -1, -1, -1, 41, 41, 41, 41, -1, -1, -1, -1, -1, -1, -1, -1, 41, 41, 41, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 43, 43, 43, -1, -1, 45, 45, 45, -1, -1, 42, 42, 42, -1, -1, 44, 44, 44, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, },
+        // PL_SINGLE_COMMENT
+        {-1, 37, 38, },
         // PL_SINGLE_COMMENT_START
         {-1, 34, 35, 36, 36, },
         // PL_COMMENT
@@ -1268,9 +1307,10 @@ public class Lexer
         public final static State DOC = new State(5);
         public final static State DOC_STAR = new State(6);
         public final static State DOC_SINGLE = new State(7);
-        public final static State PL_SINGLE_COMMENT_START = new State(8);
-        public final static State PL_COMMENT = new State(9);
-        public final static State PL_COMMENT_STAR = new State(10);
+        public final static State PL_SINGLE_COMMENT = new State(8);
+        public final static State PL_SINGLE_COMMENT_START = new State(9);
+        public final static State PL_COMMENT = new State(10);
+        public final static State PL_COMMENT_STAR = new State(11);
 
         private int id;
 
