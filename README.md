@@ -1,4 +1,4 @@
-1) First run ant script in the directory prolog-doc/ via 'ant'\n
+1) First run ant script in the directory prolog-doc/ via 'ant' <br>
 2) compile the Java files
 3) running tool via "java src/main/java/parsers/Compiler -dir-spdet <dir name of pl files> -o=<output dir>"
 
