@@ -1,6 +1,6 @@
 1) run ant script in the directory prolog-doc/ via 'ant' <br>
 2) compile the Java files<br>
-3) running tool via <bf>java src/main/java/parsers/Compiler -dir-spdet dir_name_of_pl_files/ -o=output_dir/<bf><br>
+3) running tool via <b>java src/main/java/parsers/Compiler -dir-spdet dir_name_of_pl_files/ -o=output_dir/<b><br>
 <br><br>
 Prolog Doc for ProB prolog source Files<br>
 
