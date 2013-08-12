@@ -17,7 +17,7 @@ public class HTML_Generator {
 		
 	}
 	
-	public void generateDoc( List<Module> modules, String destFolder){
+	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, String destFolder){
 		
 		this.destination = destFolder;
 		this.Modules = modules;
@@ -30,6 +30,13 @@ public class HTML_Generator {
 				System.out.println("\n/t !!!!! /t ERROR GENERATING HTML /t !!!!!! \n");
 				e.printStackTrace();
 			}
+		}
+		
+		try {
+			this.generateModuleIndex();
+			this.generatePredicateIndex(AllPredicates);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -47,7 +54,103 @@ public class HTML_Generator {
 				e.printStackTrace();
 			}
 		}
+		
+		try {
+			this.generateModuleIndex();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+	}
+	
+	private void generateModuleIndex() throws IOException{
+		BufferedReader br;
+		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
+	
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null && !line.equalsIgnoreCase("null") ) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        code+= sb.toString();
+	    } finally {
+	        br.close();
+	    }
+	    
+	    code += "#TOP";
+	    code += "\" name=\""+"module_index"+"\">"+"Module Index"+"</a></h1>\n</div>";
+	    code += "\n\n <div id=\"b3\" class=\"box\">\n<h3>Modules</h3>\n";
+	    code += moduleLinksIndex;
+	    code += "</div>";
+	    
+	    this.generateBottom();
+	    
+	    code += "\n</body>\n</html>";
+	    this.writeToFile("ModuleIndex");
+	    code = "";
+	    
+	}
+	
+	
+	private void generatePredicateIndex(List<Predicate> AllPredicates) throws IOException{
+		BufferedReader br;
+		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
+	
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null && !line.equalsIgnoreCase("null") ) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        code+= sb.toString();
+	    } finally {
+	        br.close();
+	    }
+	    
+	    code += "#TOP";
+	    code += "\" name=\""+"module_index"+"\">"+"Predicate Index"+"</a></h1>\n</div>";
+	    code += "\n\n <div id=\"b3\" class=\"box\">\n<h3>Predicates</h3>\n";
+	    code += this.getAllPredicates(AllPredicates);
+	    code += "</div>";
+	    
+	    this.generateBottom();
+	    
+	    code += "\n</body>\n</html>";
+	    this.writeToFile("PredicateIndex");
+	    code = "";
+	    
+	}
+	
+	private String getAllPredicates(List<Predicate> AllPredicates){
+		if (AllPredicates.size() > 0) {
+			Collections.sort(AllPredicates, new Comparator<Predicate>() {
+				@Override
+				public int compare(final Predicate object1, final Predicate object2) {
+					return object1.getName().compareTo(object2.getName());
+				}
+			} );
+		}
+		
+		String PredicateLinks = "";
+		char current = '.';
+		for(int i = 0; i < AllPredicates.size(); i++){
+			
+			if(current != AllPredicates.get(i).getName().charAt(0)){
+				current = AllPredicates.get(i).getName().charAt(0);
+				PredicateLinks += "<h3>" + current + "</h3>";
+			}
+			Predicate p = AllPredicates.get(i);
+			PredicateLinks += "<li><a href=\""+ p.getModule()+".html#"+ p.getName()+p.getArity()+"\">"+ p.getName()+"/"+p.getArity()+"</a></li>\n";
+		}
+		
+		return PredicateLinks;
 	}
 	
 	private void generateSinglePage(Module m) throws IOException{
@@ -76,7 +179,7 @@ public class HTML_Generator {
 		    code += "<h3>Predicates of "+m.getFile()+"</h3>\n";
 
 		    for(int i = 0; i < m.getPredicates().size(); i++){
-		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
+		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName()+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName()+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
 		    }
 		    code += "</div>\n";
 		    
@@ -86,7 +189,7 @@ public class HTML_Generator {
 		    this.code += "<a class=\"anchor\" name=\"PREDICATES\">Predicates</a>\n";
 		    code += "<h3>Predicates:</h3>";
 		    for(int i = 0; i < m.getPredicates().size(); i++){
-		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
+		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName()+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName()+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
 		    }
 		    
 		    code += "</div><br><br>";
@@ -133,8 +236,8 @@ public class HTML_Generator {
 	    for(int i = 0; i < m.getPredicates().size(); i++){
 	    	Predicate p = m.getPredicates().get(i);
 	    	code += "\n<div id=\"inner\">\n";
-			code +=	"<a class=\"anchor\" name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a>";
-	    	code +=	"<h2><a name=\""+p.getName().replaceAll("\"", "")+p.getArity()+"\">"+p.getName().replaceAll("\"", "")+"/" +p.getArity()+"</a></h2>\n";
+			code +=	"<a class=\"anchor\" name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a>";
+	    	code +=	"<h2><a name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a></h2>\n";
 			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
 			code += "<div id=\"codeblock\" class=\"box\">\n";
@@ -160,7 +263,7 @@ public class HTML_Generator {
 			for(int k = 0; k < p.getCallsNames().size(); k ++){
 				Call call = p.getCallsNames().get(k);
 				String callName = call.getName().replaceAll("\"", "");
-				String callModule = call.getModule().replaceAll("\"", "").replaceAll("/", "_");
+				String callModule = call.getModule();
 				int callArity = call.getArity();
 				//code += "<div style=\"text-indent:30px;\">\n";
 				//this.code+= "<tr>"; before alternatve
@@ -231,7 +334,7 @@ public class HTML_Generator {
 		   
 			if(!ModuleNames.containsKey(importModule)){
 			
-				this.code += "<p>"+ "Name: &nbsp;&nbsp;&nbsp;\t" + importName.replaceAll("\"", "")+"/"+ importArity +"</p>\n";
+				this.code += "<p>"+ "Name: &nbsp;&nbsp;&nbsp;\t" + importName+"/"+ importArity +"</p>\n";
 				this.code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+importModule+"</p>\n";
 			}else{
 			
@@ -250,7 +353,7 @@ public class HTML_Generator {
 		for(int i = 0; i < m.getExports().size(); i++){
 		    Call exp = m.getExports().get(i);
 			
-			String exportName = exp.getName().replaceAll("\"", "");
+			String exportName = exp.getName();
 			int exportArity = exp.getArity();
 	
 			this.code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\"#"+exportName+exportArity+"\">"+exportName+"/"+exportArity+"</a></p>\n";
@@ -271,6 +374,36 @@ public class HTML_Generator {
 		}
 		catch ( IOException e)
 		{
+			System.out.println("!!\tERROR writing Module HTML File: " + m.getName());
+
+		}
+		finally
+		{
+			try
+			{
+				if ( writer != null)
+					writer.close( );
+			}
+			catch ( IOException e)
+			{
+			}
+	     }
+		
+	}
+	
+	private void writeToFile(String file){
+		BufferedWriter writer = null;
+		try
+		{
+			if(!destination.endsWith("/")) destination += "/";
+			writer = new BufferedWriter( new FileWriter(this.destination+file+".html"));
+			//System.out.println(this.destination+file+".html"); // debug
+			//writer.write(code);
+			writer.write(this.prettyPrintCode());
+		}
+		catch ( IOException e)
+		{
+			System.out.println("!!\tERROR writing HTML File: " + file);
 		}
 		finally
 		{
@@ -295,8 +428,16 @@ public class HTML_Generator {
 				}
 			} );
 		}
+		
+		char current = '.';
 		for(int i = 0; i < modules.size(); i++){
-			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			
+			if(current != modules.get(i).getFile().charAt(0)){
+				current = modules.get(i).getFile().charAt(0);
+				moduleLinksIndex += "<h3>" + current + "</h3>";
+			}
+			moduleLinksIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	

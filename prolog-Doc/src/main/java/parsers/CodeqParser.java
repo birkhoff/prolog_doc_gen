@@ -48,7 +48,7 @@ public class CodeqParser {
 		String split[] = file.split("\\/");
 		this.FileName = split[split.length-1];
 		this.NameOfFile = file;
-		this.NameOfFileNoSlash = this.NameOfFile.replaceAll("/", "_").replaceAll("\\.\\.", "-");
+		this.NameOfFileNoSlash = this.NameOfFile.replaceAll("/", "_").replaceAll("\\.\\.", "-").replaceAll("\"", "");
 		
 	}
 	
@@ -73,9 +73,9 @@ public class CodeqParser {
 						
 					Element element = (Element) node;
 					
-					Predicate predicate = new Predicate( this.getValue("name", element), Integer.parseInt( this.getValue("arity", element) ) );
+					Predicate predicate = new Predicate( this.getValue("name", element).replaceAll("\"", ""), Integer.parseInt( this.getValue("arity", element) ) );
 					
-					predicate.setModule( doc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue());
+					predicate.setModule( doc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replaceAll("\"",""));
 					predicate.setStartLines( this.getLineValue("startlines", element));
 					predicate.setEndLines(this.getLineValue("endlines", element));
 
@@ -309,9 +309,9 @@ private void parseModuleInformation(Document dc){
 		
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element import_element = (Element) node;
-				String callName = this.getValue("name", import_element);
+				String callName = this.getValue("name", import_element).replaceAll("\"", "");;
 				
-				String callModule = this.getValue("module", import_element);
+				String callModule = this.getValue("module", import_element).replaceAll("\"", "");
 				String callArity = this.getValue("arity", import_element);
 				Module.addImport(callName, callModule, callArity);
 								
@@ -327,7 +327,7 @@ private void parseModuleInformation(Document dc){
 		
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element import_element = (Element) node;
-				String callName = this.getValue("name", import_element);
+				String callName = this.getValue("name", import_element).replaceAll("\"", "");
 				String callModule = this.getValue("module", import_element);
 				String callArity = this.getValue("arity", import_element);
 				Module.addExport(callName, callModule, callArity);					

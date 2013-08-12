@@ -1,5 +1,7 @@
 package src.main.java.parsers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +66,14 @@ public class InformationMerger {
 				MergedPredicates.add(predicates.get(i));
 				PredicatesHashMap.put(predicates.get(i).getName(), predicates.get(i));
 			}
+		}
+		if (MergedPredicates.size() > 0) {
+			Collections.sort(MergedPredicates, new Comparator<Predicate>() {
+				@Override
+				public int compare(final Predicate object1, final Predicate object2) {
+					return object1.getName().compareTo(object2.getName());
+				}
+			} );
 		}
 		
 	}
