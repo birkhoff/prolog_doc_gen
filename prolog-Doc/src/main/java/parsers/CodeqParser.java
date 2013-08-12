@@ -26,6 +26,8 @@ public class CodeqParser {
 	public Module Module;
 	private String ParsedFile;
 	private String NameOfFile;
+	private String FileName;
+	private String NameOfFileNoSlash;
 	private List<String> File;
 
 	private static String varHighlight = "8ce8ff";
@@ -43,7 +45,11 @@ public class CodeqParser {
 		
 		Predicates = new LinkedList<Predicate>();
 		ParsedFile = file;
+		String split[] = file.split("\\/");
+		this.FileName = split[split.length-1];
 		this.NameOfFile = file;
+		this.NameOfFileNoSlash = this.NameOfFile.replaceAll("/", "_").replaceAll("\\.\\.", "-");
+		
 	}
 	
 	public void parseXML(String fileName){
@@ -106,7 +112,7 @@ public class CodeqParser {
 							String callArity = this.getValue("arity", call_element);
 							
 							if (callModule.equalsIgnoreCase("user")) {
-								callModule = this.NameOfFile;
+								callModule = this.NameOfFileNoSlash;
 							}
 							predicate.addCallNames(callName, callModule, callArity);
 						
@@ -267,14 +273,19 @@ private String highlightCode(String line){
 private void parseModuleInformation(Document dc){
 		
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
-		
+		String fileName = nameOfModule;				// name of the file without path
 		if(nameOfModule.equalsIgnoreCase("user")){
-			nameOfModule = this.NameOfFile.replaceAll("/", "_").replaceAll("\\.\\.", "-");
+			nameOfModule = this.NameOfFileNoSlash;
+			fileName = this.FileName;
+			
 		}
 		Module = new Module(nameOfModule);
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
 		NodeList multiFileNodes = dc.getElementsByTagName("multifile");
+		
+		Module.setFile(fileName);
+		Module.setPath(NameOfFile);
 		
 		this.parseImports(importNodes);
 		this.parseExports(exportNodes);

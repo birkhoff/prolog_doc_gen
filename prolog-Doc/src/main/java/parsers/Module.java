@@ -8,6 +8,8 @@ public class Module {
 
 	
 	private String Name;
+	private String Path;
+	private String File;
 	private List<Predicate> Predicates;
 	private List<Call> Exports;
 	private List<Call> Imports;
@@ -113,6 +115,26 @@ public class Module {
 
 	public void setSPDet(String sPDet) {
 		SPDet = sPDet;
+	}
+
+
+	public String getPath() {
+		return Path;
+	}
+
+
+	public void setPath(String path) {
+		Path = path;
+	}
+
+
+	public String getFile() {
+		return File;
+	}
+
+
+	public void setFile(String file) {
+		File = file;
 	}
 	
 }

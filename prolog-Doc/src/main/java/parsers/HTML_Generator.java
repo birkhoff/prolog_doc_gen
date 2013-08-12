@@ -1,12 +1,14 @@
 package src.main.java.parsers;
 
 import java.io.*;
+import java.text.Collator;
 import java.util.*;
 
 public class HTML_Generator {
 
 	private String code = "";
 	private String moduleLinks ="";
+	private String moduleLinksIndex = "";
 	private List<Module> Modules;
 	private HashMap<String, Boolean> ModuleNames;
 	private String destination = "Doc/";
@@ -25,7 +27,7 @@ public class HTML_Generator {
 			try {
 				this.generateSinglePage(modules.get(i));
 			} catch (IOException e) {
-				
+				System.out.println("\n/t !!!!! /t ERROR GENERATING HTML /t !!!!!! \n");
 				e.printStackTrace();
 			}
 		}
@@ -66,10 +68,12 @@ public class HTML_Generator {
 		        br.close();
 		    }
 		    code += "#TOP";
-		    code += "\" name=\""+m.getName().replaceAll("\"", "")+"\">"+m.getName().replaceAll("\"", "")+"</a></h1> \n	<br><br><br>\n  </div> \n\n <div id=\"b2\" class=\"box\">\n<h3>Modules</h3>\n";
+		    code += "\" name=\""+m.getName()+"\">"+m.getFile()+"</a></h1>\n";
+		    code +=	"<h3 align=\"right\" >" + m.getPath() + "</h3></div>"; 
+		    code += "\n\n <div id=\"b2\" class=\"box\">\n<h3>Modules</h3>\n";
 		    code += moduleLinks;
 		    
-		    code += "<h3>Predicates of "+m.getName()+"</h3>\n";
+		    code += "<h3>Predicates of "+m.getFile()+"</h3>\n";
 
 		    for(int i = 0; i < m.getPredicates().size(); i++){
 		    	code += "<li><a href=\"#"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+m.getPredicates().get(i).getArity()+"\">"+ m.getPredicates().get(i).getName().replaceAll("\"", "")+"/"+ m.getPredicates().get(i).getArity() +"</a></li>\n";
@@ -227,8 +231,8 @@ public class HTML_Generator {
 		   
 			if(!ModuleNames.containsKey(importModule)){
 			
-				this.code += "<p>"+  importName.replaceAll("\"", "")+"/"+ importArity +"</p>\n";
-				this.code += "<p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+importName+"</p>\n";
+				this.code += "<p>"+ "Name: &nbsp;&nbsp;&nbsp;\t" + importName.replaceAll("\"", "")+"/"+ importArity +"</p>\n";
+				this.code += "<p>"+"Module: &nbsp;&nbsp;&nbsp;"+" \t"+importModule+"</p>\n";
 			}else{
 			
 				this.code += "<p>Name:&nbsp;&nbsp;&nbsp; <a href=\""+importModule+".html#"+importName+importArity+"\">"+importName+"/"+importArity+"</a></p>\n";
@@ -259,6 +263,7 @@ public class HTML_Generator {
 		BufferedWriter writer = null;
 		try
 		{
+			if(!destination.endsWith("/")) destination += "/";
 			writer = new BufferedWriter( new FileWriter(this.destination+m.getName().replaceAll("\"", "").replaceAll("\\.\\.", "-")+".html"));
 			
 			//writer.write(code);
@@ -282,8 +287,16 @@ public class HTML_Generator {
 	}
 	
 	private void setModuleLinks(List<Module> modules){
+		if (modules.size() > 0) {
+			Collections.sort(modules, new Comparator<Module>() {
+				@Override
+				public int compare(final Module object1, final Module object2) {
+					return object1.getFile().compareTo(object2.getFile());
+				}
+			} );
+		}
 		for(int i = 0; i < modules.size(); i++){
-			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getName()+"</a></li>\n";
+			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName().replaceAll("\"", "")+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	
