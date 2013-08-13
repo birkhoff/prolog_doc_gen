@@ -100,6 +100,7 @@ public class CodeqParser {
 					predicate.setMeta(meta);
 					
 					this.setBlockingInformation(predicate, element);
+					this.setModeInformation(predicate, element);
 										
 					
 					NodeList calls = element.getElementsByTagName("call");
@@ -171,6 +172,29 @@ private void setBlockingInformation(Predicate predicate, Element node){
 	}
 		
 	predicate.setBlockingInformation(BlockingInformation);
+}
+
+private void setModeInformation(Predicate predicate, Element node){
+	
+	String ModeInformation = null;
+	
+	NodeList modes = node.getElementsByTagName("mode");
+		
+	if(modes.getLength()>0) ModeInformation = "";
+		
+	for (int j = 0; j <modes.getLength(); j++) {
+		
+		Node mode = modes.item(j);
+
+		if (mode.getNodeType() == Node.ELEMENT_NODE) {
+			
+			String currentMode = mode.getFirstChild().getNodeValue();
+			ModeInformation += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+currentMode.replaceAll("\\[", "(").replaceAll("\\]", ")") + " ";
+		}
+		
+	}
+		
+	predicate.setMode(ModeInformation);
 }
 
 private void saveFileToArray(){

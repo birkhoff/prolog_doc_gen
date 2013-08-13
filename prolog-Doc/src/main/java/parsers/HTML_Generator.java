@@ -196,6 +196,9 @@ public class HTML_Generator {
 		    
 		    this.generatePredicatesInformation(m);
 		    
+		    this.generateSPDet(m);
+		    code += "</div>";
+		    
 		    this.generateBottom();
 		    
 		    code += "\n</body>\n</html>";
@@ -204,6 +207,10 @@ public class HTML_Generator {
 		    
 		    this.loadingScreen();
 		    
+	}
+	
+	public void generateSPDet(Module m){
+		if(m.getSPDet()!= null)	this.code += "<div id=\"inner\">\n <a class=\"anchor\" name=\"SPDET\"> Determinacy Checker </a> \n <h3>Determinacy Checker: </h3>"+m.getSPDet() +"<br><br>\n</div>\n";
 	}
 	
 	public void loadingScreen(){
@@ -238,7 +245,7 @@ public class HTML_Generator {
 	    	code += "\n<div id=\"inner\">\n";
 			code +=	"<a class=\"anchor\" name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a>";
 	    	code +=	"<h2><a name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a></h2>\n";
-			if(p.getMode()!= null)	code+= "<h3 align=\"center\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
+			if(p.getMode()!= null)	code+= "<h3 align=\"right\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
 			code += "<div id=\"codeblock\" class=\"box\">\n";
 			code += "<p><font face=\"monospace\" size=\"4\" color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
@@ -252,7 +259,7 @@ public class HTML_Generator {
 				code += "<p>"+p.getAdditionalEntries().get(k).getIdentifier()+": "+p.getAdditionalEntries().get(k).getDescription()+"</p>\n";
 			}
 			code += "<p>"+"Arity"+": "+p.getArity()+"</p>\n";
-			code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
+			if(p.isDynamic())code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
 			if(p.isMeta()) code += "<p>"+"Meta"+": "+p.getMetaInformation()+"</p>\n";
 			if(p.isMultiFile()) code += "<p>"+"Multifile"+": "+p.isMultiFile()+"</p>\n";
 			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
@@ -288,7 +295,6 @@ public class HTML_Generator {
 			code += "</div><br><br>\n\n\n";
 	    }
 
-	    code += "</div>";
 	}
 	
 	private void generateModuleInformation(Module m){
@@ -296,7 +302,6 @@ public class HTML_Generator {
 		    this.code += "\n<div id=\"b3\" class=\"box\">\n<div id=\"inner\">\n";
 		    this.code += "<a class=\"anchor\" name=\"MODULE_INFO\">Module Information</a>\n";
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
-		    if(m.getSPDet()!= null)	this.code += "<h4>spdet:</h4>"+m.getSPDet() +"<br><br>\n";
 		    
 		    if(m.getMultiFile().size() > 0) this.generateMultifile(m);
 		    

@@ -222,6 +222,7 @@ public class Compiler {
 			System.out.println("\tEndLines: "+predicates.get(i).getEndLines()[0]);
 			System.out.println("\tMetaInformation: "+predicates.get(i).getMetaInformation());
 			System.out.println("\tBlockings: "+predicates.get(i).getBlockingInformation());
+			System.out.println("\tMode: "+predicates.get(i).getMode());
 			
 			List<Call> calls = predicates.get(i).getCallsNames();
 			System.out.println("\tCalls:");

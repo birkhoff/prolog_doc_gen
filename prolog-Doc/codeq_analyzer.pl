@@ -14,7 +14,7 @@
 :- op(300, fy, ~~).
 
 
-:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, volatiles/1, multifiles/1,in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2, stream/1. 
+:- dynamic exports/3, imports/3, imports/1, predicates/7, dynamics/1, metas/2, volatiles/1, multifiles/1,in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2, modes/2, stream/1. 
 
 in_module('user').
 module_pos(1,1).
@@ -52,10 +52,17 @@ write_ops3 :-
     fail.
 write_ops3.
 
+write_mode(Name/Ar):-
+ 	modes(Name/Ar, Args), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t\t\t<mode>~w~w</mode>', [Name, Args]),
+	fail.
+write_mode(_Name/_Ar).
+
 write_blocking(Name/Ar):-
  	blocking(Name/Ar, Args), 
 	stream(Stream),
-	escaping_format(Stream,'\n\t\t<blocking>~w~w</blocking>', [Name, Args]),
+	escaping_format(Stream,'\n\t\t\t<blocking>~w~w</blocking>', [Name, Args]),
 	fail.
 write_blocking(_Name/_Ar).
 
@@ -123,6 +130,9 @@ write_predicates2(Name,Ar,_Code,Calls,StartLines,EndLines,_VNC) :-
 	write(Stream,'\n\t\t<block>'),
 	write_blocking(Name/Ar),
 	write(Stream,'\n\t\t</block>'),
+	write(Stream,'\n\t\t<modedeclaration>'),
+	write_mode(Name/Ar),
+	write(Stream,'\n\t\t</modedeclaration>'),
     write(Stream,'\n\t</predicate>\n'),nl.
 	    
 write_calls([]).
@@ -247,6 +257,16 @@ assert_metas(Term) :-
 	Term =..[_Fun|Args],
     (metas(Fun/Ar, Args) -> true ; assert(metas(Fun/Ar, Args))).
 
+
+%% assert mode
+
+assert_mode((X,Y)) :-
+    !, assert_mode(X), assert_mode(Y).
+assert_mode(Term) :-
+    !, functor(Term,Fun,Ar),
+	Term =..[_Fun|Args],
+    (modes(Fun/Ar, Args) -> true ; assert(modes(Fun/Ar, Args))).
+
 %assert block
 
 assert_blocking((X,Y)) :-
@@ -288,8 +308,10 @@ analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
 analyze((:- meta_predicate(X)), _Layout, (:- true)) :-
     !, assert_metas(X).
 
-%blocking, operator declarations, volatile, multifile
+%blocking, operator declarations, volatile, multifile, 	mode
 
+analyze((:- mode(X)), _Layout, (:- true)) :-
+    !, assert_mode(X).
 analyze((:- block(X)), _Layout, (:- true)) :-
     !, assert_blocking(X).
 analyze((:- op(P,T,N)), _Layout, (:- op(P,T,N))) :- 

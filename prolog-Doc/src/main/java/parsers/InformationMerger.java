@@ -117,8 +117,9 @@ public class InformationMerger {
 		merged.setBlockingInformation(predicate.getBlockingInformation());
 		merged.setMultiFile(predicate.isMultiFile());
 		merged.setMetaInformation(predicate.getMetaInformation());
+		merged.setMode(predicate.getMode());
 		
-		if(doc.getMode()!= null) merged.setMode(doc.getMode());
+		if(doc.getMode() != null && predicate.getMode() == null) merged.setMode(doc.getMode());
 		if(doc.getDate()!= null) merged.setDate(doc.getDate());
 		if(doc.getAuthor()!= null) merged.setAuthor(doc.getAuthor());
 		if(doc.getDescription()!= null) merged.setDescription(doc.getDescription());
