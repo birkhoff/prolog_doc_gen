@@ -154,6 +154,9 @@ public class HTML_Generator {
 	}
 	
 	private void generateSinglePage(Module m) throws IOException{
+		
+	
+		
 		BufferedReader br;
 			br = new BufferedReader(new FileReader("src/main/resources/beginning_to_Modules.x"));
 		
@@ -205,8 +208,7 @@ public class HTML_Generator {
 		    this.writeToFile(m);
 		    code = "";
 		    
-		    this.loadingScreen();
-		    
+			this.loadingScreen();
 	}
 	
 	public void generateSPDet(Module m){
@@ -263,7 +265,7 @@ public class HTML_Generator {
 			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
 			
 			// codeblock
-			code += "<input type='button' value=\"Code\" onclick=\"javascript:hidecode('"+pName+"code"+"')\">\n";
+			code += "<input type='button' id=\"button\" value=\"Code\" onclick=\"javascript:hidecode('"+pName+"code"+"')\">\n";
 			code += "<div id=\""+pName+"code"+"\"  style=\"display: none;\" >\n";			// hide code div
 			code += "<div id=\"codeblock\" class=\"box\">\n";
 			code += "<p><font face=\"monospace\" size=\"4\" color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
@@ -272,7 +274,7 @@ public class HTML_Generator {
 			
 			if(p.getCallsNames().size() > 0){ 
 			
-				code += "<input type='button' value=\"Calls\" onclick=\"javascript:hidecode('"+pName+"calls"+"')\">\n";			//hide button
+				code += "<input type='button' id=\"button\" value=\"Calls\" onclick=\"javascript:hidecode('"+pName+"calls"+"')\">\n";			//hide button
 				code += "<div id=\""+pName+"calls"+"\" style=\"display: none;\" >\n";
 				code += "<p>"+"Calls:"+"</p>\n";
 			}
@@ -290,9 +292,16 @@ public class HTML_Generator {
 				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
 					if(callArity > 0) 	code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
 					else				code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
-					if(!callModule.equalsIgnoreCase("built_in") )	code += "<td id=\"row\">"+" \tModule: &nbsp;&nbsp;&nbsp;"+callModule+"</p></td>\n";
-					else											code += "<td id=\"row\"></td>\n";
 					
+					if(callModule.equalsIgnoreCase("dynamic predicate")){	
+						code += "<td id=\"row\"> <a href=\"#MODULE_INFO\"> "+ callModule+" </a></td>\n";
+					}else{
+						if(!callModule.equalsIgnoreCase("built_in") ){			
+							code += "<td id=\"row\">"+" \tModule: &nbsp;&nbsp;&nbsp;"+callModule+"</p></td>\n";
+						}else{ 												
+							code += "<td id=\"row\"></td>\n";														
+						}
+					}
 				}else{
 					code += "<td id=\"row\"><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
 					code += "<td id=\"row\">Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
@@ -316,6 +325,7 @@ public class HTML_Generator {
 		    this.code += "<h2 align=\"center\">Module Information</h2><br>\n";
 		    
 		    if(m.getMultiFile().size() > 0) this.generateMultifile(m);
+		    if(m.getDynamics().size() > 0) 	this.generateDynamics(m);
 		    
 		    this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
 		    
@@ -327,6 +337,16 @@ public class HTML_Generator {
 		    this.code += "</div><br>\n";
 		    
 		    
+	}
+	
+	private void generateDynamics(Module m){
+		this.code += "<h4>Dynamic Predicates: <h>"; 
+		for(int i = 0; i < m.getDynamics().size(); i++){
+			String current = m.getDynamics().get(i);
+			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			this.code+= "<a href=\"#"+current.replaceAll("(/)([0-9])*$", "$2")+"\">"+current+"</a>";			// regex $ end of line
+		}
+		this.code += " </h2>";
 	}
 	
 	private void generateMultifile(Module m){
@@ -380,11 +400,11 @@ public class HTML_Generator {
 	}
 	
 	private void writeToFile(Module m){
-		BufferedWriter writer = null;
+		/*BufferedWriter writer = null;
 		try
 		{
 			if(!destination.endsWith("/")) destination += "/";
-			writer = new BufferedWriter( new FileWriter(this.destination+m.getName().replaceAll("\"", "").replaceAll("\\.\\.", "-")+".html"));
+			writer = new BufferedWriter( new FileWriter(this.destination+m.getName()+".html"));
 			
 			//writer.write(code);
 			writer.write(this.prettyPrintCode());
@@ -404,7 +424,43 @@ public class HTML_Generator {
 			catch ( IOException e)
 			{
 			}
-	     }
+	     }*/
+		
+		
+		FileOutputStream fop = null;
+		File file;
+		
+		if(!destination.endsWith("/")) destination += "/";
+ 
+		try {
+ 
+			file = new File(this.destination+m.getName()+".html");
+			fop = new FileOutputStream(file);
+ 
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+ 
+			// get the content in bytes
+			byte[] contentInBytes = code.getBytes();
+ 
+			fop.write(contentInBytes);
+			fop.flush();
+			fop.close();
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 	}
 	

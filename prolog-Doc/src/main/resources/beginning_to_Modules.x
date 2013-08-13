@@ -41,6 +41,11 @@ body { margin:0; padding:0; }
 	color=#efecde;
 }
 
+#button{
+	 font-family:verdana;
+	font-size: 12em;
+}
+
 a.anchor{display: block; position: relative; top: -200px; visibility: hidden;}
 
 </style>

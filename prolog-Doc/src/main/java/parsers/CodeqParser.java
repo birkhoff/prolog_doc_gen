@@ -309,6 +309,7 @@ private void parseModuleInformation(Document dc){
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
 		NodeList multiFileNodes = dc.getElementsByTagName("multifile");
+		NodeList dynamicNodes = dc.getElementsByTagName("dynamics");
 		
 		Module.setFile(fileName);
 		Module.setPath(NameOfFile);
@@ -316,6 +317,7 @@ private void parseModuleInformation(Document dc){
 		this.parseImports(importNodes);
 		this.parseExports(exportNodes);
 		this.parseMultiFile(multiFileNodes);
+		this.parseDynamics(dynamicNodes);
 			
 	}
 	
@@ -324,6 +326,15 @@ private void parseModuleInformation(Document dc){
 			Node node = nodes.item(i);
 			String multiFile = node.getFirstChild().getNodeValue();
 			if(!(multiFile.contains("false") || multiFile.contains("true") ))	Module.addMultiFile(multiFile);
+	
+		}
+	}
+	
+	private void parseDynamics(NodeList nodes){
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			String dynamic = node.getFirstChild().getNodeValue();
+			Module.addDynamics(dynamic);
 	
 		}
 	}

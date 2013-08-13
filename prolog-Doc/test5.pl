@@ -14,6 +14,8 @@
 %% blubb
 :-module(test5, [foo/1]).
 
+:- dynamic jim/1.
+
 :- multifile foo/1.
 
 :-meta_predicate foo(2), foo(1).
@@ -21,9 +23,14 @@
 foo(Yam):-
 	when(ground(Yam), print('1')).
 
-bar:-
+bar(X):-
+	assert(jim(1)),
+	jim(X),
+	retract(jim(X)).
+
+%bar:-
 	% lala
-	errorMessage(error_BParser_42, "expecting: '$', conjunction, single quotation, '(', ')', product, '**', plus, partial function, partial surjection, ',', minus, total function, total surjection, '->', '.', interval, dot par, '/', not belonging, non inclusion, strict non inclusion, not equal, '\\', intersection, '/|\\', element of, '::', ':=', ';', '<', overwrite relation, set relation, '<-', '<--', inclusion, strict inclusion, domain subtraction, less equal, equivalence, domain restriction, '=', implies, '>', partial injection, total injection, '>+>>', total bijection, direct product, greater equal, 'ABSTRACT_CONSTANTS', 'ABSTRACT_VARIABLES', 'ASSERTIONS', 'BE', 'CONCRETE_CONSTANTS', 'CONCRETE_VARIABLES', 'CONSTANTS', 'CONSTRAINTS', 'DEFINITIONS', 'DO', 'ELSE', 'ELSIF', 'END', 'EXTENDS', 'IMPORTS', 'IN', 'INCLUDES', initialisation, 'INVARIANT', 'LOCAL_OPERATIONS', 'OF', operations, 'OR', 'PROMOTES', 'PROPERTIES', 'SEES', 'SETS', 'THEN', 'USES', 'VALUES', 'VARIANT', 'VARIABLES', 'WHEN', 'WHERE', '[', ']', union, '\\|/', '^', 'mod', logical or, '}', '|', double vertical bar, maplet, range restriction, range subtraction, tilde, total relation, surjection relation, total surjection relation, EOF").
+%	errorMessage(error_BParser_42, "expecting: '$', conjunction, single quotation, '(', ')', product, '**', plus, partial function, partial surjection, ',', minus, total function, total surjection, '->', '.', interval, dot par, '/', not belonging, non inclusion, strict non inclusion, not equal, '\\', intersection, '/|\\', element of, '::', ':=', ';', '<', overwrite relation, set relation, '<-', '<--', inclusion, strict inclusion, domain subtraction, less equal, equivalence, domain restriction, '=', implies, '>', partial injection, total injection, '>+>>', total bijection, direct product, greater equal, 'ABSTRACT_CONSTANTS', 'ABSTRACT_VARIABLES', 'ASSERTIONS', 'BE', 'CONCRETE_CONSTANTS', 'CONCRETE_VARIABLES', 'CONSTANTS', 'CONSTRAINTS', 'DEFINITIONS', 'DO', 'ELSE', 'ELSIF', 'END', 'EXTENDS', 'IMPORTS', 'IN', 'INCLUDES', initialisation, 'INVARIANT', 'LOCAL_OPERATIONS', 'OF', operations, 'OR', 'PROMOTES', 'PROPERTIES', 'SEES', 'SETS', 'THEN', 'USES', 'VALUES', 'VARIANT', 'VARIABLES', 'WHEN', 'WHERE', '[', ']', union, '\\|/', '^', 'mod', logical or, '}', '|', double vertical bar, maplet, range restriction, range subtraction, tilde, total relation, surjection relation, total surjection relation, EOF").
 		
 
 :- block merge(-,?,-), merge(?,-,-).

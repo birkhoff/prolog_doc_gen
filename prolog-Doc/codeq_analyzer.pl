@@ -73,6 +73,13 @@ write_multifiles :-
 	fail.
 write_multifiles.
 
+write_dynamics :-
+ 	dynamics(Name/Ar), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t<dynamics>~w/~w</dynamics>', [Name, Ar]),
+	fail.
+write_dynamics.
+
 write_metas(Name/Ar) :-
  	stream(Stream),
 	metas(Name/Ar, Arg), 
@@ -154,6 +161,7 @@ write_xml_representation :-
     escaping_format(Stream,'<module_endline>~w</module_endline>\n', [EndLine]),
     write(Stream,'<exports>\n'), write_exports, write(Stream,'</exports>'), nl,
 	write(Stream,'\n<multifiles>\n'), write_multifiles, write(Stream,'\n</multifiles>\n'),
+	write(Stream,'\n<dynamic_predicates>\n'), write_dynamics, write(Stream,'\n</dynamic_predicates>\n'),
     write(Stream,'\n<predicates>\n\n'), write_predicates, write(Stream,'</predicates>'), nl,
     write(Stream,'<import_modules>'), write_import1, write(Stream,'</import_modules>'), nl,
     write(Stream,'<import_predicates>\n'), write_import3, write(Stream,'</import_predicates>'), nl,
@@ -183,6 +191,7 @@ update_module(Call,Arity,Module2) :-
      predicate_property(X:CallAndVar,imported_from(From)) -> Module2 = From ;
      predicates(Call,Arity,_,_,_,_,_) -> Module2 = X ;
      imports(ModuleI,Call,Arity) -> Module2 = ModuleI ;
+     dynamics(Call/Arity) -> Module2 = 'dynamic predicate';
      otherwise -> Module2 = foo_error).
 
 layout_sub_term([],_,[]).

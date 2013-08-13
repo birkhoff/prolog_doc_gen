@@ -13,6 +13,7 @@ public class Module {
 	private List<Predicate> Predicates;
 	private List<Call> Exports;
 	private List<Call> Imports;
+	private List<String> Dynamics;
 	private HashMap<String, Predicate> PredicatesHashMap;
 	private List<String> MultiFile;
 	private String SPDet;
@@ -22,6 +23,7 @@ public class Module {
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
 		this.MultiFile = new LinkedList<String>();
+		this.Dynamics = new LinkedList<String>();
 	}
 
 	
@@ -31,6 +33,7 @@ public class Module {
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
 		this.MultiFile = new LinkedList<String>();
+		this.Dynamics = new LinkedList<String>();
 	}
 	
 	public String getName() {
@@ -135,6 +138,20 @@ public class Module {
 
 	public void setFile(String file) {
 		File = file;
+	}
+
+
+	public List<String> getDynamics() {
+		return Dynamics;
+	}
+
+
+	public void setDynamics(List<String> dynamics) {
+		Dynamics = dynamics;
+	}
+	
+	public void addDynamics(String add){
+		this.Dynamics.add(add);
 	}
 	
 }
