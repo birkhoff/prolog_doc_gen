@@ -75,7 +75,9 @@ public class CodeqParser {
 					
 					Predicate predicate = new Predicate( this.getValue("name", element).replaceAll("\"", ""), Integer.parseInt( this.getValue("arity", element) ) );
 					
-					predicate.setModule( doc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replaceAll("\"",""));
+					String moduleName = doc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replaceAll("\"","");
+					if(moduleName.equalsIgnoreCase("user")) moduleName = this.NameOfFileNoSlash;
+					predicate.setModule( moduleName);
 					predicate.setStartLines( this.getLineValue("startlines", element));
 					predicate.setEndLines(this.getLineValue("endlines", element));
 
