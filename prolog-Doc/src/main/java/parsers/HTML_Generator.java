@@ -234,7 +234,7 @@ public class HTML_Generator {
 	
 	private void generateBottom(){
 		this.code += "\n<footer id=\"b5\" class=\"box\" >\n<h2 align=\"center\">Sicstus Prolog Doc</h2>";
-		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013<h/4>\n";
+		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013 	&nbsp;&nbsp;<h/4>\n";
 		this.code += "</footer>";
 	}
 	
@@ -242,14 +242,12 @@ public class HTML_Generator {
 		
 	    for(int i = 0; i < m.getPredicates().size(); i++){
 	    	Predicate p = m.getPredicates().get(i);
+	    	String pName = p.getName() +p.getArity();
 	    	code += "\n<div id=\"inner\">\n";
 			code +=	"<a class=\"anchor\" name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a>";
 	    	code +=	"<h2><a name=\""+p.getName()+p.getArity()+"\">"+p.getName()+"/" +p.getArity()+"</a></h2>\n";
 			if(p.getMode()!= null)	code+= "<h3 align=\"right\">Mode: &nbsp;&nbsp;"+p.getMode()+"</h3>\n";
 			
-			code += "<div id=\"codeblock\" class=\"box\">\n";
-			code += "<p><font face=\"monospace\" size=\"4\" color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
-			code += "</div>\n";
 			
 			if(p.getAuthor() != null)	code += "<p>"+"Author"+": "+p.getAuthor()+"</p>\n";
 			if(p.getDate() != null)	code += "<p>"+"Date"+": "+p.getDate()+"</p>\n";
@@ -258,13 +256,26 @@ public class HTML_Generator {
 			for(int k = 0; k < p.getAdditionalEntries().size(); k++){
 				code += "<p>"+p.getAdditionalEntries().get(k).getIdentifier()+": "+p.getAdditionalEntries().get(k).getDescription()+"</p>\n";
 			}
-			code += "<p>"+"Arity"+": "+p.getArity()+"</p>\n";
+			//code += "<p>"+"Arity"+": "+p.getArity()+"</p>\n";
 			if(p.isDynamic())code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
 			if(p.isMeta()) code += "<p>"+"Meta"+": "+p.getMetaInformation()+"</p>\n";
 			if(p.isMultiFile()) code += "<p>"+"Multifile"+": "+p.isMultiFile()+"</p>\n";
 			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
 			
-			if(p.getCallsNames().size() > 0) code += "<p>"+"Calls:"+"</p>\n";
+			// codeblock
+			code += "<input type='button' value=\"Code\" onclick=\"javascript:hidecode('"+pName+"code"+"')\">\n";
+			code += "<div id=\""+pName+"code"+"\"  style=\"display: none;\" >\n";			// hide code div
+			code += "<div id=\"codeblock\" class=\"box\">\n";
+			code += "<p><font face=\"monospace\" size=\"4\" color=\"#efecde\">"+ p.getCodeString() + "</font></p>\n";
+			code += "</div>\n";
+			code += "</div>\n";
+			
+			if(p.getCallsNames().size() > 0){ 
+			
+				code += "<input type='button' value=\"Calls\" onclick=\"javascript:hidecode('"+pName+"calls"+"')\">\n";			//hide button
+				code += "<div id=\""+pName+"calls"+"\" style=\"display: none;\" >\n";
+				code += "<p>"+"Calls:"+"</p>\n";
+			}
 			
 			if(p.getCallsNames().size() > 0) this.code += "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\"; id=\"table\">\n";
 			for(int k = 0; k < p.getCallsNames().size(); k ++){
@@ -292,6 +303,7 @@ public class HTML_Generator {
 				//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
 			}
 			if(p.getCallsNames().size() > 0) this.code += "\n</table>\n";
+			if(p.getCallsNames().size() > 0) code += "</div>";	// end of div from hide button
 			code += "</div><br><br>\n\n\n";
 	    }
 

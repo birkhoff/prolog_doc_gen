@@ -57,6 +57,17 @@ background-color: rgb(200, 220, 220);
 </style>
 
 <body bgcolor=#ddf6fb link="#067494" vlink="#1e7790" alink="#12c2c0">
+	
+	<script type="text/javascript">
+	function hidecode (codeblock){
+		if (document.getElementById(codeblock).style.display=="none"){
+			document.getElementById(codeblock).style.display="";
+		}else{
+			document.getElementById(codeblock).style.display="none";
+		}
+	}
+	</script>	
+	
 <div id="navi" class="menuBar">
 	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="#MODULE_INFO">Module Information</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
