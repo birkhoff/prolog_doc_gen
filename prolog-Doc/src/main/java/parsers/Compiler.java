@@ -82,16 +82,16 @@ public class Compiler {
 	
 	public static void loadingScreen(int size, int current, String File){
 		
-		for (int k = 0; k < loadingString.length(); k++){
-			System.out.print("\b");
-			System.out.print(" ");
-			System.out.print("\b");
-		}
-		loadingString = "\t";
-		for (int k = 0; k <= current; k++) loadingString += "#";
+		//for (int k = 0; k < loadingString.length(); k++){
+			//System.out.print("\b");
+			//System.out.print(" ");
+			//System.out.print("\b");
+		//}
+		//loadingString = "\t";
+		//for (int k = 0; k <= current; k++) loadingString += "#";
 		current ++;
-		loadingString += " ("+current+"/"+size+") Files analyzed   currently: "+File;
-		System.out.print(loadingString);
+		loadingString = " ("+current+"/"+size+") Files analyzed   currently: "+File;
+		System.out.println(loadingString);
 	}
 	
 	public static List<String> getFiles(String args[]){
