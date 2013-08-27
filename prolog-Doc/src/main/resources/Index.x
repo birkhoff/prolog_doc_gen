@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 <style type="text/css">
 body { margin:0; padding:0; }
@@ -54,7 +56,7 @@ background-color: rgb(200, 220, 220);
 //-->
 
 </style>
-
+</head>
 <body bgcolor=#ddf6fb link="#067494" vlink="#1e7790" alink="#12c2c0">
 <div id="navi" class="menuBar">
 	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
