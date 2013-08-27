@@ -269,6 +269,8 @@ assert_exports(Name,N/A) :-
     !, assert(exports(Name,N,A)).
 assert_imports(Name,N/A) :-
     !, assert(imports(Name,N,A)).
+assert_imports(Name) :-
+    !, assert(imports(Name)).
 assert_dynamics((X,Y)) :-
     !, assert(dynamics(X)), assert_dynamics(Y).
 assert_dynamics(X) :-
@@ -324,9 +326,13 @@ analyze((:- module(Name, ListOfExported)), _Layout, (:- module(Name,ListOfExport
 analyze((:- use_module(Name, ListOfImported)), _Layout, (:- true)) :-
     !, unwrap_module(Name,UnwrappedName),
     maplist(assert_imports(UnwrappedName),ListOfImported).
-analyze((:- use_module(Name)), _Layout, (:- true)) :-
+analyze((:- use_module([H|T])), _Layout, (:- true)) :- 
+    !, maplist(unwrap_module,[H|T],Names),
+    maplist(assert_imports,Names).
+analyze((:- use_module(Name)), _Layout, (:- true)) :- 
     !, unwrap_module(Name,UnwrappedName),
     assert(imports(UnwrappedName)).
+
 analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
     !, assert_dynamics(X).
 analyze((:- meta_predicate(X)), _Layout, (:- true)) :-
