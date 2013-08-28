@@ -313,6 +313,7 @@ private void parseModuleInformation(Document dc){
 		
 		Module.setFile(fileName);
 		Module.setPath(NameOfFile);
+		Module.setLines(File.size());
 		
 		this.parseImports(importNodes);
 		this.parseExports(exportNodes);

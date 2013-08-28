@@ -186,8 +186,7 @@ update_calls_all_preds :-
 update_calls(pred(Module,Name,Ar,Arguments,Body,Calls,Start,End)) :-
     maplist(update_call,Calls,UpdatedCalls),
     retract(predicates(Module,Name,Ar,Arguments,Body,Calls,Start,End)),
-	setify(UpdatedCalls, UCNoDups),
-    assert(predicates(Module,Name,Ar,Arguments,Body,UCNoDups,Start,End)).
+    assert(predicates(Module,Name,Ar,Arguments,Body,UpdatedCalls,Start,End)).
 
 update_call(call(Module,Call,Arity),call(Module2,Call,Arity)) :-
     Module = nil

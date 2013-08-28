@@ -14,7 +14,7 @@
 %% blubb
 :-module(test5, [foo/1]).
 
-:- dynamic jim/1.
+:- dynamic jim/1, jam/2, cam/4, foo/3, a/2, abbaa/5, sieben/9, funf/2, drei/3, fa/2, fooo/2, sabba/3, abba/10, sabba/22, sieben/7, alla/19.
 
 :- multifile foo/1.
 

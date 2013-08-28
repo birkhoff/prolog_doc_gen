@@ -17,6 +17,7 @@ public class Module {
 	private HashMap<String, Predicate> PredicatesHashMap;
 	private List<String> MultiFile;
 	private String SPDet;
+	private int Lines;
 	
 	public Module(){
 		
@@ -152,6 +153,16 @@ public class Module {
 	
 	public void addDynamics(String add){
 		this.Dynamics.add(add);
+	}
+
+
+	public int getLines() {
+		return Lines;
+	}
+
+
+	public void setLines(int lines) {
+		Lines = lines;
 	}
 	
 }

@@ -326,33 +326,38 @@ public class HTML_Generator {
 		    
 		    if(m.getMultiFile().size() > 0) this.generateMultifile(m);
 		    if(m.getDynamics().size() > 0) 	this.generateDynamics(m);
+		    this.code += "<h4>"+m.getLines()+" Lines</h4>";
+		    this.code += "<h4>"+m.getPredicates().size()+" Predicates</h4>";
+		    this.code += "<h4>"+m.getExports().size()+" Exports</h4>";
+		    this.code += "<h4>"+m.getImports().size()+" Imports</h4>";
 		    
-		    this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
+		    if(m.getExports().size() != 0 || m.getImports().size() != 0){
+		    	this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
 		    
-		    this.generateImports(m);
-		    this.generateExports(m);
+		    	this.generateImports(m);
+		    	this.generateExports(m);
 		    
-		    this.code += "\n</tr>\n</table>\n";
-		    
+		    	this.code += "\n</tr>\n</table>\n";
+		    }
 		    this.code += "</div><br>\n";
 		    
 		    
 	}
 	
 	private void generateDynamics(Module m){
-		this.code += "<h4>Dynamic Predicates: <h>"; 
+		this.code += "<p><h4>Dynamic Predicates: "; 
 		for(int i = 0; i < m.getDynamics().size(); i++){
 			String current = m.getDynamics().get(i);
-			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-			this.code+= "<a href=\"#"+current.replaceAll("(/)([0-9])*$", "$2")+"\">"+current+"</a>";			// regex $ end of line
+			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
+			this.code+= "<a href=\"#"+current.replaceAll("(/)([0-9])*$", "$2")+"\">"+current+"</a>";											// regex $ end of line
 		}
-		this.code += " </h2>";
+		this.code += "</p>";
 	}
 	
 	private void generateMultifile(Module m){
 		this.code += "<h4>Multifile Declarations: <h>"; 
 		for(int i = 0; i < m.getMultiFile().size(); i++){
-			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			this.code += "&nbsp;&nbsp;&nbsp;&nbsp; ";
 			this.code+= "<a href=\"#"+m.getMultiFile().get(i).replaceAll("(/)([0-9])*$", "$2")+"\">"+m.getMultiFile().get(i)+"</a>";			// regex $ end of line
 		}
 		this.code += " </h2>";
