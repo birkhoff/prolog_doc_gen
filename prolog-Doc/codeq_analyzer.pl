@@ -161,7 +161,6 @@ write_calls([call(Module,Name,Ar)|Calls]) :-
 write_xml_representation :-
     update_calls_all_preds,
     stream(Stream),
-	write(Stream,'<?xml version="1.0" encoding="UTF-8"?>'),nl,
 	write(Stream,'<programm>'), nl,
     in_module(Module),
     module_pos(StartLine,EndLine),
@@ -389,6 +388,24 @@ analyze_file(FileName):-
 
 
 analyze_file(FileName, XMLFile):-
+	prolog_flag(redefine_warnings, _, off),
+	on_exception(X,
+		(	
+			use_module(FileName),
+			open(XMLFile,write,Stream),
+			assert(stream(Stream)),	
+			write(Stream,'<?xml version="1.0" encoding="UTF-8"?>'),nl,	
+			write_xml_representation,
+			close(Stream),
+			retract(stream(Stream)),
+			halt(0)
+		),
+	(
+		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
+	).
+	
+
+analyze_files([FileName|T], XMLFile):-
 	prolog_flag(redefine_warnings, _, off),
 	on_exception(X,
 		(	
