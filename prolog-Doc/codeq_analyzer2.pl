@@ -14,7 +14,7 @@
 :- op(300, fy, ~~).
 
 
-:- dynamic exports/3, imports/3, imports/1, predicates/8, dynamics/1, metas/2, volatiles/1, multifiles/1,in_module/1, in_clause/2, module_pos/2, ops/3, blocking/2, modes/2, stream/1. 
+:- dynamic exports/3, exports/4,  imports/3, imports/4, imports/1, imports/2, predicates/9, dynamics/1, metas/2, dynamics/2, metas/3, volatiles/1, multifiles/1,in_module/1, in_module/2, in_clause/2, module_pos/2, ops/3, blocking/2, modes/2, stream/1, file_name/1. 
 
 in_module('user').
 module_pos(1,1).
@@ -31,12 +31,26 @@ write_exports :-
     fail.
 write_exports.
 
+write_exports(File) :-
+    exports(File,Module,Name,Arity),
+	stream(Stream),
+    escaping_format(Stream,'\n\t<export>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</export>\n\n', [Module,Name,Arity]),
+    fail.
+write_exports(_File).
+
 write_import1 :-
     imports(Name),
 	stream(Stream),
     escaping_format(Stream,'\n\t<name>"~w"</name>\n',[Name]),
     fail.
 write_import1.
+
+write_import1(File) :-
+    imports(File,Name),
+	stream(Stream),
+    escaping_format(Stream,'\n\t<name>"~w"</name>\n',[Name]),
+    fail.
+write_import1(_File).
     
 write_import3 :-
     imports(Module,Name,Arity),
@@ -45,12 +59,26 @@ write_import3 :-
     fail.
 write_import3.
 
+write_import3(File) :-
+    imports(File,Module,Name,Arity),
+	stream(Stream),
+    escaping_format(Stream,'\n\t<import>\n\t\t<module>"~w"</module>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t</import>\n\n', [Module,Name,Arity]),
+    fail.
+write_import3(_File).
+
 write_ops3 :-
     ops(Prio,Ass,Name),
 	stream(Stream),
     escaping_format(Stream,'\n\t<op>\n\t\t<priority>"~w"</priority>\n\t\t<ass>"~w"</ass>\n\t\t<name>~w</name>\n\t</op>\n\n', [Prio,Ass,Name]),
     fail.
 write_ops3.
+
+write_ops3(File) :-
+    ops(File,Prio,Ass,Name),
+	stream(Stream),
+    escaping_format(Stream,'\n\t<op>\n\t\t<priority>"~w"</priority>\n\t\t<ass>"~w"</ass>\n\t\t<name>~w</name>\n\t</op>\n\n', [Prio,Ass,Name]),
+    fail.
+write_ops3(_File).
 
 write_mode(Name/Ar):-
  	modes(Name/Ar, Args), 
@@ -59,12 +87,26 @@ write_mode(Name/Ar):-
 	fail.
 write_mode(_Name/_Ar).
 
+write_mode(File, Name/Ar):-
+ 	modes(File,Name/Ar, Args), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t\t\t<mode>~w~w</mode>', [Name, Args]),
+	fail.
+write_mode(_File, _Name/_Ar).
+
 write_blocking(Name/Ar):-
  	blocking(Name/Ar, Args), 
 	stream(Stream),
 	escaping_format(Stream,'\n\t\t\t<blocking>~w~w</blocking>', [Name, Args]),
 	fail.
 write_blocking(_Name/_Ar).
+
+write_blocking(File,Name/Ar):-
+ 	blocking(File, Name/Ar, Args), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t\t\t<blocking>~w~w</blocking>', [Name, Args]),
+	fail.
+write_blocking(_File,_Name/_Ar).
 
 write_multifiles :-
  	multifiles(Name/Ar), 
@@ -73,12 +115,27 @@ write_multifiles :-
 	fail.
 write_multifiles.
 
+
+write_multifiles(File) :-
+ 	multifiles(File,Name/Ar), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t<multifile>~w/~w</multifile>', [Name, Ar]),
+	fail.
+write_multifiles(_File).
+
 write_dynamics :-
  	dynamics(Name/Ar), 
 	stream(Stream),
 	escaping_format(Stream,'\n\t<dynamics>~w/~w</dynamics>', [Name, Ar]),
 	fail.
 write_dynamics.
+
+write_dynamics(File) :-
+ 	dynamics(File,Name/Ar), 
+	stream(Stream),
+	escaping_format(Stream,'\n\t<dynamics>~w/~w</dynamics>', [Name, Ar]),
+	fail.
+write_dynamics(_File).
 
 write_metas(Name/Ar) :-
  	stream(Stream),
@@ -87,20 +144,32 @@ write_metas(Name/Ar) :-
 	fail.
 write_metas(_Name/_Ar).
 
+write_metas(File,Name/Ar) :-
+ 	stream(Stream),
+	metas(File,Name/Ar, Arg), 
+	escaping_format(Stream,'~w~w\t', [Name, Arg]),
+	fail.
+write_metas(_File,_Name/_Ar).
+
 write_predicates([]).
 write_predicates([pr(Name,Ar)|Names]) :-
     write_predicates2(_,Name,Ar,[],[],[],[],0),
     write_predicates(Names).
 
+write_predicates([],_File).
+write_predicates([pr(Name,Ar)|Names],File) :-
+    write_predicates2(_,Name,Ar,[],[],[],[],0,File),
+    write_predicates(Names,File).
+
 % write_predicates Module writes predicates of a given module
 
-% write_predicates(Module) :-		
-%    findall(pr(Name,Ar), predicates(Module,Name,Ar,_,_,_,_,_), ListOfNames),
+%write_predicates(Module) :-		
+%    findall(pr(Name,Ar), predicates(Module,Name,Ar,_,_,_,_,_,_), ListOfNames),
 %    remove_dups(ListOfNames,ListOfNames2),
 %    write_predicates(ListOfNames2).
 
 write_predicates :-
-    findall(pr(Name,Ar), predicates(_,Name,Ar,_,_,_,_,_), ListOfNames),
+    findall(pr(Name,Ar), predicates(_,Name,Ar,_,_,_,_,_,_), ListOfNames),
     remove_dups(ListOfNames,ListOfNames2),
     write_predicates(ListOfNames2).
 
@@ -129,7 +198,7 @@ is_multifile(_Name,_Ar,'\n\t\t<multifile>false</multifile>').
 
 
 write_predicates2(Module,Name,Ar,Code,Calls,StartLines,EndLines,VC) :-
-    retract(predicates(Module,Name,Ar,Args1,Body1,Calls1,StartLine,EndLine)),
+    retract(predicates(Module,Name,Ar,Args1,Body1,Calls1,StartLine,EndLine,_FileName)),
     bind_args(Args1,VC,VCN),
     bind_args(Body1,VCN,VCN2),
     NewCode = [ Args1, Body1|Code],
@@ -152,6 +221,35 @@ write_predicates2(_Module,Name,Ar,_Code,Calls,StartLines,EndLines,_VNC) :-
 	write(Stream,'\n\t\t</modedeclaration>'),
     write(Stream,'\n\t</predicate>\n'),nl.
 	    
+	
+%%%%%%%	
+
+write_predicates2(Module,Name,Ar,Code,Calls,StartLines,EndLines,VC, FileName) :-
+    retract(predicates(Module,Name,Ar,Args1,Body1,Calls1,StartLine,EndLine,FileName)),
+    bind_args(Args1,VC,VCN),
+    bind_args(Body1,VCN,VCN2),
+    NewCode = [ Args1, Body1|Code],
+    append(Calls,Calls1,NewCalls),
+    write_predicates2(Module,Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2, FileName).
+write_predicates2(_Module,Name,Ar,_Code,Calls,StartLines,EndLines,_VNC,FileName) :-
+    is_dynamic(FileName,Name,Ar,Dynamic), is_meta(FileName,Name,Ar,Meta), is_volatile(FileName,Name,Ar,Volatile), is_multifile(FileName,Name,Ar,Multifile),
+    stream(Stream),
+	escaping_format(Stream,'\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w ~w ~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta, Volatile,Multifile]),
+	setify(Calls, CallsNoDups),
+	write_calls(CallsNoDups), write(Stream,'\n\t\t</calls>'),
+	write(Stream, '\n\t\t<meta_args>'),
+	write_metas(FileName,Name/Ar),
+	write(Stream, '</meta_args>'),
+	write(Stream,'\n\t\t<block>'),
+	write_blocking(FileName,Name/Ar),
+	write(Stream,'\n\t\t</block>'),
+	write(Stream,'\n\t\t<modedeclaration>'),
+	write_mode(FileName,Name/Ar),
+	write(Stream,'\n\t\t</modedeclaration>'),
+    write(Stream,'\n\t</predicate>\n'),nl.	
+	
+%%%%%%%	
+	
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
 	escape_single_argument(Name, EscapedName),
@@ -177,16 +275,36 @@ write_xml_representation :-
 	write(Stream,'\n<ops>\n'), write_ops3, write(Stream,'</ops>\n'), nl,
     write(Stream,'</programm>').
 
+
+write_xml_representation(File) :-
+    update_calls_all_preds,
+    stream(Stream),
+	write(Stream,'<programm>'), nl,
+    in_module(File, Module),
+    module_pos(StartLine,EndLine),
+    escaping_format(Stream,'<module>"~w"</module>\n\n', [Module]),
+    escaping_format(Stream,'<module_startline>~w</module_startline>\n', [StartLine]),
+    escaping_format(Stream,'<module_endline>~w</module_endline>\n', [EndLine]),
+    write(Stream,'<exports>\n'), write_exports(File), write(Stream,'</exports>'), nl,
+	write(Stream,'\n<multifiles>\n'), write_multifiles, write(Stream,'\n</multifiles>\n'),
+	write(Stream,'\n<dynamic_predicates>\n'), write_dynamics(File), write(Stream,'\n</dynamic_predicates>\n'),
+    write(Stream,'\n<predicates>\n\n'), write_predicates(File), write(Stream,'</predicates>'), nl,
+    write(Stream,'<import_modules>'), write_import1(File), write(Stream,'</import_modules>'), nl,
+    write(Stream,'<import_predicates>\n'), write_import3(File), write(Stream,'</import_predicates>'), nl,
+	write(Stream,'\n<ops>\n'), write_ops3(File), write(Stream,'</ops>\n'), nl,
+    write(Stream,'</programm>').
+
+
 update_calls_all_preds :-
-    findall(pred(Module,Name,Ar,Arguments,Body,Calls,Start,End),
-	    predicates(Module,Name,Ar,Arguments,Body,Calls,Start,End),
+    findall(pred(Module,Name,Ar,Arguments,Body,Calls,Start,End,FileName),
+	    predicates(Module,Name,Ar,Arguments,Body,Calls,Start,End,FileName),
 	    ListOfAssertedPreds),
     maplist(update_calls,ListOfAssertedPreds).
 
 update_calls(pred(Module,Name,Ar,Arguments,Body,Calls,Start,End)) :-
     maplist(update_call,Calls,UpdatedCalls),
-    retract(predicates(Module,Name,Ar,Arguments,Body,Calls,Start,End)),
-    assert(predicates(Module,Name,Ar,Arguments,Body,UpdatedCalls,Start,End)).
+    retract(predicates(Module,Name,Ar,Arguments,Body,Calls,Start,End,FileName)),
+    assert(predicates(Module,Name,Ar,Arguments,Body,UpdatedCalls,Start,End,FileName)).
 
 update_call(call(Module,Call,Arity),call(Module2,Call,Arity)) :-
     Module = nil
@@ -203,7 +321,7 @@ update_module(Call,Arity,Module2) :-
     in_module(X), functor(CallAndVar,Call,Arity),
     (predicate_property(X:CallAndVar,built_in) -> Module2 = built_in ;
      predicate_property(X:CallAndVar,imported_from(From)) -> Module2 = From ;
-     predicates(_,Call,Arity,_,_,_,_,_) -> Module2 = X ;
+     predicates(_,Call,Arity,_,_,_,_,_,_) -> Module2 = X ;
      imports(ModuleI,Call,Arity) -> Module2 = ModuleI ;
      dynamics(Call/Arity) -> Module2 = 'dynamic predicate';
      otherwise -> Module2 = foo_error).
@@ -265,15 +383,26 @@ recursive_call(Mod,Fun,Ar) :-
     in_module(Mod), in_clause(Fun,Ar).
 
 assert_exports(Name,N/A) :-
-    !, assert(exports(Name,N,A)).
+    !, assert(exports(Name,N,A)),
+	file_name(File),
+	assert(exports(File,Name,N,A)).
 assert_imports(Name,N/A) :-
-    !, assert(imports(Name,N,A)).
+    !, assert(imports(Name,N,A)),
+	file_name(File),
+	assert(imports(File,Name,N,A)).
 assert_imports(Name) :-
-    !, assert(imports(Name)).
+    !, assert(imports(Name)),
+	file_name(File),
+	assert(imports(File,Name)).
 assert_dynamics((X,Y)) :-
-    !, assert(dynamics(X)), assert_dynamics(Y).
+    !, assert(dynamics(X)), 
+	file_name(File),
+	assert(dynamics(File,X)),
+	assert_dynamics(Y).
 assert_dynamics(X) :-
-    !, assert(dynamics(X)).
+    !, assert(dynamics(X)),
+	file_name(File),
+	assert(dynamics(File,X)).
 
 assert_metas((X,Y)) :-
     !, assert_metas(X), assert_metas(Y).
@@ -322,6 +451,7 @@ analyze((:- module(Name, ListOfExported)), _Layout, (:- module(Name,ListOfExport
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     retract(module_pos(_,_)), retract(in_module(_)),
     assert(in_module(Name)), assert(module_pos(StartLine,EndLine)),  maplist(assert_exports(Name),ListOfExported).
+	
 analyze((:- use_module(Name, ListOfImported)), _Layout, (:- true)) :-
     !, unwrap_module(Name,UnwrappedName),
     maplist(assert_imports(UnwrappedName),ListOfImported).
@@ -330,7 +460,7 @@ analyze((:- use_module([H|T])), _Layout, (:- true)) :-
     maplist(assert_imports,Names).
 analyze((:- use_module(Name)), _Layout, (:- true)) :- 
     !, unwrap_module(Name,UnwrappedName),
-    assert(imports(UnwrappedName)).
+	assert(imports(UnwrappedName)).
 
 analyze((:- dynamic(X)), _Layout, (:- dynamic(X))) :-
     !, assert_dynamics(X).
@@ -365,7 +495,8 @@ analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
     flatten([LayoutHead|LayoutSub],[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     in_module(Module),
-	assert(predicates(Module,Name,Ar,Args,Body,Calls,StartLine,EndLine)),
+	file_name(FileName),
+	assert(predicates(Module,Name,Ar,Args,Body,Calls,StartLine,EndLine,FileName)),
     assert(in_clause(Name,Ar)).
 
 
@@ -376,7 +507,8 @@ analyze(Fact, Layout, Fact) :-
  	flatten(Layout,[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
 	in_module(Module),
-    assert(predicates(Module,Name,Ar,Args,'',[],StartLine,EndLine)).
+	file_name(FileName),
+    assert(predicates(Module,Name,Ar,Args,'',[],StartLine,EndLine,FileName)).
 
 
 analyze_file(FileName):-
@@ -406,14 +538,14 @@ analyze_file(FileName, XMLFile):-
 	).
 	
 
-analyze_files([FileName|T], XMLFile):-
+analyze_list_of_files(FileList, XMLFile):-
 	prolog_flag(redefine_warnings, _, off),
 	on_exception(X,
 		(	
-			use_module(FileName),
+			use_all_modules(FileList),
 			open(XMLFile,write,Stream),
 			assert(stream(Stream)),		
-			write_xml_representation,
+			write_all_xmls(FileList),
 			close(Stream),
 			retract(stream(Stream)),
 			halt(0)
@@ -422,6 +554,18 @@ analyze_files([FileName|T], XMLFile):-
 		print('{:error \"'),print(X),print('\"}'),nl,halt(1))
 	).
 
+use_all_modules([]).
+use_all_modules([File|Tail]):-
+	assert(file_name(File)),
+	use_module(File),
+	retract(file_name(File)),
+	use_all_modules(Tail).
+	
+write_all_xmls([]).
+write_all_xmls([File|Tail]):-
+	write_xml_representation(File),
+	write_all_xmls(Tail).
+	
 
 user:term_expansion(Term1, Lay1, Tokens1, Term2, [], [codeq | Tokens1]) :-
     nonmember(codeq, Tokens1), % do not expand if already expanded
