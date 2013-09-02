@@ -348,8 +348,8 @@ public class HTML_Generator {
 		this.code += "<p><h4>Dynamic Predicates: "; 
 		for(int i = 0; i < m.getDynamics().size(); i++){
 			String current = m.getDynamics().get(i);
-			this.code += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
-			this.code+= "<a href=\"#"+current.replaceAll("(/)([0-9])*$", "$2")+"\">"+current+"</a>";											// regex $ end of line
+			this.code += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ";
+			this.code+= " <a href=\"#"+current.replaceAll("(/)([0-9])*$", "$2")+"\">"+current+"</a> ";											// regex $ end of line
 		}
 		this.code += "</p>";
 	}
