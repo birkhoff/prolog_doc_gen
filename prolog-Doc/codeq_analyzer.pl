@@ -242,6 +242,14 @@ analyze_body(if(A,B,C),Layout,[call('built_in', 'if', 3)|Calls]) :-
     analyze_body(B,LayoutB,CallsB),
     analyze_body(C,LayoutC,CallsC),
     append(CallsA,CallsB,CallsT), append(CallsT,CallsC,Calls).
+
+analyze_body(when(A,B),Layout,[call('built_in', 'when', 2)|Calls]) :-
+    !, layout_sub_term(Layout,2,LayoutA),
+    layout_sub_term(Layout,3,LayoutB),
+    analyze_body(A,LayoutA,CallsA),
+    analyze_body(B,LayoutB,CallsB),
+    append(CallsA,CallsB,Calls).
+
 analyze_body((A,B),Layout,Calls) :-
     !, layout_sub_term(Layout,2,LayoutA),
     layout_sub_term(Layout,3,LayoutB),
