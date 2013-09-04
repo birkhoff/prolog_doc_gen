@@ -17,7 +17,7 @@ public class HTML_Generator {
 		
 	}
 	
-	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, String destFolder){
+	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, List<Predicate> AllEmphasized, List<Module> AllEmphasizedModules,String destFolder){
 		
 		this.destination = destFolder;
 		this.Modules = modules;
@@ -34,8 +34,9 @@ public class HTML_Generator {
 		
 		try {
 			this.generateModuleIndex();
-			this.generatePredicateIndex(AllPredicates);
-			this.generateUndocumentedIndex(AllUndocumented);
+			this.generatePredicateIndex(AllPredicates, "PredicateIndex");
+			this.generatePredicateIndex(AllUndocumented,"UndocumentedPredicateIndex");
+			this.generatePredicateIndex(AllEmphasized, "EmphasizedPredicateIndex");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,7 +98,7 @@ public class HTML_Generator {
 	}
 	
 	
-	private void generatePredicateIndex(List<Predicate> AllPredicates) throws IOException{
+	private void generatePredicateIndex(List<Predicate> AllPredicates, String Output) throws IOException{
 		BufferedReader br;
 		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
 	
@@ -124,7 +125,7 @@ public class HTML_Generator {
 	    this.generateBottom();
 	    
 	    code += "\n</body>\n</html>";
-	    this.writeToFile("PredicateIndex");
+	    this.writeToFile(Output);
 	    code = "";
 	    
 	}
@@ -153,39 +154,7 @@ public class HTML_Generator {
 		
 		return PredicateLinks;
 	}
-	
-	
-	private void generateUndocumentedIndex(List<Predicate> AllUndocumented) throws IOException{
-		BufferedReader br;
-		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
-	
-	    try {
-	        StringBuilder sb = new StringBuilder();
-	        String line = br.readLine();
 
-	        while (line != null && !line.equalsIgnoreCase("null") ) {
-	            sb.append(line);
-	            sb.append("\n");
-	            line = br.readLine();
-	        }
-	        code+= sb.toString();
-	    } finally {
-	        br.close();
-	    }
-	    
-	    code += "#TOP";
-	    code += "\" name=\""+"module_index"+"\">"+"Predicate Index"+"</a></h1>\n</div>";
-	    code += "\n\n <div id=\"b3\" class=\"box\">\n<h3>Predicates</h3>\n";
-	    code += this.getAllPredicates(AllUndocumented);
-	    code += "</div>";
-	    
-	    this.generateBottom();
-	    
-	    code += "\n</body>\n</html>";
-	    this.writeToFile("UndocumentedPredicateIndex");
-	    code = "";
-	    
-	}
 	
 	private void generateSinglePage(Module m) throws IOException{
 		
@@ -296,7 +265,7 @@ public class HTML_Generator {
 			if(p.isDynamic())code += "<p>"+"Dynamic"+": "+p.isDynamic()+"</p>\n";
 			if(p.isMeta()) code += "<p>"+"Meta"+": "+p.getMetaInformation()+"</p>\n";
 			if(p.isMultiFile()) code += "<p>"+"Multifile"+": "+p.isMultiFile()+"</p>\n";
-			if(p.getBlockingInformation() != null) code += "<p>"+"Blocking"+": "+p.getBlockingInformation()+"</p>\n";
+			if(p.getBlockingInformation() != null) code += "<p>"+"Block"+": "+p.getBlockingInformation()+"</p>\n";
 			
 			// codeblock
 			code += "<input type='button' id=\"button\" value=\"Code\" onclick=\"javascript:hidecode('"+pName+"code"+"')\">\n";

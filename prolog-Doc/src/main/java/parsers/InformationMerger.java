@@ -10,6 +10,7 @@ public class InformationMerger {
 
 	public List<Predicate> MergedPredicates;
 	public List<Predicate> Undocumented;
+	public List<Predicate> Emphasize;
 	//public List<DocInformation> DocInfos;
 	public HashMap<String, Predicate> PredicatesHashMap;
 	
@@ -17,6 +18,7 @@ public class InformationMerger {
 	
 	public InformationMerger(){
 		
+		this.Emphasize = new LinkedList<Predicate>();
 		this.Undocumented = new LinkedList<Predicate>();
 		this.MergedPredicates = new LinkedList<Predicate>();
 		this.PredicatesHashMap = new HashMap<String, Predicate>();
@@ -69,6 +71,7 @@ public class InformationMerger {
 				Undocumented.add(predicates.get(i));
 				PredicatesHashMap.put(predicates.get(i).getName(), predicates.get(i));
 			}
+			if(predicates.get(i).getEmphasize())	Emphasize.add(predicates.get(i));
 		}
 		if (MergedPredicates.size() > 0) {
 			Collections.sort(MergedPredicates, new Comparator<Predicate>() {
@@ -121,6 +124,7 @@ public class InformationMerger {
 		merged.setMultiFile(predicate.isMultiFile());
 		merged.setMetaInformation(predicate.getMetaInformation());
 		merged.setMode(predicate.getMode());
+		merged.setEmphasize(predicate.getEmphasize());
 		
 		if(doc.getMode() != null && predicate.getMode() == null) merged.setMode(doc.getMode());
 		if(doc.getDate()!= null) merged.setDate(doc.getDate());

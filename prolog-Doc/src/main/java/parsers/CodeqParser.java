@@ -92,6 +92,10 @@ public class CodeqParser {
 					if( this.getValue("multifile", element).contains("true")) isMultifile = true;
 					predicate.setMultiFile(isMultifile);
 					
+					Boolean emphasize = false;
+					if( this.getValue("emphasize", element).contains("true")) emphasize = true;
+					predicate.setEmphasize(emphasize);
+					
 					Boolean meta = false;
 					if( this.getValue("meta", element).toLowerCase().contains("true")){
 						meta = true;

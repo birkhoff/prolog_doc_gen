@@ -26,6 +26,7 @@ public class Predicate {
 	private String Module;
 	private List<String> Code;
 	private String CodeString;
+	private Boolean Emphasize;
 		
 	
 	public Predicate(){
@@ -316,6 +317,14 @@ public class Predicate {
 
 	public void setBlockingInformation(String blockingInformation) {
 		BlockingInformation = blockingInformation;
+	}
+
+	public Boolean getEmphasize() {
+		return Emphasize;
+	}
+
+	public void setEmphasize(Boolean emphasize) {
+		Emphasize = emphasize;
 	}
 
 }

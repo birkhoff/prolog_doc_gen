@@ -17,8 +17,10 @@ public class Compiler {
 	public static List<Predicate> Predicates;
 	public static List <Predicate> AllPredicates;
 	public static List <Predicate> AllUndocumented;
+	public static List <Predicate> AllEmphasized;
 	public static Module Module;
 	public static List<Module> Modules;
+	public static List<Module> AllEmphasizedModules;
 	public static String loadingString= "";
 	public static int NumberOfFiles;
 	public static int CurrentFileNumber;
@@ -30,6 +32,8 @@ public class Compiler {
 		Modules = new LinkedList<Module>();
 		AllPredicates = new LinkedList<Predicate>();
 		AllUndocumented = new LinkedList<Predicate>();
+		AllEmphasizedModules = new LinkedList<Module>();
+		AllEmphasized = new LinkedList<Predicate>();
 				
 		setFlags(args);
 		
@@ -58,7 +62,7 @@ public class Compiler {
 		}
 		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
-		generator.generateDoc(Modules, AllPredicates, AllUndocumented, destinationFolder);
+		generator.generateDoc(Modules, AllPredicates, AllUndocumented, AllEmphasized, AllEmphasizedModules, destinationFolder);
 		System.out.println("\n");
 	
 	}
@@ -156,7 +160,7 @@ public class Compiler {
 	   
 		try {
 			String cmd[] = {"bash", "-c", 
-						"sicstus -l codeq_analyzer --goal \"analyze_file('"+nameOfFile+"','"+"foo.xml"+"').\""} ;
+						"sicstus -l codeq_analyzer_2 --goal \"analyze_file('"+nameOfFile+"','"+"foo.xml"+"').\""} ;
 			
 			ProcessBuilder pb = new ProcessBuilder(cmd);
 			pb.redirectErrorStream(true);
@@ -206,6 +210,10 @@ public class Compiler {
 		  //File xml = new File("foo.xml");
 		  //xml.delete();
 		  AllUndocumented.addAll(merger.Undocumented);
+		  if(merger.Emphasize.size()>0){
+			  AllEmphasized.addAll(merger.Emphasize);
+			  AllEmphasizedModules.add(Module);
+		  }
 		  		  
 	}
 	

@@ -16,6 +16,15 @@
 
 :- dynamic current_file/1, file_name/1, exports/4, imports/4, imports/2, predicates/9, dynamics/2, metas/3, volatiles/2, multifiles/2, in_module/2, in_clause/2, module_pos/3, ops/4, blocking/3, modes/3, stream/1. 
 
+
+
+
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File):-
+	!,
+	member(call(_,assert,_), Calls).
+
+
+
 in_module('user').
 module_pos(1,1).
 
@@ -24,6 +33,17 @@ flatten1([],L,L) :- !.
 flatten1([H|T],Tail,List) :- !, flatten1(H,FlatList,List), flatten1(T,Tail,FlatList).
 flatten1(NonList,Tail,[NonList|Tail]).
 
+
+write_emphasize(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File):-
+	emphasize_predicate(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File), 
+	!,
+	stream(Stream),
+	write(Stream,'\n\t\t<emphasize>true</emphasize>\n').
+write_emphasize(_Module,_Name,_Ar,_Code,_Calls,_StartLines,_EndLines,_VNC,_File):-
+	!,
+	stream(Stream),
+	write(Stream,'\n\t\t<emphasize>false</emphasize>\n').
+	
 write_exports(File) :-
     exports(File,Module,Name,Arity),
 	stream(Stream),
@@ -76,7 +96,7 @@ write_multifiles(_File).
 write_dynamics(File) :-
  	dynamics(File,Name/Ar), 
 	stream(Stream),
-	escaping_format(Stream,'\n\t<dynamics>~w/~w</dynamics>', [Name, Ar]),
+	escaping_format(Stream,'\n\t<dynamics>~w/~w</dynamics>\n', [Name, Ar]),
 	fail.
 write_dynamics(_File).
 
@@ -136,7 +156,7 @@ write_predicates2(Module,Name,Ar,Code,Calls,StartLines,EndLines,VC,FileName) :-
     NewCode = [ Args1, Body1|Code],
     append(Calls,Calls1,NewCalls),
     write_predicates2(Module,Name,Ar,NewCode,NewCalls,[StartLine|StartLines],[EndLine|EndLines],VCN2,FileName).
-write_predicates2(_Module,Name,Ar,_Code,Calls,StartLines,EndLines,_VNC,File) :-
+write_predicates2(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File) :-
     is_dynamic(File,Name,Ar,Dynamic), is_meta(File,Name,Ar,Meta), is_volatile(File,Name,Ar,Volatile), is_multifile(File,Name,Ar,Multifile),
     stream(Stream),
 	escaping_format(Stream,'\t<predicate>\n\t\t<name>"~w"</name>\n\t\t<arity>~w</arity>\n\t\t<startlines>~w</startlines>\n\t\t<endlines>~w</endlines>\n\t\t~w\n\t\t~w ~w ~w\n\t\t<calls>',[Name,Ar,StartLines,EndLines,Dynamic,Meta, Volatile,Multifile]),
@@ -151,7 +171,8 @@ write_predicates2(_Module,Name,Ar,_Code,Calls,StartLines,EndLines,_VNC,File) :-
 	write(Stream,'\n\t\t<modedeclaration>'),
 	write_mode(File,Name/Ar),
 	write(Stream,'\n\t\t</modedeclaration>'),
-    write(Stream,'\n\t</predicate>\n'),nl.
+	write_emphasize(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File),
+    write(Stream,'\n\t</predicate>\n').
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-
@@ -248,6 +269,14 @@ analyze_body(if(A,B,C),Layout,[call('built_in', 'if', 3)|Calls]) :-
     analyze_body(B,LayoutB,CallsB),
     analyze_body(C,LayoutC,CallsC),
     append(CallsA,CallsB,CallsT), append(CallsT,CallsC,Calls).
+
+analyze_body(when(A,B),Layout,[call('built_in', 'when', 2)|Calls]) :-
+    !, layout_sub_term(Layout,2,LayoutA),
+    layout_sub_term(Layout,3,LayoutB),
+    analyze_body(A,LayoutA,CallsA),
+    analyze_body(B,LayoutB,CallsB),
+    append(CallsA,CallsB,Calls).
+
 analyze_body((A,B),Layout,Calls) :-
     !, layout_sub_term(Layout,2,LayoutA),
     layout_sub_term(Layout,3,LayoutB),
@@ -280,7 +309,8 @@ assert_imports(Name) :-
     !, file_name(File),
 	assert(imports(File,Name)).
 assert_dynamics((X,Y)) :-
-    !, assert(dynamics(X)), assert_dynamics(Y).
+    !, file_name(File),
+ 	assert(dynamics(File,X)), assert_dynamics(Y).
 assert_dynamics(X) :-
     !, file_name(File),
 	assert(dynamics(File,X)).
@@ -420,10 +450,16 @@ analyze_file(FileName, XMLFile):-
 			open(XMLFile,write,Stream),
 			assert(stream(Stream)),	
 			write(Stream,'<?xml version="1.0" encoding="UTF-8"?>\n'),	
+			
+			assert(current_file(File)),
 			write_xml_representation(FileName),
+			retract(current_file(File)),
+			
 			close(Stream),
 			retract(file_name(FileName)),
 			retract(stream(Stream)),
+		
+			delete_user_module(FileName),
 			halt(0)
 		),
 	(

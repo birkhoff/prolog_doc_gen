@@ -53,7 +53,8 @@ bar(X):-
 
 bam('aakakakakaakakakakaakakakakakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaa').
 
-bull('kakakakaa', 'kakakakaakakakakaakakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakaakakakakaakakakakaakakakakaa').
+bull('kakakakaa', 'kakakakaakakakakaakakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakaakakakakaakakakakaakakakakaa'):-
+	jim(Kaka).
 
 :- volatile is_not_visited/2.
 :- mode is_not_visited(+,+), is_not_visited(+,-).

@@ -20,7 +20,7 @@ body { margin:0; padding:0; }
 #body { background-color:#cbeefb;}
 
 #navi {
-		float: middle; position:fixed; width: 99.5%; height:25px; outline: 1px; font-family:verdana;
+		float: middle; position:fixed; width: 99.5%;  outline: 1px; font-family:verdana;
 		border-radius:2px;border:0px solid #a7bec6; background-color:#cbeefb; z-index: 1000;
 		border-radius:1px;border:2px solid #9ae1fb; 	
 	}
@@ -64,13 +64,15 @@ background-color: rgb(200, 220, 220);
 </head>
 <body id="body" link="#067494" vlink="#1e7790" alink="#12c2c0">
 <div id="navi" class="menuBar">
-	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="ModuleIndex.html">Module Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="PredicateIndex.html">Predicate Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	<a href="UndocumentedPredicateIndex.html">Undocumented Predicates Index</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<a href="EmphasizedPredicateIndex.html">Emphasized Predicates Index</a>
 </div>	
 
 <div id="b1" class="box">
