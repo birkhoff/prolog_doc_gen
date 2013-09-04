@@ -14,7 +14,7 @@
 :- op(300, fy, ~~).
 
 
-:- dynamic current_file/1, file_name/1, exports/4, imports/4, imports/2, predicates/9, dynamics/2, metas/3, volatiles/2, multifiles/2, in_module/2, in_clause/2, module_pos/3, ops/4, blocking/3, modes/3, stream/1. 
+:- dynamic called/4, current_file/1, file_name/1, exports/4, imports/4, imports/2, predicates/9, dynamics/2, metas/3, volatiles/2, multifiles/2, in_module/2, in_clause/2, module_pos/3, ops/4, blocking/3, modes/3, stream/1. 
 
 
 
