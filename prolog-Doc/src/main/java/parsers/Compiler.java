@@ -16,6 +16,7 @@ public class Compiler {
 	public static List<DocInformation> docInfos;
 	public static List<Predicate> Predicates;
 	public static List <Predicate> AllPredicates;
+	public static List <Predicate> AllUndocumented;
 	public static Module Module;
 	public static List<Module> Modules;
 	public static String loadingString= "";
@@ -28,6 +29,7 @@ public class Compiler {
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
 		AllPredicates = new LinkedList<Predicate>();
+		AllUndocumented = new LinkedList<Predicate>();
 				
 		setFlags(args);
 		
@@ -56,7 +58,7 @@ public class Compiler {
 		}
 		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
-		generator.generateDoc(Modules, AllPredicates,destinationFolder);
+		generator.generateDoc(Modules, AllPredicates, AllUndocumented, destinationFolder);
 		System.out.println("\n");
 	
 	}
@@ -203,7 +205,7 @@ public class Compiler {
 		  Modules.add(Module);
 		  //File xml = new File("foo.xml");
 		  //xml.delete();
-
+		  AllUndocumented.addAll(merger.Undocumented);
 		  		  
 	}
 	

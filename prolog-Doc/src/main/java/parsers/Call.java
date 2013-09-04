@@ -10,6 +10,7 @@ public class Call {
 	*/
 	
 	private String Module;
+	private String ModuleLink;
 	private String Name;
 	private int Arity;
 	private boolean Built_in;
@@ -75,5 +76,15 @@ public class Call {
 
 	public void setPredicate(Predicate predicate) {
 		Predicate = predicate;
+	}
+
+
+	public String getModuleLink() {
+		return ModuleLink;
+	}
+
+
+	public void setModuleLink(String moduleLink) {
+		ModuleLink = moduleLink;
 	}
 }

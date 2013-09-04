@@ -13,6 +13,7 @@ public class Module {
 	private List<Predicate> Predicates;
 	private List<Call> Exports;
 	private List<Call> Imports;
+	private List<String> ImportedModules;
 	private List<String> Dynamics;
 	private HashMap<String, Predicate> PredicatesHashMap;
 	private List<String> MultiFile;
@@ -23,6 +24,7 @@ public class Module {
 		
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
+		this.ImportedModules = new LinkedList<String>();
 		this.MultiFile = new LinkedList<String>();
 		this.Dynamics = new LinkedList<String>();
 	}
@@ -33,6 +35,7 @@ public class Module {
 		this.Name = name;
 		this.Exports = new LinkedList<Call>();
 		this.Imports = new LinkedList<Call>();
+		this.ImportedModules = new LinkedList<String>();
 		this.MultiFile = new LinkedList<String>();
 		this.Dynamics = new LinkedList<String>();
 	}
@@ -163,6 +166,20 @@ public class Module {
 
 	public void setLines(int lines) {
 		Lines = lines;
+	}
+
+
+	public List<String> getImportedModules() {
+		return ImportedModules;
+	}
+
+
+	public void setImportedModules(List<String> importedModules) {
+		ImportedModules = importedModules;
+	}
+	
+	public void addImportedModule(String module){
+		this.ImportedModules.add(module);
 	}
 	
 }

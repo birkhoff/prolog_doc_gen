@@ -17,7 +17,7 @@ public class HTML_Generator {
 		
 	}
 	
-	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, String destFolder){
+	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, String destFolder){
 		
 		this.destination = destFolder;
 		this.Modules = modules;
@@ -35,6 +35,7 @@ public class HTML_Generator {
 		try {
 			this.generateModuleIndex();
 			this.generatePredicateIndex(AllPredicates);
+			this.generateUndocumentedIndex(AllUndocumented);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -151,6 +152,39 @@ public class HTML_Generator {
 		}
 		
 		return PredicateLinks;
+	}
+	
+	
+	private void generateUndocumentedIndex(List<Predicate> AllUndocumented) throws IOException{
+		BufferedReader br;
+		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
+	
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null && !line.equalsIgnoreCase("null") ) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        code+= sb.toString();
+	    } finally {
+	        br.close();
+	    }
+	    
+	    code += "#TOP";
+	    code += "\" name=\""+"module_index"+"\">"+"Predicate Index"+"</a></h1>\n</div>";
+	    code += "\n\n <div id=\"b3\" class=\"box\">\n<h3>Predicates</h3>\n";
+	    code += this.getAllPredicates(AllUndocumented);
+	    code += "</div>";
+	    
+	    this.generateBottom();
+	    
+	    code += "\n</body>\n</html>";
+	    this.writeToFile("UndocumentedPredicateIndex");
+	    code = "";
+	    
 	}
 	
 	private void generateSinglePage(Module m) throws IOException{
@@ -284,12 +318,13 @@ public class HTML_Generator {
 				Call call = p.getCallsNames().get(k);
 				String callName = call.getName().replaceAll("\"", "");
 				String callModule = call.getModule();
+				String callModuleLink = call.getModuleLink();
 				int callArity = call.getArity();
 				//code += "<div style=\"text-indent:30px;\">\n";
 				//this.code+= "<tr>"; before alternatve
 				if(k%2 == 0) 	this.code+= "<tr id=\"even\">\n";
 				else			this.code+= "<tr id=\"odd\">\n";
-				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModule)){
+				if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModuleLink)){
 					if(callArity > 0) 	code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
 					else				code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
 					
@@ -303,8 +338,8 @@ public class HTML_Generator {
 						}
 					}
 				}else{
-					code += "<td id=\"row\"><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModule+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
-					code += "<td id=\"row\">Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModule+".html\">"+callModule+"</a></p></td>\n";
+					code += "<td id=\"row\"><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModuleLink+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
+					code += "<td id=\"row\">Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModuleLink+".html\">"+callModule+"</a></p></td>\n";
 				}
 				//System.out.println(p.getName());
 				this.code+= "\n</tr>\n";
@@ -328,8 +363,12 @@ public class HTML_Generator {
 		    if(m.getDynamics().size() > 0) 	this.generateDynamics(m);
 		    this.code += "<h4>"+m.getLines()+" Lines</h4>";
 		    this.code += "<h4>"+m.getPredicates().size()+" Predicates</h4>";
+		    if(m.getImportedModules().size() > 0)	this.importedModules(m);
 		    this.code += "<h4>"+m.getExports().size()+" Exports</h4>";
-		    this.code += "<h4>"+m.getImports().size()+" Imports</h4>";
+		    if(m.getImportedModules().size()== 0) 
+		    	this.code += "<h4>"+m.getImports().size()+" Imports</h4>";
+		    else
+		    	this.code += "<h4>"+m.getImports().size()+" specified Imports</h4>";
 		    
 		    if(m.getExports().size() != 0 || m.getImports().size() != 0){
 		    	this.code += "<table  style=\"margin:auto;\"  width=80%>\n<tr>\n<th align=\"left\">Imports</th>\n<th align=\"left\">Exports</th>\n</tr>\n<tr>\n";
@@ -342,6 +381,22 @@ public class HTML_Generator {
 		    this.code += "</div><br>\n";
 		    
 		    
+	}
+	
+	private void importedModules(Module m){
+		
+		this.code += "<h4>Imported Modules: ";
+		for(int i = 0; i < m.getImportedModules().size(); i++){
+			
+			String module = m.getImportedModules().get(i);
+			this.code += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ";
+			
+			if(ModuleNames.containsKey(module)) 	
+				this.code +=  "<a href=\""+module+".html\">"+ module +"</a>" ;
+			else
+				this.code +=  module;
+		}
+		this.code += "</h4>";
 	}
 	
 	private void generateDynamics(Module m){

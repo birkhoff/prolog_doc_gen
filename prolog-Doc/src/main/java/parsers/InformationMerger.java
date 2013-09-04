@@ -9,6 +9,7 @@ import java.util.List;
 public class InformationMerger {
 
 	public List<Predicate> MergedPredicates;
+	public List<Predicate> Undocumented;
 	//public List<DocInformation> DocInfos;
 	public HashMap<String, Predicate> PredicatesHashMap;
 	
@@ -16,6 +17,7 @@ public class InformationMerger {
 	
 	public InformationMerger(){
 		
+		this.Undocumented = new LinkedList<Predicate>();
 		this.MergedPredicates = new LinkedList<Predicate>();
 		this.PredicatesHashMap = new HashMap<String, Predicate>();
 	}
@@ -64,6 +66,7 @@ public class InformationMerger {
 		for(int i = 0; i < predicates.size(); i++){
 			if(!predicates.get(i).isAttached()){
 				MergedPredicates.add(predicates.get(i));
+				Undocumented.add(predicates.get(i));
 				PredicatesHashMap.put(predicates.get(i).getName(), predicates.get(i));
 			}
 		}

@@ -17,8 +17,13 @@ body { margin:0; padding:0; }
 	 box-shadow:0px 5px 10px #666;}
 
 
-#top_margin {float: middle;width: 99.6%; height:22px; outline: 1px; font-family:verdana;border-radius:1px;border:2px solid #a7bec6; background-color:#ddf6fb; z-index: 1000;}
-#navi {float: middle; position:fixed; width: 99.5%; height:23px; outline: 1px; font-family:verdana;border-radius:2px;border:0px solid #a7bec6; background-color:#a7bec6; z-index: 1000;}
+#body { background-color:#cbeefb;}
+
+#navi {
+		float: middle; position:fixed; width: 99.5%; height:25px; outline: 1px; font-family:verdana;
+		border-radius:2px;border:0px solid #a7bec6; background-color:#cbeefb; z-index: 1000;
+		border-radius:1px;border:2px solid #9ae1fb; 	
+	}
 
 #odd{
     background-color: white;   
@@ -57,16 +62,16 @@ background-color: rgb(200, 220, 220);
 
 </style>
 </head>
-<body bgcolor=#ddf6fb link="#067494" vlink="#1e7790" alink="#12c2c0">
+<body id="body" link="#067494" vlink="#1e7790" alink="#12c2c0">
 <div id="navi" class="menuBar">
 	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="ModuleIndex.html">Module Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="PredicateIndex.html">Predicate Index</a>
-</div>
-<div id="top_margin">  </div>	
+	<a href="PredicateIndex.html">Predicate Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<a href="UndocumentedPredicateIndex.html">Undocumented Predicates Index</a>
+</div>	
 
 <div id="b1" class="box">
 <h1 align="center"><a href="

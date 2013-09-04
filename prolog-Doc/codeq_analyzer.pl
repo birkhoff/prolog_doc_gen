@@ -34,7 +34,7 @@ write_exports.
 write_import1 :-
     imports(Name),
 	stream(Stream),
-    escaping_format(Stream,'\n\t<name>"~w"</name>\n',[Name]),
+    escaping_format(Stream,'\n\t<imported_module>\n\t\t<name>"~w"</name>\n</imported_module>\n',[Name]),
     fail.
 write_import1.
     
@@ -171,9 +171,9 @@ write_xml_representation :-
     write(Stream,'<exports>\n'), write_exports, write(Stream,'</exports>'), nl,
 	write(Stream,'\n<multifiles>\n'), write_multifiles, write(Stream,'\n</multifiles>\n'),
 	write(Stream,'\n<dynamic_predicates>\n'), write_dynamics, write(Stream,'\n</dynamic_predicates>\n'),
-    write(Stream,'\n<predicates>\n\n'), write_predicates, write(Stream,'</predicates>'), nl,
+    write(Stream,'\n<predicates>\n\n'), write_predicates, write(Stream,'</predicates>\n'), nl,
     write(Stream,'<import_modules>'), write_import1, write(Stream,'</import_modules>'), nl,
-    write(Stream,'<import_predicates>\n'), write_import3, write(Stream,'</import_predicates>'), nl,
+    write(Stream,'\n<import_predicates>\n'), write_import3, write(Stream,'</import_predicates>'), nl,
 	write(Stream,'\n<ops>\n'), write_ops3, write(Stream,'</ops>\n'), nl,
     write(Stream,'</programm>').
 

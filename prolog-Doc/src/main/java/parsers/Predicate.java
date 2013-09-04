@@ -235,6 +235,12 @@ public class Predicate {
 		this.CallsNames.add(addCall);
 	}
 
+	public void addCallNames(String name, String module, String moduleLink,String arity ){
+		Call addCall = new Call(name, module, arity);
+		addCall.setModuleLink(moduleLink);
+		this.CallsNames.add(addCall);
+	}
+	
 	public boolean isAttached() {
 		return attached;
 	}

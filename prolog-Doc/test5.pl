@@ -51,8 +51,13 @@ bar(X):-
 	HTML or LaTeX.
 */
 
+bam('aakakakakaakakakakaakakakakakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaa').
+
+bull('kakakakaa', 'kakakakaakakakakaakakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakakaakakakaakakakakaakakakakaakakakakaa').
+
 :- volatile is_not_visited/2.
 :- mode is_not_visited(+,+), is_not_visited(+,-).
+
 
 is_not_visited( _ , [] ).
 is_not_visited( H, [H|_T] ):-

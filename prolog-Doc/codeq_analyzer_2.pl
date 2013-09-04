@@ -32,9 +32,9 @@ write_exports(File) :-
 write_exports(_File).
 
 write_import1(File) :-
-    imports(File,Name),
 	stream(Stream),
-    escaping_format(Stream,'\n\t<name>"~w"</name>\n',[Name]),
+	imports(File,Name),
+    escaping_format(Stream,'\n\t<imported_module>\n\t\t<name>"~w"</name>\n</imported_module>\n',[Name]),
     fail.
 write_import1(_File).
     

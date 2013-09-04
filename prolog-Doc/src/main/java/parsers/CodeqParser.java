@@ -112,12 +112,14 @@ public class CodeqParser {
 						if (call.getNodeType() == Node.ELEMENT_NODE) {
 							String callName = this.getValue("name", call_element);	//former CDataValue
 							String callModule = this.getValue("module", call_element).replaceAll("\"", "").replaceAll("\\.\\.", "-");
+							String callModuleLink = this.getValue("module", call_element).replaceAll("\"", "").replaceAll("\\.\\.", "-");;
 							String callArity = this.getValue("arity", call_element);
 							
 							if (callModule.equalsIgnoreCase("user")) {
-								callModule = this.NameOfFileNoSlash;
+								callModuleLink	= this.NameOfFileNoSlash;
+								callModule 		= this.FileName;
 							}
-							predicate.addCallNames(callName, callModule, callArity);
+							predicate.addCallNames(callName, callModule, callModuleLink,callArity);
 						
 						}
 						
@@ -308,6 +310,7 @@ private void parseModuleInformation(Document dc){
 			
 		}
 		Module = new Module(nameOfModule);
+		NodeList importModules = dc.getElementsByTagName("imported_module");
 		NodeList importNodes = dc.getElementsByTagName("import");
 		NodeList exportNodes = dc.getElementsByTagName("export");
 		NodeList multiFileNodes = dc.getElementsByTagName("multifile");
@@ -317,6 +320,7 @@ private void parseModuleInformation(Document dc){
 		Module.setPath(NameOfFile);
 		Module.setLines(File.size());
 		
+		this.parseImportedModules(importModules);
 		this.parseImports(importNodes);
 		this.parseExports(exportNodes);
 		this.parseMultiFile(multiFileNodes);
@@ -342,6 +346,23 @@ private void parseModuleInformation(Document dc){
 		}
 	}
 
+	
+	private void parseImportedModules(NodeList nodes){
+		
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+		
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element import_element = (Element) node;
+				String module = this.getValue("name", import_element).replaceAll("\"", "");
+				
+				Module.addImportedModule(module);
+								
+			}
+		}
+		//System.out.println("Length:"+ Module.getImports().size());
+	}
+	
 	private void parseImports(NodeList nodes){
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
