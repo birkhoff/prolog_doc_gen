@@ -27,10 +27,12 @@ public class Predicate {
 	private List<String> Code;
 	private String CodeString;
 	private Boolean Emphasize;
+	private List<String> EmphasizeList;
 		
 	
 	public Predicate(){
 		
+		EmphasizeList = new LinkedList<String>();
 		Code = new LinkedList<String>();
 		Calls = new LinkedList<Predicate>();
 		setCallsNames(new LinkedList<Call>());
@@ -41,6 +43,7 @@ public class Predicate {
 	
 	public Predicate(String name){
 		
+		EmphasizeList = new LinkedList<String>();
 		Code = new LinkedList<String>();
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
@@ -52,7 +55,7 @@ public class Predicate {
 
 	public Predicate( String name, int arity ){
 		
-
+		EmphasizeList = new LinkedList<String>();
 		Code = new LinkedList<String>();
 		this.Name = name;
 		this.Arity = arity;
@@ -327,4 +330,15 @@ public class Predicate {
 		Emphasize = emphasize;
 	}
 
+	public List<String> getEmphasizeList() {
+		return EmphasizeList;
+	}
+
+	public void setEmphasizeList(List<String> emphasizeList) {
+		EmphasizeList = emphasizeList;
+	}
+
+	public void addEmphasizeList(String add){
+		this.EmphasizeList.add(add);
+	}
 }

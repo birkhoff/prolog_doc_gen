@@ -17,7 +17,7 @@ public class HTML_Generator {
 		
 	}
 	
-	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, List<Predicate> AllEmphasized, List<Module> AllEmphasizedModules,String destFolder){
+	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, List<Predicate> AllEmphasized, List<Module> AllEmphasizedModules, List<EmphasizeList> EmphasizeLists, String destFolder){
 		
 		this.destination = destFolder;
 		this.Modules = modules;
@@ -34,9 +34,10 @@ public class HTML_Generator {
 		
 		try {
 			this.generateModuleIndex();
-			this.generatePredicateIndex(AllPredicates, "PredicateIndex");
-			this.generatePredicateIndex(AllUndocumented,"UndocumentedPredicateIndex");
-			this.generatePredicateIndex(AllEmphasized, "EmphasizedPredicateIndex");
+			this.generatePredicateIndex(AllPredicates, "Predicate Index","PredicateIndex");
+			this.generatePredicateIndex(AllUndocumented,"Undocumented Predicates","UndocumentedPredicateIndex");
+			//this.generatePredicateIndex(AllEmphasized, "All Emphasized Predicates","EmphasizedPredicateIndex");
+			this.generateEmphasizedPredicates(AllEmphasized,EmphasizeLists);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +64,56 @@ public class HTML_Generator {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void generateEmphasizedPredicates(List<Predicate> AllEmphasized, List<EmphasizeList> EmphasizeLists) throws IOException{
+		
+		for(int i = 0; i<EmphasizeLists.size(); i++){
+			String name = EmphasizeLists.get(i).getName();
+			String link = name.replaceAll("( |/)", "_")+"Index";
+			this.generatePredicateIndex(EmphasizeLists.get(i).getPredicates(), name, link);	
+		}
+		
+		BufferedReader br;
+		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
+	
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null && !line.equalsIgnoreCase("null") ) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        code+= sb.toString();
+	    } finally {
+	        br.close();
+	    }
+	    
+	    code += "#TOP";
+	    code += "\" name=\""+"module_index"+"\">"+ "Emphasized Predicates" +"</a></h1>\n</div>";
+	  
+	    code += "\n\n <div id=\"b3\" class=\"box\">\n";
+	    
+	    code += "<div>";
+	    	for(int i = 0; i<EmphasizeLists.size(); i++){
+	    		String name = EmphasizeLists.get(i).getName();
+	    		String link = name.replaceAll("( |/)", "_")+"Index";
+	    		code += "<li><a href=\""+ link+".html\">"+name+"</a></li>\n";
+	    			
+	    	}
+	    code += "</div>";
+	    code += "<h3>Predicates</h3>\n";
+	    code += this.getAllPredicates(AllEmphasized);
+	    code += "</div>";
+	    
+	    this.generateBottom();
+	    
+	    code += "\n</body>\n</html>";
+	    this.writeToFile("EmphasizedPredicateIndex");
+	    code = "";
+		
 	}
 	
 	private void generateModuleIndex() throws IOException{
@@ -98,7 +149,7 @@ public class HTML_Generator {
 	}
 	
 	
-	private void generatePredicateIndex(List<Predicate> AllPredicates, String Output) throws IOException{
+	private void generatePredicateIndex(List<Predicate> AllPredicates, String Header,String Output) throws IOException{
 		BufferedReader br;
 		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
 	
@@ -117,7 +168,7 @@ public class HTML_Generator {
 	    }
 	    
 	    code += "#TOP";
-	    code += "\" name=\""+"module_index"+"\">"+"Predicate Index"+"</a></h1>\n</div>";
+	    code += "\" name=\""+"module_index"+"\">"+ Header +"</a></h1>\n</div>";
 	    code += "\n\n <div id=\"b3\" class=\"box\">\n<h3>Predicates</h3>\n";
 	    code += this.getAllPredicates(AllPredicates);
 	    code += "</div>";
@@ -129,6 +180,8 @@ public class HTML_Generator {
 	    code = "";
 	    
 	}
+	
+	
 	
 	private String getAllPredicates(List<Predicate> AllPredicates){
 		if (AllPredicates.size() > 0) {

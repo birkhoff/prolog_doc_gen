@@ -92,10 +92,6 @@ public class CodeqParser {
 					if( this.getValue("multifile", element).contains("true")) isMultifile = true;
 					predicate.setMultiFile(isMultifile);
 					
-					Boolean emphasize = false;
-					if( this.getValue("emphasize", element).contains("true")) emphasize = true;
-					predicate.setEmphasize(emphasize);
-					
 					Boolean meta = false;
 					if( this.getValue("meta", element).toLowerCase().contains("true")){
 						meta = true;
@@ -103,6 +99,7 @@ public class CodeqParser {
 					}
 					predicate.setMeta(meta);
 					
+					this.setEmphasizeInformation(predicate, element);
 					this.setBlockingInformation(predicate, element);
 					this.setModeInformation(predicate, element);
 										
@@ -178,6 +175,27 @@ private void setBlockingInformation(Predicate predicate, Element node){
 	}
 		
 	predicate.setBlockingInformation(BlockingInformation);
+}
+
+private void setEmphasizeInformation(Predicate predicate, Element node){
+	
+	
+	NodeList emphasize = node.getElementsByTagName("emphasize");
+		
+	if(emphasize.getLength()>0)
+		predicate.setEmphasize(true);
+	else
+		predicate.setEmphasize(false);
+		
+	for (int j = 0; j <emphasize.getLength(); j++) {
+		
+		Node emph = emphasize.item(j);
+
+		if (emph.getNodeType() == Node.ELEMENT_NODE) {
+			predicate.addEmphasizeList(emph.getFirstChild().getNodeValue().replaceAll("\\[", "(").replaceAll("\\]", ")"));
+		}
+		
+	}
 }
 
 private void setModeInformation(Predicate predicate, Element node){

@@ -19,9 +19,11 @@
 
 
 
-emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File):-
-	!,
-	member(call(_,assert,_), Calls).
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling foo'):-
+	member(call(_,foo,_), Calls).
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling bar'):-
+	member(call(_,bar,_), Calls).
+
 
 
 
@@ -35,14 +37,13 @@ flatten1(NonList,Tail,[NonList|Tail]).
 
 
 write_emphasize(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File):-
-	emphasize_predicate(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File), 
-	!,
+	emphasize_predicate(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File,Message), 
 	stream(Stream),
-	write(Stream,'\n\t\t<emphasize>true</emphasize>\n').
-write_emphasize(_Module,_Name,_Ar,_Code,_Calls,_StartLines,_EndLines,_VNC,_File):-
-	!,
-	stream(Stream),
-	write(Stream,'\n\t\t<emphasize>false</emphasize>\n').
+	write(Stream,'\t\t\t<emphasize>'),
+	escaping_format(Stream, '~w', [Message]),
+	write(Stream,'</emphasize>\n'),
+	fail.
+write_emphasize(_Module,_Name,_Ar,_Code,_Calls,_StartLines,_EndLines,_VNC,_File).
 	
 write_exports(File) :-
     exports(File,Module,Name,Arity),
@@ -171,8 +172,10 @@ write_predicates2(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File) :-
 	write(Stream,'\n\t\t<modedeclaration>'),
 	write_mode(File,Name/Ar),
 	write(Stream,'\n\t\t</modedeclaration>'),
+	write(Stream, '\n\t\t<emphasized_predicates>\n\n'),
 	write_emphasize(Module,Name,Ar,Code,Calls,StartLines,EndLines,VNC,File),
-    write(Stream,'\n\t</predicate>\n').
+   	write(Stream, '\n\t\t</emphasized_predicates>\n'),
+	write(Stream,'\n\t</predicate>\n').
 	    
 write_calls([]).
 write_calls([call(Module,Name,Ar)|Calls]) :-

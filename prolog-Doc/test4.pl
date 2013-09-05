@@ -31,7 +31,15 @@ is_not_visited( A, [H|T] ):-
 	@descr descr
 */
 
-istrue(true).
+isfalse(X):-
+	foo(X).
+
+istrue(X):-
+	foo(X),
+	bar(X).
+	
+foo(y).
+bar(x).
 
 /** 
 	@date 2.1.3

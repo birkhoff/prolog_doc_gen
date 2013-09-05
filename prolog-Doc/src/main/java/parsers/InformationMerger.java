@@ -3,6 +3,7 @@ package src.main.java.parsers;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class InformationMerger {
 	public List<Predicate> MergedPredicates;
 	public List<Predicate> Undocumented;
 	public List<Predicate> Emphasize;
+	public List<EmphasizeList> EmphasizeList;
 	//public List<DocInformation> DocInfos;
 	public HashMap<String, Predicate> PredicatesHashMap;
 	
@@ -18,6 +20,7 @@ public class InformationMerger {
 	
 	public InformationMerger(){
 		
+		this.EmphasizeList = new LinkedList<EmphasizeList>();
 		this.Emphasize = new LinkedList<Predicate>();
 		this.Undocumented = new LinkedList<Predicate>();
 		this.MergedPredicates = new LinkedList<Predicate>();
@@ -71,7 +74,11 @@ public class InformationMerger {
 				Undocumented.add(predicates.get(i));
 				PredicatesHashMap.put(predicates.get(i).getName(), predicates.get(i));
 			}
-			if(predicates.get(i).getEmphasize())	Emphasize.add(predicates.get(i));
+			
+			// Emphasize List 
+			if(predicates.get(i).getEmphasize()){
+				this.setEmphasize(predicates.get(i));
+			}
 		}
 		if (MergedPredicates.size() > 0) {
 			Collections.sort(MergedPredicates, new Comparator<Predicate>() {
@@ -84,6 +91,28 @@ public class InformationMerger {
 		
 	}
 	
+	public void setEmphasize(Predicate p){
+		
+		Emphasize.add(p);
+		
+		for(int k = 0; k < p.getEmphasizeList().size();k++){
+			String current = p.getEmphasizeList().get(k);
+			
+			Boolean contains = false;
+			for(int j = 0; j<EmphasizeList.size();j++){
+				if(EmphasizeList.get(j).getName().equalsIgnoreCase(current)){
+					EmphasizeList.get(j).addPredicate(p);
+					contains = true;
+				}
+			}
+			if(!contains){
+				EmphasizeList newList = new EmphasizeList(current);
+				newList.addPredicate(p);
+				EmphasizeList.add(newList);
+				System.out.println("current: "+current+"\n");
+			}
+		}
+	}
 	
 	public Predicate mergeExistingPredicate(String name, int ari, DocInformation doc){
 		
@@ -125,6 +154,7 @@ public class InformationMerger {
 		merged.setMetaInformation(predicate.getMetaInformation());
 		merged.setMode(predicate.getMode());
 		merged.setEmphasize(predicate.getEmphasize());
+		merged.setEmphasizeList(predicate.getEmphasizeList());
 		
 		if(doc.getMode() != null && predicate.getMode() == null) merged.setMode(doc.getMode());
 		if(doc.getDate()!= null) merged.setDate(doc.getDate());

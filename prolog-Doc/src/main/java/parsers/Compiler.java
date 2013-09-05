@@ -27,6 +27,7 @@ public class Compiler {
 	public static boolean spdet_flag;
 	public static boolean dir_flag;
 	public static String destinationFolder = "Doc/";
+	public static List <EmphasizeList> EmphasizeLists;
 	
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
@@ -34,6 +35,7 @@ public class Compiler {
 		AllUndocumented = new LinkedList<Predicate>();
 		AllEmphasizedModules = new LinkedList<Module>();
 		AllEmphasized = new LinkedList<Predicate>();
+		EmphasizeLists = new LinkedList<EmphasizeList>();
 				
 		setFlags(args);
 		
@@ -62,7 +64,7 @@ public class Compiler {
 		}
 		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
-		generator.generateDoc(Modules, AllPredicates, AllUndocumented, AllEmphasized, AllEmphasizedModules, destinationFolder);
+		generator.generateDoc(Modules, AllPredicates, AllUndocumented, AllEmphasized, AllEmphasizedModules, EmphasizeLists,destinationFolder);
 		System.out.println("\n");
 	
 	}
@@ -213,6 +215,8 @@ public class Compiler {
 		  if(merger.Emphasize.size()>0){
 			  AllEmphasized.addAll(merger.Emphasize);
 			  AllEmphasizedModules.add(Module);
+			  EmphasizeLists.addAll(merger.EmphasizeList);
+			  System.out.println(EmphasizeLists.size()+":\n"+EmphasizeLists.get(0).getName()+" "+EmphasizeLists.get(1).getName());
 		  }
 		  		  
 	}
