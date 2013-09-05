@@ -215,14 +215,34 @@ public class Compiler {
 		  if(merger.Emphasize.size()>0){
 			  AllEmphasized.addAll(merger.Emphasize);
 			  AllEmphasizedModules.add(Module);
-			  EmphasizeLists.addAll(merger.EmphasizeList);
-			  System.out.println(EmphasizeLists.size()+":\n"+EmphasizeLists.get(0).getName()+" "+EmphasizeLists.get(1).getName());
+			  //EmphasizeLists.addAll(merger.EmphasizeList);
+			  mergeEmphasize(merger.EmphasizeList);
+			  //System.out.println(EmphasizeLists.size()+":\n"+EmphasizeLists.get(0).getName()+" "+EmphasizeLists.get(1).getName());
 		  }
 		  		  
 	}
 	
 	
-	
+	public static void mergeEmphasize(List<EmphasizeList> mergeList){
+		
+		for(int i = 0; i < mergeList.size(); i++){
+			
+			Boolean add = true;
+			
+			for(int k = 0; k < EmphasizeLists.size(); k++){
+				
+				
+				if( EmphasizeLists.get(k).getName().equalsIgnoreCase(mergeList.get(i).getName()) ){
+					EmphasizeLists.get(k).getPredicates().addAll(mergeList.get(i).getPredicates());
+					add = false;
+				}
+			}
+			
+			if(add){
+				EmphasizeLists.add(mergeList.get(i));
+			}
+		}
+	}
 	
 	public static void debugOutput( List<Predicate> predicates){
 		

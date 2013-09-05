@@ -19,10 +19,10 @@
 
 
 
-emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling foo'):-
-	member(call(_,foo,_), Calls).
-emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling bar'):-
-	member(call(_,bar,_), Calls).
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling assert'):-
+	member(call(_,assert,_), Calls).
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling retract'):-
+	member(call(_,retract,_), Calls).
 
 
 

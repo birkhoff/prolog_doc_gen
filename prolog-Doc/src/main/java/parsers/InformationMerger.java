@@ -109,7 +109,7 @@ public class InformationMerger {
 				EmphasizeList newList = new EmphasizeList(current);
 				newList.addPredicate(p);
 				EmphasizeList.add(newList);
-				System.out.println("current: "+current+"\n");
+
 			}
 		}
 	}
