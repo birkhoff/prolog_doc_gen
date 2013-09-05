@@ -347,7 +347,9 @@ assert_blocking(Term) :-
 %assert volatile 
 
 assert_volatile((X,Y)) :-
-    !, assert(volatiles(X)), assert_volatile(Y).
+    !,
+	file_name(File),
+	assert(volatiles(File,X)), assert_volatile(Y).
 assert_volatile(X) :-
     !, file_name(File),
 	assert(volatiles(File,X)).
@@ -355,7 +357,9 @@ assert_volatile(X) :-
 %assert multifile 
 
 assert_multifile((X,Y)) :-
-    !, assert(multifiles(X)), assert_multifile(Y).
+    !, 
+ 	file_name(File),	
+	assert(multifiles(File,X)), assert_multifile(Y).
 assert_multifile(X) :-
     !,
  	file_name(File),

@@ -8,7 +8,8 @@ import org.junit.Test;
 import src.main.java.parsers.*;
 
 public class CodeqParserTests {
-
+	
+	
 	@Test
 	public void testSize() {
 		  
@@ -23,9 +24,9 @@ public class CodeqParserTests {
 		CodeqParser codeqParser = new CodeqParser("src/main/java/tests/TestFiles/test1.pl");
 		codeqParser.parseXML("src/main/java/tests/TestFiles/test1.xml");
 		List<Predicate> Predicates = codeqParser.Predicates;
-		assertTrue(Predicates.get(0).getName().equalsIgnoreCase("\"element\""));
-		assertTrue(Predicates.get(1).getName().equalsIgnoreCase("\"is_not_visited\""));
-		assertTrue(Predicates.get(2).getName().equalsIgnoreCase("\"istrue\""));
+		assertTrue(Predicates.get(0).getName().equalsIgnoreCase("element"));
+		assertTrue(Predicates.get(1).getName().equalsIgnoreCase("is_not_visited"));
+		assertTrue(Predicates.get(2).getName().equalsIgnoreCase("istrue"));
 	}
 
 
@@ -61,6 +62,7 @@ public class CodeqParserTests {
 		assertTrue(Predicates.get(3).getBlockingInformation().contains("merge(-,?,-)"));
 	}
 	
+	
 	@Test
 	public void testMultiFile(){
 		CodeqParser codeqParser = new CodeqParser("src/main/java/tests/TestFiles/test2.pl");
@@ -69,6 +71,6 @@ public class CodeqParserTests {
 		assertTrue(m.getMultiFile().get(0).contains("foo/2"));
 		assertTrue(m.getMultiFile().get(1).contains("bar/0"));
 	}
-	
+
 	
 }

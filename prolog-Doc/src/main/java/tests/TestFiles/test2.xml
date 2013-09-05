@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><programm><module>"testFiles2"</module>
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<programm>
+<file>src/main/java/tests/TestFiles/test2.pl</file>
+<module>"testFiles2"</module>
 
 <module_startline>1</module_startline>
 <module_endline>1</module_endline>
@@ -11,11 +16,16 @@
 	</export>
 
 </exports>
+
 <multifiles>
 
 	<multifile>foo/2</multifile>
 	<multifile>bar/0</multifile>
 </multifiles>
+
+<dynamic_predicates>
+
+</dynamic_predicates>
 
 <predicates>
 
@@ -38,6 +48,10 @@
 		<meta_args></meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
 	<predicate>
 		<name>"foo"</name>
@@ -47,12 +61,16 @@
 		<dynamic>false</dynamic>
 		<meta>true</meta> 
 		<volatile>false</volatile> 
-		<multifile>false</multifile>
+		<multifile>true</multifile>
 		<calls>
 		</calls>
 		<meta_args>foo[:,+]	foo[:,:]	</meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
 	<predicate>
 		<name>"foo_bar"</name>
@@ -73,6 +91,10 @@
 		<meta_args>foo_bar[+,+]	</meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
 	<predicate>
 		<name>"merge"</name>
@@ -85,13 +107,8 @@
 		<multifile>false</multifile>
 		<calls>
 			<call>
-				<module>"built_in"</module>
-				<name>@&lt;</name>
-				<arity>2</arity>
-			</call>
-			<call>
 				<module>"testFiles2"</module>
-				<name>merge</name>
+				<name>RECURSIVE_CALL</name>
 				<arity>3</arity>
 			</call>
 			<call>
@@ -101,18 +118,31 @@
 			</call>
 			<call>
 				<module>"testFiles2"</module>
-				<name>RECURSIVE_CALL</name>
+				<name>merge</name>
 				<arity>3</arity>
+			</call>
+			<call>
+				<module>"built_in"</module>
+				<name>@&lt;</name>
+				<arity>2</arity>
 			</call>
 		</calls>
 		<meta_args></meta_args>
 		<block>
-		<blocking>merge[-,?,-]</blocking>
-		<blocking>merge[?,-,-]</blocking>
+			<blocking>merge[-,?,-]</blocking>
+			<blocking>merge[?,-,-]</blocking>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
-</predicates><import_modules></import_modules><import_predicates>
+</predicates>
+<import_modules></import_modules>
+<import_predicates>
 </import_predicates>
+
 <ops>
 </ops>
 </programm>
+

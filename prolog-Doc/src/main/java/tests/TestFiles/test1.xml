@@ -1,12 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><programm><module>"user"</module>
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<programm>
+<file>src/main/java/tests/TestFiles/test1.pl</file>
+<module>"user"</module>
 
 <module_startline>1</module_startline>
 <module_endline>1</module_endline>
 <exports>
 </exports>
+
 <multifiles>
 
 </multifiles>
+
+<dynamic_predicates>
+
+</dynamic_predicates>
 
 <predicates>
 
@@ -29,6 +39,10 @@
 		<meta_args></meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
 	<predicate>
 		<name>"is_not_visited"</name>
@@ -41,9 +55,9 @@
 		<multifile>false</multifile>
 		<calls>
 			<call>
-				<module>"built_in"</module>
-				<name>false</name>
-				<arity>0</arity>
+				<module>"user"</module>
+				<name>RECURSIVE_CALL</name>
+				<arity>2</arity>
 			</call>
 			<call>
 				<module>"built_in"</module>
@@ -51,14 +65,18 @@
 				<arity>2</arity>
 			</call>
 			<call>
-				<module>"user"</module>
-				<name>RECURSIVE_CALL</name>
-				<arity>2</arity>
+				<module>"built_in"</module>
+				<name>false</name>
+				<arity>0</arity>
 			</call>
 		</calls>
 		<meta_args></meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
 	<predicate>
 		<name>"istrue"</name>
@@ -74,9 +92,17 @@
 		<meta_args></meta_args>
 		<block>
 		</block>
+		<modedeclaration>
+		</modedeclaration>
+		<emphasize>false</emphasize>
+
 	</predicate>
-</predicates><import_modules></import_modules><import_predicates>
+</predicates>
+<import_modules></import_modules>
+<import_predicates>
 </import_predicates>
+
 <ops>
 </ops>
 </programm>
+
