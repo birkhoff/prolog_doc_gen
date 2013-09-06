@@ -20,6 +20,7 @@ public class Compiler {
 	public static List <Predicate> AllEmphasized;
 	public static Module Module;
 	public static List<Module> Modules;
+	public static List<Module> CalledModules;
 	public static List<Module> AllEmphasizedModules;
 	public static String loadingString= "";
 	public static int NumberOfFiles;
@@ -31,6 +32,7 @@ public class Compiler {
 	
 	public static void main(String args[]){
 		Modules = new LinkedList<Module>();
+		CalledModules = new LinkedList<Module>();
 		AllPredicates = new LinkedList<Predicate>();
 		AllUndocumented = new LinkedList<Predicate>();
 		AllEmphasizedModules = new LinkedList<Module>();
@@ -62,6 +64,9 @@ public class Compiler {
 			}
 			
 		}
+		
+		CalledMerger calledMerger = new CalledMerger(Modules, CalledModules);
+		calledMerger.merge();
 		System.out.println("\n\nGenerating HTML Pages:");
 		HTML_Generator generator = new HTML_Generator();
 		generator.generateDoc(Modules, AllPredicates, AllUndocumented, AllEmphasized, AllEmphasizedModules, EmphasizeLists,destinationFolder);
@@ -185,7 +190,7 @@ public class Compiler {
 				  
 		try
 		{
-		  CodeqParser codeqParser = new CodeqParser(nameOfFile);
+		  CodeqParser codeqParser = new CodeqParser(CalledModules,nameOfFile);
 		  codeqParser.parseXML("foo.xml");
 		  //debugOutput(codeqParser.Predicates);
 		  //debugModuleOutput(codeqParser.Module);

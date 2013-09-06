@@ -370,6 +370,9 @@ public class HTML_Generator {
 			}
 			if(p.getCallsNames().size() > 0) this.code += "\n</table>\n";
 			if(p.getCallsNames().size() > 0) code += "</div>";	// end of div from hide button
+			
+			this.generateCalled(p);
+			
 			code += "</div><br><br>\n\n\n";
 	    }
 
@@ -627,4 +630,56 @@ public class HTML_Generator {
 		return returnCode;
 	}
 
+	
+	
+	private void generateCalled(Predicate p){
+		
+    	String pName = p.getName() +p.getArity();
+		
+		if(p.getCalled().size() > 0){ 
+			
+			
+			code += "<input type='button' id=\"button\" value=\"Called\" onclick=\"javascript:hidecode('"+pName+"called"+"')\">\n";			//hide button
+			code += "<div id=\""+pName+"called"+"\" style=\"display: none;\" >\n";
+			code += "<p>"+"Called:"+"</p>\n";
+		}
+		
+		if(p.getCalled().size() > 0) this.code += "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\"; id=\"table\">\n";
+		for(int k = 0; k < p.getCalled().size(); k ++){
+			Call call = p.getCalled().get(k);
+			String callName = call.getName().replaceAll("\"", "");
+			String callModule = call.getModule();
+			String callModuleLink = call.getModuleLink();
+			int callArity = call.getArity();
+			//code += "<div style=\"text-indent:30px;\">\n";
+			//this.code+= "<tr>"; before alternatve
+			if(k%2 == 0) 	this.code+= "<tr id=\"even\">\n";
+			else			this.code+= "<tr id=\"odd\">\n";
+			if(callModule.equalsIgnoreCase("built_in") ||  !ModuleNames.containsKey(callModuleLink)){
+				if(callArity > 0) 	code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"&#47;"+callArity+"</td>\n"; 
+				else				code += "<td id=\"row\"><p>"+"Name: &nbsp;&nbsp;&nbsp;"+" \t"+callName+"</td>\n"; 
+				
+				if(callModule.equalsIgnoreCase("dynamic predicate")){	
+					code += "<td id=\"row\"> <a href=\"#MODULE_INFO\"> "+ callModule+" </a></td>\n";
+				}else{
+					if(!callModule.equalsIgnoreCase("built_in") ){			
+						code += "<td id=\"row\">"+" \tModule: &nbsp;&nbsp;&nbsp;"+callModule+"</p></td>\n";
+					}else{ 												
+						code += "<td id=\"row\"></td>\n";														
+					}
+				}
+			}else{
+				code += "<td id=\"row\"><p>Name:&nbsp;&nbsp;&nbsp;&nbsp; <a href=\""+callModuleLink+".html#"+callName+callArity+"\">"+callName+"/"+callArity+"</a></td>\n";
+				code += "<td id=\"row\">Module: &nbsp;&nbsp;&nbsp;<a href=\""+callModuleLink+".html\">"+callModule+"</a></p></td>\n";
+			}
+			//System.out.println(p.getName());
+			this.code+= "\n</tr>\n";
+			//code += "</div>";
+			//code += "<p>"+"Arity"+": \t"+callArity+"</p></div><br>"; unnecessary because arity is usually written as predicate/Arity but still here debuggig reasons
+		}
+		if(p.getCalled().size() > 0) this.code += "\n</table>\n";
+		if(p.getCalled().size() > 0) code += "</div>";	// end of div from hide button
+	}
+	
+	
 }

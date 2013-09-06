@@ -13,6 +13,7 @@ public class Predicate {
 	private boolean attached;	
 	//private List<String> CallsNames;
 	private List<Call> CallsNames;
+	private List<Call>Called;
 	private List<Predicate> Calls;
 	private boolean dynamic;
 	private boolean meta;
@@ -35,6 +36,7 @@ public class Predicate {
 		EmphasizeList = new LinkedList<String>();
 		Code = new LinkedList<String>();
 		Calls = new LinkedList<Predicate>();
+		Called = new LinkedList<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -47,6 +49,7 @@ public class Predicate {
 		Code = new LinkedList<String>();
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
+		Called = new LinkedList<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -60,6 +63,7 @@ public class Predicate {
 		this.Name = name;
 		this.Arity = arity;
 		Calls = new LinkedList<Predicate>();
+		Called = new LinkedList<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -340,5 +344,23 @@ public class Predicate {
 
 	public void addEmphasizeList(String add){
 		this.EmphasizeList.add(add);
+	}
+
+	public List<Call> getCalled() {
+		return Called;
+	}
+
+	public void setCalled(List<Call> called) {
+		Called = called;
+	}
+	
+	public void addCalled(Call called){
+		this.Called.add(called);
+	}
+	
+	public void addCalled(String name, String module, String moduleLink,String arity ){
+		Call addCall = new Call(name, module, arity);
+		addCall.setModuleLink(moduleLink);
+		this.Called.add(addCall);
 	}
 }
