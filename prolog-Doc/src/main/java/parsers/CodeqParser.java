@@ -136,7 +136,9 @@ public class CodeqParser {
 							predicate.addCallNames(callName, callModule, callModuleLink,callArity);
 							//this.updateCalled(predicate.getName(), predicate.getArity(), moduleName,callName, callArity,callModule,callModuleLink);
 							if(this.CalledModules!=null){	//if constructor is called without the calledModule parameter.
-								this.updateCalled(callName, callArity,callModuleLink, predicate.getName(), predicate.getArity(), moduleName, this.FileName);
+								String displayName = moduleName;
+								if(moduleName.endsWith(".pl"))  displayName = this.FileName;
+								this.updateCalled(callName, callArity,callModuleLink, predicate.getName(), predicate.getArity(), moduleName, displayName);
 							}
 						}
 						
@@ -157,55 +159,54 @@ public class CodeqParser {
 	
 private void updateCalled(String Call, String Arity, String ModuleName, String Called, int CalledArity, String CalledModuleLink, String CalledModule){
 	
-	//System.out.println("voidCalled");
-	
+
 	if(!ModuleName.equalsIgnoreCase("built_in")){
 	
-	boolean addModule = true;
-	for( int i = 0; i < this.CalledModules.size(); i++){
-		
-		Module currentModule = this.CalledModules.get(i);
-		if(currentModule.getName().equalsIgnoreCase(ModuleName)){
+		boolean addModule = true;
+		for( int i = 0; i < this.CalledModules.size(); i++){
 			
-			addModule = false;
-			boolean addPredicate = true;
-			
-			for(int k = 0; k<currentModule.getPredicates().size(); k++){
+			Module currentModule = this.CalledModules.get(i);
+			if(currentModule.getName().equalsIgnoreCase(ModuleName)){
 				
-				Predicate currentPredicate = currentModule.getPredicates().get(k);
+				addModule = false;
+				boolean addPredicate = true;
 				
-				if(currentPredicate.getName().equalsIgnoreCase(Call) && currentPredicate.getArity()==Integer.parseInt(Arity)){	// checks if name and arity equals of the Module which is called
+				for(int k = 0; k<currentModule.getPredicates().size(); k++){
 					
-					addPredicate = false;
-					currentPredicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
-					//System.out.println("Added:\t"+currentModule.getName()+": "+ currentPredicate.getName() +" Called by "+ CalledModuleLink+" "+Called+CalledArity);
+					Predicate currentPredicate = currentModule.getPredicates().get(k);
+					
+					if(currentPredicate.getName().equalsIgnoreCase(Call) && currentPredicate.getArity()==Integer.parseInt(Arity)){	// checks if name and arity equals of the Module which is called
+						
+						addPredicate = false;
+						currentPredicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
+						//System.out.println("Added:\t"+currentModule.getName()+": "+ currentPredicate.getName() +" Called by "+ CalledModuleLink+" "+Called+CalledArity);
+					}
+				}
+				
+				if(addPredicate){
+					Predicate predicate = new Predicate(Call, Integer.parseInt(Arity));
+					predicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
+					currentModule.getPredicates().add(predicate);
+					
+					//System.out.println("Added:\t"+currentModule.getName()+": "+ predicate.getName() +" Called by "+ CalledModuleLink+" "+Called+CalledArity);
 				}
 			}
-			
-			if(addPredicate){
-				Predicate predicate = new Predicate(Call, Integer.parseInt(Arity));
-				predicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
-				currentModule.getPredicates().add(predicate);
-				
-				//System.out.println("Added:\t"+currentModule.getName()+": "+ predicate.getName() +" Called by "+ CalledModuleLink+" "+Called+CalledArity);
-			}
 		}
-	}
-	if(addModule){
-		
-		Module module = new Module(ModuleName);
-		
-		Predicate predicate = new Predicate(Call, Integer.parseInt(Arity));
-		predicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
-		List<Predicate> newPredicates = new LinkedList<Predicate>();
-		newPredicates.add(predicate);
-		module.setPredicates(newPredicates);
-		
-		//System.out.println("addCalled");
-		
-		CalledModules.add(module);
-		//System.out.println("\t"+module.getName());
-	}
+		if(addModule){
+			
+			Module module = new Module(ModuleName);
+			
+			Predicate predicate = new Predicate(Call, Integer.parseInt(Arity));
+			predicate.addCalled(Called, CalledModule, CalledModuleLink, Integer.toString(CalledArity));
+			List<Predicate> newPredicates = new LinkedList<Predicate>();
+			newPredicates.add(predicate);
+			module.setPredicates(newPredicates);
+			
+			//System.out.println("addCalled");
+			
+			CalledModules.add(module);
+			//System.out.println("\t"+module.getName());
+		}
 	}
 }
 	
@@ -409,6 +410,7 @@ private void parseModuleInformation(Document dc){
 		NodeList dynamicNodes = dc.getElementsByTagName("dynamics");
 		
 		Module.setFile(fileName);
+		Module.setPathSuffix(FileName);
 		Module.setPath(NameOfFile);
 		Module.setLines(File.size());
 		

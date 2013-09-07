@@ -9,6 +9,9 @@ public class HTML_Generator {
 	private String code = "";
 	private String moduleLinks ="";
 	private String moduleLinksIndex = "";
+	private String noModuleNameIndex = "";
+	private String duplicateModules = "";
+	private String moduleDifferNameIndex = "";
 	private List<Module> Modules;
 	private HashMap<String, Boolean> ModuleNames;
 	private String destination = "Doc/";
@@ -291,8 +294,8 @@ public class HTML_Generator {
 	}
 	
 	private void generateBottom(){
-		this.code += "\n<footer id=\"b5\" class=\"box\" >\n<h2 align=\"center\">Sicstus Prolog Doc</h2>";
-		this.code += "<h4 align=\"right\">bachelor thesis Michael Birkhoff 2013 	&nbsp;&nbsp;<h/4>\n";
+		this.code += "\n<footer id=\"b5\" class=\"box\" >\n<h2 align=\"center\">Prolog Documentation Generator for SICStus Prolog</h2>";
+		this.code += "<h4 align=\"right\">Bachelor Thesis Michael Birkhoff 2013 	&nbsp;&nbsp;<h/4>\n";
 		this.code += "</footer>";
 	}
 	
@@ -588,16 +591,64 @@ public class HTML_Generator {
 		}
 		
 		char current = '.';
+		
+		duplicateModules = "";
+
+		
 		for(int i = 0; i < modules.size(); i++){
-			moduleLinks +=	"<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 			
+			boolean newAlphabet = false;
 			if(current != modules.get(i).getFile().charAt(0)){
 				current = modules.get(i).getFile().charAt(0);
-				moduleLinksIndex += "<h3>" + current + "</h3>";
+				newAlphabet = true;
 			}
-			moduleLinksIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			
+			this.setNormalModuleLinks(modules, i, current, newAlphabet);
+			this.setNoModuleNameLinks(modules, i, current, newAlphabet);
+			this.setDifferModuleNameLinks(modules, i, current, newAlphabet);
 		}
 	}
+	
+	
+	public void setNormalModuleLinks(List<Module> modules, int i, char current, boolean newAlphabet){
+		moduleLinks +=	"<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		
+		if(newAlphabet){
+			moduleLinksIndex += "<h3>" + current + "</h3>";
+		}
+		
+		moduleLinksIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		
+	}
+	
+	
+	public void setNoModuleNameLinks(List<Module> modules, int i, char current, boolean newAlphabet){
+			
+		if(modules.get(i).getName().endsWith(".pl")){
+			
+			if(newAlphabet){
+				noModuleNameIndex += "<h3>" + current + "</h3>";
+			}
+			noModuleNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		}
+	}
+	
+	
+	
+	public void setDifferModuleNameLinks(List<Module> modules, int i, char current, boolean newAlphabet){
+		
+		boolean differName = modules.get(i).getPathSuffix().equalsIgnoreCase(modules.get(i).getFile());
+		
+		if(!modules.get(i).getName().endsWith(".pl") && differName){
+			
+			if(newAlphabet){
+				moduleDifferNameIndex += "<h3>" + current + "</h3>";
+			}
+			moduleDifferNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		}
+	}
+	
+	
 	
 	public String prettyPrintCode(){
 		
