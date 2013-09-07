@@ -280,6 +280,14 @@ analyze_body(when(A,B),Layout,[call('built_in', 'when', 2)|Calls]) :-
     analyze_body(B,LayoutB,CallsB),
     append(CallsA,CallsB,Calls).
 
+analyze_body(assert(A),Layout,[call('built_in', 'assert', 1)|CallsA]) :-
+    !, layout_sub_term(Layout,2,LayoutA),
+    analyze_body(A,LayoutA,CallsA).
+
+analyze_body(retract(A),Layout,[call('built_in', 'retract', 1)|CallsA]) :-
+    !, layout_sub_term(Layout,2,LayoutA),
+    analyze_body(A,LayoutA,CallsA).
+
 analyze_body((A,B),Layout,Calls) :-
     !, layout_sub_term(Layout,2,LayoutA),
     layout_sub_term(Layout,3,LayoutB),
