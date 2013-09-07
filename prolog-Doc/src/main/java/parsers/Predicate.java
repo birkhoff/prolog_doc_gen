@@ -13,7 +13,7 @@ public class Predicate {
 	private boolean attached;	
 	//private List<String> CallsNames;
 	private List<Call> CallsNames;
-	private List<Call>Called;
+	private HashSet<Call>Called;
 	private List<Predicate> Calls;
 	private boolean dynamic;
 	private boolean meta;
@@ -36,7 +36,7 @@ public class Predicate {
 		EmphasizeList = new LinkedList<String>();
 		Code = new LinkedList<String>();
 		Calls = new LinkedList<Predicate>();
-		Called = new LinkedList<Call>();
+		Called = new HashSet<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -49,7 +49,7 @@ public class Predicate {
 		Code = new LinkedList<String>();
 		this.Name = name;
 		Calls = new LinkedList<Predicate>();
-		Called = new LinkedList<Call>();
+		Called = new HashSet<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -63,7 +63,7 @@ public class Predicate {
 		this.Name = name;
 		this.Arity = arity;
 		Calls = new LinkedList<Predicate>();
-		Called = new LinkedList<Call>();
+		Called = new HashSet<Call>();
 		setCallsNames(new LinkedList<Call>());
 		AdditionalEntries = new LinkedList<AdditionalEntry>();
 		this.attached = false;
@@ -346,11 +346,11 @@ public class Predicate {
 		this.EmphasizeList.add(add);
 	}
 
-	public List<Call> getCalled() {
+	public HashSet<Call> getCalled() {
 		return Called;
 	}
 
-	public void setCalled(List<Call> called) {
+	public void setCalled(HashSet<Call> called) {
 		Called = called;
 	}
 	
@@ -359,8 +359,19 @@ public class Predicate {
 	}
 	
 	public void addCalled(String name, String module, String moduleLink,String arity ){
-		Call addCall = new Call(name, module, arity);
-		addCall.setModuleLink(moduleLink);
-		this.Called.add(addCall);
+		
+		Iterator<Call> It = this.Called.iterator();
+		boolean add = true;
+		
+		while(It.hasNext()){
+			Call next = It.next();
+			if(next.getName().equalsIgnoreCase(name) && next.getModuleLink().equalsIgnoreCase(moduleLink) && next.getArity() == Integer.parseInt(arity))
+				add = false;
+		}
+		if(add){
+			Call addCall = new Call(name, module, arity);
+			addCall.setModuleLink(moduleLink);
+			this.Called.add(addCall);
+		}
 	}
 }

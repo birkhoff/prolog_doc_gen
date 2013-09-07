@@ -644,9 +644,13 @@ public class HTML_Generator {
 			code += "<p>"+"Called:"+"</p>\n";
 		}
 		
+		
+		Iterator<Call> it= p.getCalled().iterator();
+		
 		if(p.getCalled().size() > 0) this.code += "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\"; id=\"table\">\n";
-		for(int k = 0; k < p.getCalled().size(); k ++){
-			Call call = p.getCalled().get(k);
+		for(int k = 0; it.hasNext(); k ++){
+			
+			Call call = it.next();
 			String callName = call.getName().replaceAll("\"", "");
 			String callModule = call.getModule();
 			String callModuleLink = call.getModuleLink();
