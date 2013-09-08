@@ -73,6 +73,8 @@ background-color: rgb(200, 220, 220);
 	<a href="UndocumentedPredicateIndex.html">Undocumented Predicates Index</a>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	<a href="EmphasizedPredicateIndex.html">Emphasized Predicates Index</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<a href="CautionModuleIndex.html">Caution Module Index</a>
 </div>	
 
 <div id="b1" class="box">

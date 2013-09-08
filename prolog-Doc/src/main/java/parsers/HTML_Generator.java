@@ -15,6 +15,9 @@ public class HTML_Generator {
 	private List<Module> Modules;
 	private HashMap<String, Boolean> ModuleNames;
 	private String destination = "Doc/";
+	private boolean changeIndexDup;
+	private boolean changeIndexNoMod;
+	private boolean changeIndexDiff;
 	
 	public HTML_Generator(){
 		
@@ -37,6 +40,7 @@ public class HTML_Generator {
 		
 		try {
 			this.generateModuleIndex();
+			this.generateCautionIndex();
 			this.generatePredicateIndex(AllPredicates, "Predicate Index","PredicateIndex");
 			this.generatePredicateIndex(AllUndocumented,"Undocumented Predicates","UndocumentedPredicateIndex");
 			//this.generatePredicateIndex(AllEmphasized, "All Emphasized Predicates","EmphasizedPredicateIndex");
@@ -150,6 +154,55 @@ public class HTML_Generator {
 	    code = "";
 	    
 	}
+	
+	
+	private void generateCautionIndex() throws IOException{
+		BufferedReader br;
+		br = new BufferedReader(new FileReader("src/main/resources/Index.x"));
+	
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null && !line.equalsIgnoreCase("null") ) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        code+= sb.toString();
+	    } finally {
+	        br.close();
+	    }
+	    
+	    code += "#TOP";
+	    code += "\" name=\""+"module_index"+"\">"+"Module Index"+"</a></h1>\n</div>";
+	    code += "\n\n <div id=\"b3\" class=\"box\">\n\n";
+	   
+	    code += "<div>";
+	    code += "<h3> No Modules defined</h3>";
+	    code += noModuleNameIndex;
+	    code += "</div>";
+	    
+	    code += "<div>";
+	    code += "<h3>duplicate Modules</h3>";
+	    code += duplicateModules;
+	    code += "</div>";
+	    
+	    code += "<div>";
+	    code += "<h3> Modules differ in File Name</h3>";
+		code += moduleDifferNameIndex;
+		code += "</div>";
+		
+	    code += "</div>";
+	    
+	    this.generateBottom();
+	    
+	    code += "\n</body>\n</html>";
+	    this.writeToFile("CautionModuleIndex");
+	    code = "";
+	    
+	}
+	
 	
 	
 	private void generatePredicateIndex(List<Predicate> AllPredicates, String Header,String Output) throws IOException{
@@ -592,20 +645,19 @@ public class HTML_Generator {
 		
 		char current = '.';
 		
-		duplicateModules = "";
-
-		
+			
 		for(int i = 0; i < modules.size(); i++){
 			
-			boolean newAlphabet = false;
+			boolean newAlphabetIndex = false;
 			if(current != modules.get(i).getFile().charAt(0)){
 				current = modules.get(i).getFile().charAt(0);
-				newAlphabet = true;
+				newAlphabetIndex = true;
 			}
 			
-			this.setNormalModuleLinks(modules, i, current, newAlphabet);
-			this.setNoModuleNameLinks(modules, i, current, newAlphabet);
-			this.setDifferModuleNameLinks(modules, i, current, newAlphabet);
+			this.setNormalModuleLinks(modules, i, current, newAlphabetIndex);
+			this.setNoModuleNameLinks(modules, i, current, newAlphabetIndex);
+			this.setDifferModuleNameLinks(modules, i, current, newAlphabetIndex);
+			this.setDuplicateModuleNameLinks(modules, i, current, newAlphabetIndex);
 		}
 	}
 	
@@ -622,12 +674,17 @@ public class HTML_Generator {
 	}
 	
 	
+
+	
 	public void setNoModuleNameLinks(List<Module> modules, int i, char current, boolean newAlphabet){
-			
+		
+		if(newAlphabet) changeIndexDup = true;
+		
 		if(modules.get(i).getName().endsWith(".pl")){
 			
-			if(newAlphabet){
+			if(changeIndexDup){
 				noModuleNameIndex += "<h3>" + current + "</h3>";
+				changeIndexDup = false;
 			}
 			noModuleNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
@@ -637,14 +694,40 @@ public class HTML_Generator {
 	
 	public void setDifferModuleNameLinks(List<Module> modules, int i, char current, boolean newAlphabet){
 		
+		if(newAlphabet) changeIndexNoMod = true;
+		
 		boolean differName = modules.get(i).getPathSuffix().equalsIgnoreCase(modules.get(i).getFile());
 		
 		if(!modules.get(i).getName().endsWith(".pl") && differName){
 			
-			if(newAlphabet){
+			if(changeIndexNoMod){
 				moduleDifferNameIndex += "<h3>" + current + "</h3>";
+				changeIndexNoMod = false;
 			}
 			moduleDifferNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		}
+	}
+	
+	public void setDuplicateModuleNameLinks(List<Module> modules, int i, char current, boolean newAlphabet){
+		
+		if(newAlphabet) changeIndexDiff = true;
+		
+		String previous = null;
+		String next = null;
+		if((i >0) )	previous = modules.get(i-1).getName();
+		if(i < modules.size()-1) next = modules.get(i+1).getName();
+		
+		Boolean dup = false;
+		if(previous != null && previous.equalsIgnoreCase(modules.get(i).getName()))	 	dup = true;
+		if(next != null && next.equalsIgnoreCase(modules.get(i).getName()))				dup = true;
+		
+		if(dup){
+			
+			if(changeIndexDiff){
+				duplicateModules += "<h3>" + current + "</h3>";
+				changeIndexDiff = false;
+			}
+			duplicateModules += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	
