@@ -410,6 +410,7 @@ private void parseModuleInformation(Document dc){
 		NodeList dynamicNodes = dc.getElementsByTagName("dynamics");
 		
 		Module.setFile(fileName);
+		Module.setLink(this.NameOfFileNoSlash);
 		Module.setPathSuffix(FileName);
 		Module.setPath(NameOfFile);
 		Module.setLines(File.size());

@@ -47,6 +47,8 @@ body { margin:0; padding:0; }
 	color=#efecde;
 }
 
+#navi a { padding-left:15px; padding-right:15px; float:left; }
+
 a.anchor{display: block; position: relative; top: -200px; visibility: hidden;}
 
 </style>
@@ -65,15 +67,10 @@ background-color: rgb(200, 220, 220);
 <body id="body" link="#067494" vlink="#1e7790" alink="#12c2c0">
 <div id="navi" class="menuBar">
 	&nbsp;&nbsp;<a href="#TOP">Back To Top</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="ModuleIndex.html">Module Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="PredicateIndex.html">Predicate Index</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	<a href="UndocumentedPredicateIndex.html">Undocumented Predicates Index</a>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<a href="ModuleIndex.html">Module Index</a>
+	<a href="PredicateIndex.html">Predicate Index</a>
+	<a href="UndocumentedPredicateIndex.html">Undocumented Predicates Index</a> 
 	<a href="EmphasizedPredicateIndex.html">Emphasized Predicates Index</a>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 	<a href="CautionModuleIndex.html">Caution Module Index</a>
 </div>	
 

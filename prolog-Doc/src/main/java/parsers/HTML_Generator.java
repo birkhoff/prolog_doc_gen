@@ -25,6 +25,7 @@ public class HTML_Generator {
 	
 	public void generateDoc( List<Module> modules, List<Predicate> AllPredicates, List<Predicate> AllUndocumented, List<Predicate> AllEmphasized, List<Module> AllEmphasizedModules, List<EmphasizeList> EmphasizeLists, String destFolder){
 		
+
 		this.destination = destFolder;
 		this.Modules = modules;
 		ModuleNames = this.setModuleNamestoHash(Modules);
@@ -541,41 +542,17 @@ public class HTML_Generator {
 	}
 	
 	private void writeToFile(Module m){
-		/*BufferedWriter writer = null;
-		try
-		{
-			if(!destination.endsWith("/")) destination += "/";
-			writer = new BufferedWriter( new FileWriter(this.destination+m.getName()+".html"));
-			
-			//writer.write(code);
-			writer.write(this.prettyPrintCode());
-		}
-		catch ( IOException e)
-		{
-			System.out.println("!!\tERROR writing Module HTML File: " + m.getName());
-
-		}
-		finally
-		{
-			try
-			{
-				if ( writer != null)
-					writer.close( );
-			}
-			catch ( IOException e)
-			{
-			}
-	     }*/
-		
 		
 		FileOutputStream fop = null;
 		File file;
+		
+		String fileName = m.getLink();
 		
 		if(!destination.endsWith("/")) destination += "/";
  
 		try {
  
-			file = new File(this.destination+m.getName()+".html");
+			file = new File(this.destination+fileName+".html");
 			fop = new FileOutputStream(file);
  
 			// if file doesnt exists, then create it
@@ -648,28 +625,32 @@ public class HTML_Generator {
 			
 		for(int i = 0; i < modules.size(); i++){
 			
+			
 			boolean newAlphabetIndex = false;
 			if(current != modules.get(i).getFile().charAt(0)){
 				current = modules.get(i).getFile().charAt(0);
 				newAlphabetIndex = true;
 			}
 			
+			
 			this.setNormalModuleLinks(modules, i, current, newAlphabetIndex);
 			this.setNoModuleNameLinks(modules, i, current, newAlphabetIndex);
 			this.setDifferModuleNameLinks(modules, i, current, newAlphabetIndex);
 			this.setDuplicateModuleNameLinks(modules, i, current, newAlphabetIndex);
 		}
+		
+		
 	}
 	
 	
 	public void setNormalModuleLinks(List<Module> modules, int i, char current, boolean newAlphabet){
-		moduleLinks +=	"<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		moduleLinks +=	"<li><a href=\""+ modules.get(i).getLink()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		
 		if(newAlphabet){
 			moduleLinksIndex += "<h3>" + current + "</h3>";
 		}
 		
-		moduleLinksIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+		moduleLinksIndex += "<li><a href=\""+ modules.get(i).getLink() +".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		
 	}
 	
@@ -686,7 +667,7 @@ public class HTML_Generator {
 				noModuleNameIndex += "<h3>" + current + "</h3>";
 				changeIndexDup = false;
 			}
-			noModuleNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			noModuleNameIndex += "<li><a href=\""+ modules.get(i).getLink()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	
@@ -696,15 +677,16 @@ public class HTML_Generator {
 		
 		if(newAlphabet) changeIndexNoMod = true;
 		
-		boolean differName = modules.get(i).getPathSuffix().equalsIgnoreCase(modules.get(i).getFile());
+		String modName = modules.get(i).getPathSuffix().substring(0, modules.get(i).getPathSuffix().length()-3);
+		boolean differName = !modName.equalsIgnoreCase(modules.get(i).getFile());
 		
-		if(!modules.get(i).getName().endsWith(".pl") && differName){
+		if(	(!modules.get(i).getFile().endsWith(".pl")) && differName){
 			
 			if(changeIndexNoMod){
 				moduleDifferNameIndex += "<h3>" + current + "</h3>";
 				changeIndexNoMod = false;
 			}
-			moduleDifferNameIndex += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			moduleDifferNameIndex += "<li><a href=\""+ modules.get(i).getLink()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	
@@ -727,7 +709,7 @@ public class HTML_Generator {
 				duplicateModules += "<h3>" + current + "</h3>";
 				changeIndexDiff = false;
 			}
-			duplicateModules += "<li><a href=\""+ modules.get(i).getName()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
+			duplicateModules += "<li><a href=\""+ modules.get(i).getLink()+".html\">"+ modules.get(i).getFile()+"</a></li>\n";
 		}
 	}
 	

@@ -20,6 +20,7 @@ public class Module {
 	private List<String> MultiFile;
 	private String SPDet;
 	private int Lines;
+	private String Link;
 	
 	public Module(){
 		
@@ -191,6 +192,16 @@ public class Module {
 
 	public void setPathSuffix(String pathSuffix) {
 		PathSuffix = pathSuffix;
+	}
+
+
+	public String getLink() {
+		return Link;
+	}
+
+
+	public void setLink(String link) {
+		Link = link;
 	}
 	
 }
