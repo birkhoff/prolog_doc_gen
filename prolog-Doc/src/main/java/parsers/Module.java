@@ -20,7 +20,14 @@ public class Module {
 	private List<String> MultiFile;
 	private String SPDet;
 	private int Lines;
+	private int LineDef;
 	private String Link;
+
+	private String Author;
+	private String Date;
+	private String Mode;
+	private String Description;
+	private List<AdditionalEntry> AdditionalEntries;
 	
 	public Module(){
 		
@@ -29,6 +36,7 @@ public class Module {
 		this.ImportedModules = new LinkedList<String>();
 		this.MultiFile = new LinkedList<String>();
 		this.Dynamics = new LinkedList<String>();
+		this.AdditionalEntries = new LinkedList<AdditionalEntry>();
 	}
 
 	
@@ -40,6 +48,7 @@ public class Module {
 		this.ImportedModules = new LinkedList<String>();
 		this.MultiFile = new LinkedList<String>();
 		this.Dynamics = new LinkedList<String>();
+		this.AdditionalEntries = new LinkedList<AdditionalEntry>();
 	}
 	
 	public String getName() {
@@ -202,6 +211,91 @@ public class Module {
 
 	public void setLink(String link) {
 		Link = link;
+	}
+
+
+	public String getAuthor() {
+		return Author;
+	}
+
+
+	public void setAuthor(String author) {
+		Author = author;
+	}
+
+
+	public String getDate() {
+		return Date;
+	}
+
+
+	public void setDate(String date) {
+		Date = date;
+	}
+
+
+	public String getMode() {
+		return Mode;
+	}
+
+
+	public void setMode(String mode) {
+		Mode = mode;
+	}
+
+
+	public String getDescription() {
+		return Description;
+	}
+
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+
+	public List<AdditionalEntry> getAdditionalEntries() {
+		return AdditionalEntries;
+	}
+
+
+	public void setAdditionalEntries(List<AdditionalEntry> additionalEntries) {
+		AdditionalEntries = additionalEntries;
+	}
+	
+	public void addAdditionalEntry( String key, String entry){
+		
+		AdditionalEntry newEntry = new AdditionalEntry(key, entry);
+		this.AdditionalEntries.add(newEntry);
+	}
+
+	
+	public void addAdditionalEntries(List<AdditionalEntry> additionalEntries) {
+		for(int k = 0; k < additionalEntries.size(); k++){
+			boolean notFound = true;
+			String key = additionalEntries.get(k).getIdentifier().replaceAll("( |\t)", "");
+			String entry = additionalEntries.get(k).getDescription();
+			for(int i = 0; i < this.AdditionalEntries.size() && notFound; i++){
+				if(AdditionalEntries.get(i).getIdentifier().equalsIgnoreCase(key)){
+					AdditionalEntries.get(i).addDescription(entry);
+					notFound = false;
+				}
+			}
+			if(notFound){
+				AdditionalEntry newEntry = new AdditionalEntry(key, entry);
+				this.AdditionalEntries.add(newEntry);
+			}
+		}
+	}
+	
+
+	public int getLineDef() {
+		return LineDef;
+	}
+
+
+	public void setLineDef(int lineDef) {
+		LineDef = lineDef;
 	}
 	
 }

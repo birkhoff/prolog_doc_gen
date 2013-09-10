@@ -78,7 +78,8 @@ public class CodeqParser {
 			doc.getDocumentElement().normalize();
 			
 			NodeList nodes = doc.getElementsByTagName("predicate");
-	
+
+			
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Node node = nodes.item(i);
 			
@@ -398,10 +399,14 @@ private void parseModuleInformation(Document dc){
 		String nameOfModule =  dc.getElementsByTagName("module").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
 		String fileName = nameOfModule;				// name of the file without path
 		if(nameOfModule.equalsIgnoreCase("user")){
+
 			nameOfModule = this.NameOfFileNoSlash;
 			fileName = this.FileName;
-			
 		}
+		
+		String LineNumber =  dc.getElementsByTagName("module_startline").item(0).getChildNodes().item(0).getNodeValue().replace("\"", "");
+		int LineDef = Integer.parseInt(LineNumber);
+		
 		Module = new Module(nameOfModule);
 		NodeList importModules = dc.getElementsByTagName("imported_module");
 		NodeList importNodes = dc.getElementsByTagName("import");
@@ -409,6 +414,8 @@ private void parseModuleInformation(Document dc){
 		NodeList multiFileNodes = dc.getElementsByTagName("multifile");
 		NodeList dynamicNodes = dc.getElementsByTagName("dynamics");
 		
+
+		Module.setLineDef(LineDef);
 		Module.setFile(fileName);
 		Module.setLink(this.NameOfFileNoSlash);
 		Module.setPathSuffix(FileName);

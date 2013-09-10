@@ -27,17 +27,21 @@ public class InformationMerger {
 		this.PredicatesHashMap = new HashMap<String, Predicate>();
 	}
 	
-	public void mergeModuleInformation( List<Predicate> predicates, List<DocInformation> docs){
+	public void mergeModuleInformation(Module Module, List<Predicate> predicates, List<DocInformation> docs){
 		
 		for (int k = 0; k < docs.size(); k++) {
 			int minValue = -1;
 			Predicate attach = null; 
 			DocInformation currentDoc = docs.get(k);
+			int docLine = currentDoc.getLine();
+			int moduleDefDiff = Module.getLineDef()-docLine; 
+
+			Boolean moduleInfo = false;
 			
 			for (int i= 0; i < predicates.size(); i++) {
 				//System.out.println("\n\t\tPreciate: "+ predicates.get(i).getName());
 				int currentMinSize = -1;
-				int docLine = currentDoc.getLine();
+				
 				int predicateLines[] = predicates.get(i).getEndLines();
 					
 				for (int j = 0; j < predicateLines.length ;j++) {
@@ -48,13 +52,24 @@ public class InformationMerger {
 					}
 				}
 				//System.out.println("\nMinValue: "+minValue +"  currentMin: " +currentMinSize);
+				
 				if ( currentMinSize >=0 && (minValue > currentMinSize || minValue == -1) ) {
-					minValue = currentMinSize;
-					attach = predicates.get(i);
+					
+					if(moduleDefDiff > 0 ){ 
+						if( currentMinSize > moduleDefDiff)
+							moduleInfo = true;
+						
+					}
+					
+					if(!moduleInfo){
+						minValue = currentMinSize;
+						attach = predicates.get(i);
+					}
 				}
 				
 			}
-			
+			if(moduleInfo) this.addModuleInfo(Module, currentDoc);
+				
 			if(currentDoc != null && attach != null){
 				if (attach.isAttached()){ 
 					attach = this.mergeExistingPredicate(attach.getName(),attach.getArity(), currentDoc );
@@ -112,6 +127,33 @@ public class InformationMerger {
 
 			}
 		}
+	}
+	
+	public void addModuleInfo(Module m, DocInformation doc){
+		if(m.getDate() == null){
+			if(doc.getDate()!= null) m.setDate(doc.getDate());
+		}else{
+			if(doc.getDate()!= null) m.setDate(doc.getDate()+", "+m.getDate());
+		}
+		
+		if(m.getAuthor() == null){
+			if(doc.getAuthor()!= null) m.setAuthor(doc.getAuthor());
+		}else{
+			if(doc.getAuthor()!= null) m.setAuthor(doc.getAuthor()+", "+m.getAuthor());
+		}
+		
+		if(m.getDescription() == null){
+			if(doc.getDescription()!= null) m.setDescription(doc.getDescription());
+		}else{
+			if(doc.getDescription()!= null) m.setDescription(doc.getDescription()+" \n "+m.getDescription());
+		}
+		
+		if(m.getAdditionalEntries()==null){
+			if(doc.getAdditionalEntries()!= null) m.setAdditionalEntries(doc.getAdditionalEntries());
+		}else{
+			if(doc.getAdditionalEntries()!= null) m.addAdditionalEntries(doc.getAdditionalEntries());
+		}
+		
 	}
 	
 	public Predicate mergeExistingPredicate(String name, int ari, DocInformation doc){

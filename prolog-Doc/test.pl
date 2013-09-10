@@ -1,24 +1,29 @@
 /** 
-@author spaghetti yolonese
-	@date /Jan Wielemaker
-	@TimLippold  yolo
-	swagelicious
-	@descr /* GPL 
+@author Mike
+	@date Today
+	@descr  
+	yami tammi
+	tum da
+	
+	@timl yappa
+	@jenny noppa
+	@timl noppa
 
 */
 
+%% @author Danny @descr dada
+
+:-module(test, [foo/1]).
 
 element(E,[E|_T]).
 element(E, [_H|T]):-
 	element( E, T ).
 
-/* @author Prolog documentation processor
+/* @author Tim
 	**
 	@date 2.1.3
 	@descr
-	This module processes structured comments and generates both formal
-	mode declarations from them as well as documentation in the form of
-	HTML or LaTeX.
+	
 */
 is_not_visited( _ , [] ).
 is_not_visited( H, [H|_T] ):-
@@ -34,17 +39,11 @@ is_not_visited( A, [H|T] ):-
 istrue( '/').
 
 
-check_boolean_expression(BExpr) :- %covering all boolean expression with relational operators instead of '==' and '!='%
+check_boolean_expression(BExpr) :- %%covering all boolean expression with relational operators instead of '==' and '!='%
   relational_binary_op(BExpr,Arg1,Arg2,EX,EY,Call),!,
   evaluate_int_argument(Arg1,EX),
   evaluate_int_argument(Arg2,EY),
   Call.
 
-yolo(R):-
-                      	'%'(cspm_arith_expr,cspm_arith_expr) ;
-                              '*/'(cspm_arith_expr,cspm_arith_expr) ;
-                              ''(cspm_arith_expr,cspm_arith_expr) ;
-                              '/'(cspm_arith_expr,cspm_arith_expr) ;
-                              '%'(cspm_arith_expr,cspm_arith_expr) ).
 
 foo(a).

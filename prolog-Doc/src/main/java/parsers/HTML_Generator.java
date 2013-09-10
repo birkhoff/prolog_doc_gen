@@ -460,6 +460,16 @@ public class HTML_Generator {
 		    
 		    	this.code += "\n</tr>\n</table>\n";
 		    }
+		    		    
+		    if(m.getAuthor() != null)	code += "<p>"+"Author"+": "+m.getAuthor()+"</p>\n";
+			if(m.getDate() != null)	code += "<p>"+"Date"+": "+m.getDate()+"</p>\n";
+			if(m.getDescription() != null)	code += "<p>"+"Description"+": "+m.getDescription()+"</p>\n";
+			
+			for(int k = 0; k < m.getAdditionalEntries().size(); k++){
+				code += "<p>"+m.getAdditionalEntries().get(k).getIdentifier()+": "+m.getAdditionalEntries().get(k).getDescription()+"</p>\n";
+			}
+		    
+		    
 		    this.code += "</div><br>\n";
 		    
 		    

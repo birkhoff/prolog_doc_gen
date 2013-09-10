@@ -209,7 +209,7 @@ public class Compiler {
 		 
 		  
 		  InformationMerger merger = new InformationMerger();
-		  merger.mergeModuleInformation(Predicates, docInfos);
+		  merger.mergeModuleInformation(Module,Predicates, docInfos);
 		  //debugMergedOutput(merger.MergedPredicates);
 		  Module.setPredicates(merger.MergedPredicates);
 		  Module.setPredicatesHashMap(merger.PredicatesHashMap);
