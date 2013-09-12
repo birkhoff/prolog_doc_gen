@@ -2,29 +2,18 @@
 @author Mike
 	@date Today
 	@descr  
-	yami tammi
-	tum da
-	
-	@timl yappa
-	@jenny noppa
-	@timl noppa
-
+	This module cotains several basic examples
 */
 
-%% @author Danny @descr dada
-
 :-module(test, [foo/1]).
+
+%% element(Element,List) if E in List then true
 
 element(E,[E|_T]).
 element(E, [_H|T]):-
 	element( E, T ).
+%! is_not_visited(Element,List) if E not in List then true
 
-/* @author Tim
-	**
-	@date 2.1.3
-	@descr
-	
-*/
 is_not_visited( _ , [] ).
 is_not_visited( H, [H|_T] ):-
 	false.
@@ -32,11 +21,11 @@ is_not_visited( A, [H|T] ):-
 	A \= H,
 	is_not_visited(A, T).
 	
-/** @author Prolog documentation processor
-	@descr descr
+/** @author me
+	@descr returns true
 */
 
-istrue( '/').
+istrue(true).
 
 
 check_boolean_expression(BExpr) :- %%covering all boolean expression with relational operators instead of '==' and '!='%

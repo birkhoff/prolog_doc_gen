@@ -18,11 +18,12 @@
 
 
 
-
-emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling assert'):-
+emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_Body,_Start,_End,_FileName,'Predicates calling retract'):-
 	member(call(_,assert,_), Calls).
-emphasize_predicate(_Module,_Name,_Ar,_Code,Calls,_StartLines,_EndLines,_VNC,File,'Predicates calling retract'):-
-	member(call(_,retract,_), Calls).
+
+emphasize_predicate(_Module,Name,Ar,_Code,_Calls,_Body,_Start,_End,FileName,'Meta Predicates'):-
+	metas(FileName, Name/Ar,_).
+
 
 
 
