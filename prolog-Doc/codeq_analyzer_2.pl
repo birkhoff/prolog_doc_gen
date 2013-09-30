@@ -421,18 +421,18 @@ analyze(end_of_file,_Layout,end_of_file) :- !.
 
 
 
-analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
+analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-write(Head),nl,trace,
     !,layout_sub_term([LayoutHead|LayoutSub],3,SubLay),
-    analyze_body(Body,SubLay,Calls),
     functor(Head,Fun,Ar),
     Head =.. [Fun|Args],
-	(atom_codes(Fun, "-->") -> Args=[DCG_Name,_Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
+    (atom_codes(Fun, "-->") -> Args=[DCG_Name,_Rest], atom_concat(DCG_Name,-->,Name); Name=Fun),				% Analyze dcgs
+    retractall(in_clause(_,_)), assert(in_clause(Name,Ar)),
+    analyze_body(Body,SubLay,Calls),
     flatten([LayoutHead|LayoutSub],[StartLine|FlatLayout]),
     (FlatLayout = [] -> EndLine = StartLine ; last(FlatLayout,EndLine)),
     in_module(Module),
-	file_name(FileName),
-	assert(predicates(Module,Name,Ar,Args,Body,Calls,StartLine,EndLine,FileName)),
-    assert(in_clause(Name,Ar)).
+    file_name(FileName),
+    assert(predicates(Module,Name,Ar,Args,Body,Calls,StartLine,EndLine,FileName)).
 
 
 analyze(Fact, Layout, Fact) :-
