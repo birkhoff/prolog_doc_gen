@@ -421,7 +421,7 @@ analyze(end_of_file,_Layout,end_of_file) :- !.
 
 
 
-analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-write(Head),nl,trace,
+analyze((Head :- Body), [LayoutHead | LayoutSub], (Head :- Body)) :-
     !,layout_sub_term([LayoutHead|LayoutSub],3,SubLay),
     functor(Head,Fun,Ar),
     Head =.. [Fun|Args],
